@@ -6,6 +6,7 @@ type Kind = DrinkKind;
 function kindFor(p: Pick<Product, "category" | "art" | "slug">): Kind {
   switch (p.category) {
     case "kahve":
+    case "bitki-cayi":
       return "espresso";
     case "sicak-cikolata":
     case "soslar":

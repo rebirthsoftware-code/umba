@@ -67,6 +67,17 @@ export const categories: Category[] = [
     art: "tin",
     order: 6,
   },
+  {
+    slug: "bitki-cayi",
+    name: "Bitki Çayları",
+    tagline: "Doğal meyve ve bitki çayları, kilitli poşette",
+    description:
+      "Ümba Premium serisi meyve ve bitki çayları: nane limon, kuşburnu, hibiskus, ıhlamur, ada çayı, yeşil çay, elma ve orman meyveli. Katkısız, pencereli kilitli poşetlerde.",
+    color: "#5c8a3c",
+    colorSoft: "#e6efdc",
+    art: "pouch",
+    order: 7,
+  },
 ];
 
 export const categoryMap: Record<CategorySlug, Category> = Object.fromEntries(

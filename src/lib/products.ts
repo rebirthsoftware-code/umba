@@ -246,6 +246,36 @@ function bar(b: Base, opts: { liquid?: boolean } = {}): Product {
   };
 }
 
+
+function tea(b: Base & { brew: string }): Product {
+  const { brew, ...rest } = b;
+  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  return {
+    category: "bitki-cayi",
+    art: "pouch",
+    imageFit: "cover",
+    highlights: [
+      "Katkısız, doğal kurutulmuş bitki ve meyve",
+      "Pencereli, kilitli (zip) poşet; aromayı korur",
+      "Demlik ve bardak demlemeye uygun iri kesim",
+      "Ümba Premium · Safranbolu",
+    ],
+    usage: [brew, "Demlik: 3 yemek kaşığı / 1 L su, 8–10 dk", "Soğuk çay: demleyip soğutun, buz ve limon ekleyin"],
+    specs: [
+      { label: "Ambalaj", value: "Kilitli, pencereli stand-up poşet" },
+      { label: "Raf ömrü", value: "24 ay" },
+      { label: "Saklama", value: "Serin, kuru ve kokusuz ortamda, ağzı kapalı" },
+      { label: "Menşei", value: "Türkiye" },
+    ],
+    variants: [
+      v("100g", "100 g", 149.9, `CAY-${code}-100`),
+      v("250g", "250 g", 329.9, `CAY-${code}-250`),
+    ],
+    tags: [...(rest.tags ?? []), "vegan"],
+    ...rest,
+  };
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Katalog                                                                   */
 /* -------------------------------------------------------------------------- */
@@ -792,6 +822,91 @@ export const products: Product[] = [
     },
     { liquid: true },
   ),
+  /* --------------------------------- Bitki Çayları ------------------------------ */
+  tea({
+    slug: "nane-limon-cayi",
+    name: "Nane Limon Çayı",
+    color: "#a7c957",
+    color2: "#6a994e",
+    image: "/products/nane-limon-cayi.webp",
+    brew: "1 tatlı kaşığı / fincan, 90 °C su, 5–7 dk",
+    short: "Ferah nane ve kurutulmuş limon dilimleri.",
+    description: "Kurutulmuş nane yaprağı ve limon dilimleriyle hazırlanan ferahlatıcı bitki çayı. Kış akşamlarında sıcak, yazın buzlu çay olarak.",
+    tags: ["cok-satan"],
+  }),
+  tea({
+    slug: "kusburnu-cayi",
+    name: "Kuşburnu Çayı",
+    color: "#c1272d",
+    color2: "#7a1a1f",
+    image: "/products/kusburnu-cayi.webp",
+    brew: "1 tatlı kaşığı / fincan, 95 °C su, 7–8 dk",
+    short: "C vitamini zengini, hafif ekşi kuşburnu.",
+    description: "Kuşburnu, hibiskus ve meyve parçalarıyla kırmızı, hafif ekşi ve dolgun bir çay. Bal ile tatlandırarak servis edin.",
+    tags: ["cok-satan"],
+  }),
+  tea({
+    slug: "yesil-cay",
+    name: "Yeşil Çay",
+    color: "#7a9a3c",
+    color2: "#4e6b23",
+    image: "/products/yesil-cay.webp",
+    brew: "1 tatlı kaşığı / fincan, 75–80 °C su, 2–3 dk",
+    short: "Kıvrılmış tane yeşil çay; taze ve hafif.",
+    description: "Kıvrılmış tane (gunpowder) yeşil çay. Düşük sıcaklıkta kısa demleme ile acılaşmadan açılan taze, çimensi tat.",
+  }),
+  tea({
+    slug: "hibiskus-cayi",
+    name: "Hibiskus Çayı",
+    color: "#b8102e",
+    color2: "#6b0b1d",
+    image: "/products/hibiskus-cayi.webp",
+    brew: "1 tatlı kaşığı / fincan, 95 °C su, 5–6 dk",
+    short: "Canlı kırmızı, ekşimsi hibiskus yaprakları.",
+    description: "Bütün hibiskus (bamya çiçeği) yapraklarından; yakut kırmızısı, ekşimsi ve ferahlatıcı. Buzlu servis için de ideal.",
+  }),
+  tea({
+    slug: "ada-cayi",
+    name: "Ada Çayı",
+    color: "#9fb08a",
+    color2: "#6f8260",
+    image: "/products/ada-cayi.webp",
+    brew: "1 tatlı kaşığı / fincan, 90 °C su, 5 dk",
+    short: "Anadolu ada çayı; yumuşak, aromatik.",
+    description: "El toplama, doğal kurutulmuş ada çayı yaprakları. Yumuşak, hafif reçineli aroma; limon ve bal ile.",
+  }),
+  tea({
+    slug: "orman-meyveli-cay",
+    name: "Orman Meyveli Çay",
+    color: "#8e1b3a",
+    color2: "#4c0f22",
+    image: "/products/orman-meyveli-cay.webp",
+    brew: "1 tatlı kaşığı / fincan, 95 °C su, 6–8 dk",
+    short: "Böğürtlen, ahududu, kuşüzümü ve hibiskus.",
+    description: "Kurutulmuş orman meyveleri, elma parçaları ve hibiskus ile yoğun meyveli, kırmızı bir çay. Sıcak ve buzlu.",
+    tags: ["yeni"],
+  }),
+  tea({
+    slug: "elma-cayi",
+    name: "Elma Çayı",
+    color: "#d9a441",
+    color2: "#a86f1f",
+    image: "/products/elma-cayi.webp",
+    brew: "2–3 dilim / fincan, 95 °C su, 6–8 dk",
+    short: "Kurutulmuş elma dilimleri; tatlı ve hafif.",
+    description: "Kurutulmuş elma dilimlerinden doğal, hafif tatlı elma çayı. Tarçın çubuğu ile kış menüsünün klasiği.",
+  }),
+  tea({
+    slug: "ihlamur-cayi",
+    name: "Ihlamur",
+    color: "#c9b55a",
+    color2: "#8f7d2c",
+    image: "/products/ihlamur-cayi.webp",
+    brew: "1 yemek kaşığı / fincan, 90 °C su, 7–8 dk",
+    short: "Çiçekli ve yapraklı ıhlamur; sakinleştirici.",
+    description: "Çiçek ve yapraklarıyla birlikte kurutulmuş ıhlamur. Bal ile akşam çayı; kış aylarının vazgeçilmezi.",
+    tags: ["cok-satan"],
+  }),
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -857,6 +972,10 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
     case "sicak-cikolata":
       partner = pick("findik-surubu");
       reason = "Fındıklı sıcak çikolata için klasik ikili.";
+      break;
+    case "bitki-cayi":
+      partner = pick(product.slug === "limonata-konsantresi" ? "nane-limon-cayi" : "limonata-konsantresi");
+      reason = "Buzlu çay için demleyin, limonata konsantresiyle tamamlayın.";
       break;
     case "bar-urunleri":
       partner = pick(product.slug.includes("frappe") ? "karamel-sosu" : product.slug.includes("konsantre") ? "cilek-puresi" : "vanilya-frappe-tozu");

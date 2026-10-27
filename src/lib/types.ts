@@ -4,7 +4,8 @@ export type CategorySlug =
   | "pureler"
   | "suruplar"
   | "kahve"
-  | "sicak-cikolata";
+  | "sicak-cikolata"
+  | "bitki-cayi";
 
 export type ArtKind = "bottle" | "sauce" | "pouch" | "bag" | "tin" | "box";
 
