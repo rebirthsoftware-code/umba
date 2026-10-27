@@ -505,6 +505,9 @@ export const products: Product[] = [
     color: "#b4232f",
     color2: "#7a1420",
     image: "/products/cilek-puresi.webp",
+    imageFit: "cover",
+    imageCutout: "/products/cilek-puresi-cutout.webp",
+    imageHover: "/products/cilek-puresi-cutout.webp",
     short: "Yüksek meyveli çilek; smoothie ve frozen bazı.",
     description:
       "Olgun çileklerden hazırlanan, gerçek meyve parçacıklı çilek püresi. Smoothie, frozen, milkshake ve çilekli limonata için; damlatmayan dozaj kapaklı 1 L şişede.",
