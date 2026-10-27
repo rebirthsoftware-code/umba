@@ -39,7 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-data/
 
 # örnek env dosyası depoda kalsın
 !.env.example

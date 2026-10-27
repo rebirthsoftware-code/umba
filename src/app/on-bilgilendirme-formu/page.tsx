@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/ui/LegalPage";
 import { site } from "@/lib/site";
 import { formatPrice } from "@/lib/format";
@@ -31,7 +32,7 @@ export default function Page() {
       <h2>Cayma hakkı</h2>
       <p>
         Teslimden itibaren 14 gün içinde ambalajı açılmamış ürünler için cayma hakkınız vardır. Ayrıntılar için{" "}
-        <a href="/iptal-ve-iade">İptal ve İade Koşulları</a> sayfasına bakın.
+        <Link href="/iptal-ve-iade">İptal ve İade Koşulları</Link> sayfasına bakın.
       </p>
       <h2>Şikâyet ve uyuşmazlık</h2>
       <p>

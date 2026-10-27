@@ -6,7 +6,8 @@ import { useMemo, useState, type FormEvent } from "react";
 import { Banknote, CreditCard, Truck, Loader2, Lock, AlertCircle } from "lucide-react";
 import { useCart } from "@/components/cart/CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
-import { checkoutSchema, cities, type CheckoutInput } from "@/lib/order";
+import { checkoutSchema, cities, createOrder, orderToFormPayload, type CheckoutInput } from "@/lib/order";
+import { submitForm, formsEnabled } from "@/lib/forms";
 import { computeTotals, type PaymentMethod } from "@/lib/cart";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
@@ -130,30 +131,22 @@ export function CheckoutForm() {
       return;
     }
     setSubmitting(true);
-    try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.ok) {
-        if (json.fieldErrors) setErrors(json.fieldErrors);
-        setServerError(json.error ?? "Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
-        setSubmitting(false);
-        return;
-      }
-      try {
-        window.sessionStorage.setItem("umba:lastOrder", JSON.stringify(json.order));
-      } catch {
-        /* yoksay */
-      }
-      clear();
-      router.push(`/siparis-alindi?no=${encodeURIComponent(json.order.orderNo)}`);
-    } catch {
-      setServerError("Bağlantı hatası. Lütfen internet bağlantınızı kontrol edip tekrar deneyin.");
+    const order = createOrder(parsed.data, items);
+    if ("error" in order) {
+      setServerError(order.error);
       setSubmitting(false);
+      return;
     }
+    // Form servisi tanımlıysa siparişi mağazaya otomatik ilet; değilse müşteri WhatsApp/e-posta ile iletir.
+    const delivered = await submitForm(orderToFormPayload(order));
+    const record = { ...order, delivered };
+    try {
+      window.sessionStorage.setItem("umba:lastOrder", JSON.stringify(record));
+    } catch {
+      /* yoksay */
+    }
+    clear();
+    router.push(`/siparis-alindi?no=${encodeURIComponent(record.orderNo)}`);
   };
 
   if (!hydrated) return <div className="h-64 animate-pulse rounded-3xl bg-cream-200" aria-busy="true" />;
@@ -377,6 +370,7 @@ export function CheckoutForm() {
           </button>
           <p className="mt-3 text-center text-xs text-espresso-600">
             Siparişi tamamlayarak ödeme yükümlülüğü altına girdiğinizi kabul edersiniz.
+            {!formsEnabled() && " Bir sonraki adımda sipariş özetiniz WhatsApp veya e-posta ile bize iletilir."}
           </p>
         </div>
       </aside>

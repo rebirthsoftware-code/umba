@@ -1,0 +1,72 @@
+name: GitHub Pages'e yayınla
+
+on:
+  push:
+    branches: [ccr-7050cbed-ddgc5h, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Pages ayarlarını oku
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Bağımlılıkları yükle
+        run: npm ci
+
+      - name: Statik siteyi derle
+        run: npm run build
+        env:
+          # Alt dizin (ör. /umba) ve tam adres otomatik gelir; özel alan adı tanımlıysa boş olur.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          # Aşağıdakiler depo Settings → Secrets and variables → Actions → Variables altından doldurulur.
+          NEXT_PUBLIC_PHONE: ${{ vars.NEXT_PUBLIC_PHONE }}
+          NEXT_PUBLIC_WHATSAPP: ${{ vars.NEXT_PUBLIC_WHATSAPP }}
+          NEXT_PUBLIC_EMAIL: ${{ vars.NEXT_PUBLIC_EMAIL }}
+          NEXT_PUBLIC_ADDRESS: ${{ vars.NEXT_PUBLIC_ADDRESS }}
+          NEXT_PUBLIC_INSTAGRAM: ${{ vars.NEXT_PUBLIC_INSTAGRAM }}
+          NEXT_PUBLIC_FACEBOOK: ${{ vars.NEXT_PUBLIC_FACEBOOK }}
+          NEXT_PUBLIC_COMPANY_NAME: ${{ vars.NEXT_PUBLIC_COMPANY_NAME }}
+          NEXT_PUBLIC_MERSIS: ${{ vars.NEXT_PUBLIC_MERSIS }}
+          NEXT_PUBLIC_BANK_NAME: ${{ vars.NEXT_PUBLIC_BANK_NAME }}
+          NEXT_PUBLIC_BANK_HOLDER: ${{ vars.NEXT_PUBLIC_BANK_HOLDER }}
+          NEXT_PUBLIC_IBAN: ${{ vars.NEXT_PUBLIC_IBAN }}
+          NEXT_PUBLIC_FORM_ENDPOINT: ${{ vars.NEXT_PUBLIC_FORM_ENDPOINT }}
+          NEXT_PUBLIC_FORM_ACCESS_KEY: ${{ vars.NEXT_PUBLIC_FORM_ACCESS_KEY }}
+
+      - name: Çıktıyı yükle
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Yayınla
+        id: deployment
+        uses: actions/deploy-pages@v4

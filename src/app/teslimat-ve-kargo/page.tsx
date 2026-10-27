@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/ui/LegalPage";
 import { site } from "@/lib/site";
 import { formatPrice } from "@/lib/format";
@@ -30,7 +31,7 @@ export default function Page() {
       </p>
       <h2>Kurumsal ve toplu teslimat</h2>
       <p>
-        Palet bazlı ve düzenli teslimatlar için <a href="/kurumsal">kurumsal satış</a> ekibimizle iletişime geçin; İstanbul
+        Palet bazlı ve düzenli teslimatlar için <Link href="/kurumsal">kurumsal satış</Link> ekibimizle iletişime geçin; İstanbul
         içi kendi araçlarımızla teslimat yapılabilmektedir.
       </p>
     </LegalPage>

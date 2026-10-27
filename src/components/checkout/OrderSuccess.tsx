@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Copy, MessageCircle, Printer } from "lucide-react";
+import { CheckCircle2, Copy, Mail, MessageCircle, Printer, Send } from "lucide-react";
 import type { OrderRecord } from "@/lib/order";
-import { paymentLabels } from "@/lib/order";
+import { paymentLabels, orderToText } from "@/lib/order";
 import { formatPrice, formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
+import { whatsappUrl, mailtoUrl } from "@/lib/forms";
 
 const noopSubscribe = () => () => {};
 let cachedRaw: string | null | undefined;
@@ -34,9 +35,9 @@ export function OrderSuccess() {
   const [copied, setCopied] = useState(false);
 
   const orderNo = order?.orderNo ?? no ?? "";
-  const waText = encodeURIComponent(
-    `Merhaba, ${orderNo} numaralı siparişim için ${order?.paymentMethod === "havale" ? "havale dekontunu iletiyorum" : "bilgi almak istiyorum"}.`,
-  );
+  const text = order ? orderToText(order) : `Merhaba, ${orderNo} numaralı siparişim hakkında bilgi almak istiyorum.`;
+  const waHref = whatsappUrl(order?.delivered && order.paymentMethod === "havale" ? `Merhaba, ${orderNo} numaralı siparişim için havale dekontunu iletiyorum.` : text);
+  const mailHref = mailtoUrl(`Sipariş ${orderNo}`, text);
 
   const copyIban = async () => {
     try {
@@ -54,15 +55,48 @@ export function OrderSuccess() {
         <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-leaf-100 text-leaf-500">
           <CheckCircle2 className="h-10 w-10" />
         </span>
-        <h1 className="mt-5 font-display text-4xl font-semibold tracking-tight text-espresso-900">Siparişiniz alındı!</h1>
+        <h1 className="mt-5 font-display text-4xl font-semibold tracking-tight text-espresso-900">
+          {order?.delivered ? "Siparişiniz alındı!" : "Siparişiniz hazır!"}
+        </h1>
         <p className="mt-3 text-espresso-700">
           Sipariş numaranız: <span className="font-mono text-lg font-bold text-espresso-900">{orderNo || "—"}</span>
         </p>
-        {order && <p className="mt-1 text-sm text-espresso-600">{formatDate(order.createdAt)} · {paymentLabels[order.paymentMethod]}</p>}
+        {order && (
+          <p className="mt-1 text-sm text-espresso-600">
+            {formatDate(order.createdAt)} · {paymentLabels[order.paymentMethod]}
+          </p>
+        )}
       </div>
 
+      {order && !order.delivered && (
+        <div className="mt-8 rounded-3xl border-2 border-caramel-500 bg-caramel-500/10 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-caramel-700">Son adım</p>
+          <h2 className="mt-1 font-display text-2xl font-semibold text-espresso-900">Siparişinizi bize iletin</h2>
+          <p className="mt-2 text-sm leading-relaxed text-espresso-700">
+            Sipariş özetiniz hazır mesaj olarak hazırlandı. Aşağıdaki butona basın, açılan mesajı göndermeniz yeterli.
+            Siparişiniz bize ulaştığında {site.commerce.deliveryEstimate} içinde kargoya verilir.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-13 items-center gap-2 rounded-full bg-[#25D366] px-7 text-base font-bold text-white hover:brightness-95"
+            >
+              <MessageCircle className="h-5 w-5" /> WhatsApp ile gönder
+            </a>
+            <a
+              href={mailHref}
+              className="inline-flex h-13 items-center gap-2 rounded-full border border-espresso-900/20 bg-cream-50 px-6 text-sm font-semibold hover:bg-cream-200"
+            >
+              <Mail className="h-4 w-4" /> E-posta ile gönder
+            </a>
+          </div>
+        </div>
+      )}
+
       {order?.paymentMethod === "havale" && (
-        <div className="mt-8 rounded-3xl border border-caramel-500/40 bg-caramel-500/10 p-6">
+        <div className="mt-8 rounded-3xl border border-caramel-500/40 bg-cream-100 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Havale / EFT bilgileri</h2>
           <p className="mt-2 text-sm text-espresso-700">
             Aşağıdaki hesaba <strong>{formatPrice(order.totals.total)}</strong> tutarını, açıklama kısmına{" "}
@@ -94,7 +128,7 @@ export function OrderSuccess() {
         </div>
       )}
 
-      {order?.paymentMethod === "kapida" && (
+      {order?.paymentMethod === "kapida" && order.delivered && (
         <div className="mt-8 rounded-3xl border border-espresso-900/10 bg-cream-100 p-6 text-sm text-espresso-700">
           Siparişiniz hazırlanıyor. Kargo görevlisine <strong>{formatPrice(order.totals.total)}</strong> tutarını nakit veya kart ile
           ödeyebilirsiniz.
@@ -165,14 +199,17 @@ export function OrderSuccess() {
       )}
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a
-          href={`https://wa.me/${site.contact.whatsapp}?text=${waText}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-bold text-white hover:brightness-95"
-        >
-          <MessageCircle className="h-4 w-4" /> WhatsApp ile dekont gönder
-        </a>
+        {order?.delivered && (
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-bold text-white hover:brightness-95"
+          >
+            <Send className="h-4 w-4" />
+            {order.paymentMethod === "havale" ? "WhatsApp ile dekont gönder" : "WhatsApp ile yazın"}
+          </a>
+        )}
         <button
           type="button"
           onClick={() => window.print()}

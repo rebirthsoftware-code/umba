@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "@/components/ui/LegalPage";
 import { site } from "@/lib/site";
 
@@ -10,7 +11,7 @@ export default function Page() {
       <h2>Gizlilik</h2>
       <p>
         {site.legal.companyName}, sitemizi ziyaret eden ve alışveriş yapan kullanıcıların gizliliğine önem verir. Toplanan
-        kişisel veriler yalnızca <a href="/kvkk">KVKK Aydınlatma Metni</a>&apos;nde belirtilen amaçlarla işlenir; üçüncü
+        kişisel veriler yalnızca <Link href="/kvkk">KVKK Aydınlatma Metni</Link>&apos;nde belirtilen amaçlarla işlenir; üçüncü
         kişilere satılmaz ve pazarlama amacıyla paylaşılmaz.
       </p>
       <h2>Güvenlik</h2>

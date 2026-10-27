@@ -1,8 +1,11 @@
 "use client";
+import Link from "next/link";
 
 import { useState, type FormEvent } from "react";
-import { Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { Loader2, Send, CheckCircle2, AlertCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/format";
+import { submitForm, formsEnabled, mailtoUrl, whatsappUrl } from "@/lib/forms";
+import { site } from "@/lib/site";
 
 const inputCls =
   "h-12 w-full rounded-2xl border border-espresso-900/15 bg-cream-50 px-4 text-sm text-espresso-900 placeholder:text-espresso-600/60 focus:border-caramel-500 focus:outline-none focus:ring-4 focus:ring-caramel-500/15";
@@ -10,7 +13,7 @@ const inputCls =
 type Props = { type: "iletisim" | "kurumsal" };
 
 export function ContactForm({ type }: Props) {
-  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error" | "mailto">("idle");
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -24,20 +27,68 @@ export function ContactForm({ type }: Props) {
   });
   const set = (k: keyof typeof values, v: string) => setValues((s) => ({ ...s, [k]: v }));
 
+  const composeText = () =>
+    [
+      type === "kurumsal" ? "Kurumsal teklif talebi" : "İletişim formu",
+      `Ad: ${values.name}`,
+      values.company && `İşletme: ${values.company}`,
+      `E-posta: ${values.email}`,
+      values.phone && `Telefon: ${values.phone}`,
+      values.city && `Şehir: ${values.city}`,
+      values.businessType && `İşletme türü: ${values.businessType}`,
+      values.monthlyVolume && `Aylık tüketim: ${values.monthlyVolume}`,
+      "",
+      values.message,
+    ]
+      .filter((l): l is string => typeof l === "string")
+      .join("\n");
+
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (values.website) return; // bal küpü
     setState("loading");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, ...values }),
+    if (formsEnabled()) {
+      const ok = await submitForm({
+        subject: type === "kurumsal" ? `Kurumsal teklif talebi · ${values.company || values.name}` : `İletişim formu · ${values.name}`,
+        from_name: values.name,
+        type,
+        ...values,
       });
-      setState(res.ok ? "done" : "error");
-    } catch {
-      setState("error");
+      setState(ok ? "done" : "error");
+      return;
     }
+    // Form servisi yoksa e-posta uygulamasını aç
+    window.location.href = mailtoUrl(
+      type === "kurumsal" ? `Kurumsal teklif talebi – ${values.company || values.name}` : `İletişim – ${values.name}`,
+      composeText(),
+    );
+    setState("mailto");
   };
+
+  if (state === "mailto") {
+    return (
+      <div className="rounded-3xl bg-cream-200 p-8 text-center">
+        <Mail className="mx-auto h-10 w-10 text-caramel-700" />
+        <h3 className="mt-3 font-display text-2xl font-semibold text-espresso-900">E-posta uygulamanız açıldı</h3>
+        <p className="mt-2 text-sm text-espresso-700">
+          Mesajınız hazır; göndermeniz yeterli. Uygulama açılmadıysa WhatsApp üzerinden de iletebilirsiniz.
+        </p>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          <a
+            href={whatsappUrl(composeText())}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-white"
+          >
+            WhatsApp ile gönder
+          </a>
+          <a href={`mailto:${site.contact.email}`} className="inline-flex h-11 items-center rounded-full border border-espresso-900/20 px-5 text-sm font-semibold">
+            {site.contact.email}
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   if (state === "done") {
     return (
@@ -129,7 +180,7 @@ export function ContactForm({ type }: Props) {
           </p>
         )}
         <p className="text-xs text-espresso-600">
-          Formu göndererek <a href="/kvkk" className="underline">KVKK Aydınlatma Metni</a>&apos;ni kabul etmiş olursunuz.
+          Formu göndererek <Link href="/kvkk" className="underline">KVKK Aydınlatma Metni</Link>&apos;ni kabul etmiş olursunuz.
         </p>
       </div>
     </form>

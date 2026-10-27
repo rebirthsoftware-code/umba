@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
+import { submitForm, formsEnabled, mailtoUrl } from "@/lib/forms";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
@@ -11,16 +12,13 @@ export function NewsletterForm() {
     e.preventDefault();
     if (!email) return;
     setState("loading");
-    try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      setState(res.ok ? "done" : "error");
-    } catch {
-      setState("error");
+    if (formsEnabled()) {
+      const ok = await submitForm({ subject: "Bülten aboneliği", from_name: email, type: "bulten", email });
+      setState(ok ? "done" : "error");
+      return;
     }
+    window.location.href = mailtoUrl("Bülten aboneliği", `Merhaba, ${email} adresiyle Umba bültenine abone olmak istiyorum.`);
+    setState("done");
   };
 
   if (state === "done") {
