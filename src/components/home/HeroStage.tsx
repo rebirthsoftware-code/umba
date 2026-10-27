@@ -3,7 +3,9 @@
 import { useRef, type CSSProperties, type MouseEvent } from "react";
 import type { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/product/ProductVisual";
+import Image from "next/image";
 import { formatPrice } from "@/lib/format";
+import { assetUrl } from "@/lib/assets";
 
 export interface StageTheme {
   panel: string;
@@ -14,12 +16,15 @@ export interface StageTheme {
 /** Fare hareketiyle hafifçe eğilen, katmanlı paralaks ürün sahnesi. */
 export function HeroStage({
   products,
+  image,
   theme,
   caption,
   badge,
   active = true,
 }: {
   products: Product[];
+  /** Ürün yığını yerine tek büyük görsel (şeffaf PNG/WebP). */
+  image?: { src: string; alt: string };
   theme: StageTheme;
   caption: string;
   badge?: { label: string; product: Product };
@@ -82,10 +87,25 @@ export function HeroStage({
             maskImage: "radial-gradient(60% 60% at 50% 40%, #000 0%, transparent 100%)",
           }}
         />
-        <p className="absolute left-6 top-6 font-display text-sm italic" style={{ color: theme.captionColor ?? "rgba(253,250,245,0.7)" }}>
+        <p className="absolute left-6 top-6 font-display text-sm italic" hidden={!!image} style={{ color: theme.captionColor ?? "rgba(253,250,245,0.7)" }}>
           {caption}
         </p>
       </div>
+
+      {image && (
+        <div className="absolute inset-x-[2%] -top-2 bottom-4 z-10" style={layer(-26, 140)}>
+          <div className="animate-float relative h-full w-full" style={{ animationDelay: "-1s" }}>
+            <Image
+              src={assetUrl(image.src)}
+              alt={image.alt}
+              fill
+              priority={active}
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-contain drop-shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
 
       {products.slice(0, 4).map((p, i) => (
         <div key={p.slug} className={positions[i]} style={layer(depths[i], 120 + i * 90)}>

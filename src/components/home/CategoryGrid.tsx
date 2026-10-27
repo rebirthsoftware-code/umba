@@ -10,7 +10,7 @@ export function CategoryGrid() {
   return (
     <section className="container-x py-20 sm:py-28">
       <Reveal className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <SectionHeading eyebrow="Ürün grupları" title="Barınızda ne eksikse, burada." description="Altı ürün grubu, tek tedarikçi. Menünüzü tamamlayacak her şeyi aynı siparişte alın." />
+        <SectionHeading eyebrow="Ürün grupları" title="Barınızda ne eksikse, burada." description="Yedi ürün grubu, tek tedarikçi. Menünüzü tamamlayacak her şeyi aynı siparişte alın." />
         <Link href="/urunler" className="text-sm font-semibold text-espresso-900 underline underline-offset-4">
           Tüm ürünler
         </Link>

@@ -907,6 +907,18 @@ export const products: Product[] = [
     description: "Çiçek ve yapraklarıyla birlikte kurutulmuş ıhlamur. Bal ile akşam çayı; kış aylarının vazgeçilmezi.",
     tags: ["cok-satan"],
   }),
+  tea({
+    slug: "bogurtlen-cayi",
+    name: "Böğürtlen Çayı",
+    color: "#5b1e3a",
+    color2: "#2e0f1f",
+    image: "/products/bogurtlen-cayi.webp",
+    imageHover: "/products/bogurtlen-cayi-cutout.webp",
+    brew: "1 yemek kaşığı / fincan, 95 °C su, 6–8 dk",
+    short: "Böğürtlen, hibiskus ve elma parçalı meyve çayı.",
+    description: "Kurutulmuş böğürtlen, hibiskus yaprağı ve elma parçalarıyla hazırlanan koyu kırmızı, meyvemsi çay. Sıcak ya da buzlu; şeker gerektirmeyen doğal tatlılık.",
+    tags: ["yeni"],
+  }),
 ];
 
 /* -------------------------------------------------------------------------- */

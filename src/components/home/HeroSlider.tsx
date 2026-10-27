@@ -20,6 +20,7 @@ interface Slide {
   primary: { label: string; href: string };
   secondary?: { label: string; href: string };
   products: string[];
+  image?: { src: string; alt: string };
   badge?: { label: string; product: string };
   caption: string;
   tone: "dark" | "light";
@@ -92,6 +93,23 @@ const slides: Slide[] = [
     bg: "#160d08",
     stage: { panel: "#553b2a", glow: "rgba(226,168,75,0.35)" },
     accent: "#e2a84b",
+  },
+  {
+    id: "bitki-cayi",
+    tab: "Bitki Çayları",
+    eyebrow: "Yeni · Ümba Premium Safranbolu",
+    title: { before: "Doğal kurutulmuş", highlight: "meyve ve bitki çayları." },
+    text: "Kuşburnu, hibiskus, ada çayı, nane limon, orman meyveli, böğürtlen, elma ve yeşil çay. Katkısız, iri kesim; pencereli kilitli poşette taze kalır.",
+    primary: { label: "Bitki çaylarını gör", href: "/kategori/bitki-cayi" },
+    secondary: { label: "Böğürtlen çayı", href: "/urun/bogurtlen-cayi" },
+    products: [],
+    image: { src: "/hero/bitki-caylari.webp", alt: "Ümba Premium meyve ve bitki çayı koleksiyonu" },
+    badge: { label: "Yeni", product: "bogurtlen-cayi" },
+    caption: "Meyve ve bitki çayları · 9 çeşit",
+    tone: "dark",
+    bg: "#e6efdc",
+    stage: { panel: "#3f6b2a", glow: "rgba(255,255,255,0.35)" },
+    accent: "#5c8a3c",
   },
 ];
 
@@ -264,6 +282,7 @@ export function HeroSlider() {
                 <div className="lg:col-span-6">
                   <HeroStage
                     products={items}
+                    image={s.image}
                     theme={s.stage}
                     caption={s.caption}
                     badge={badgeProduct && s.badge ? { label: s.badge.label, product: badgeProduct } : undefined}
