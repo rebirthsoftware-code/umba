@@ -7,7 +7,12 @@
  */
 const pick = (value: string | undefined, fallback: string): string => (value && value.trim() ? value.trim() : fallback);
 
-const phone = pick(process.env.NEXT_PUBLIC_PHONE, "+90 (850) 000 00 00");
+const phone = pick(process.env.NEXT_PUBLIC_PHONE, "0507 684 49 93");
+/** WhatsApp hatları: virgülle ayrılmış, ülke kodlu ve boşluksuz (905xxxxxxxxx). */
+const whatsappNumbers = pick(process.env.NEXT_PUBLIC_WHATSAPP, "905076844993,905438999474")
+  .split(",")
+  .map((n) => n.replace(/\D/g, ""))
+  .filter(Boolean);
 
 export const site = {
   name: "Umba Coffee",
@@ -20,7 +25,8 @@ export const site = {
   contact: {
     phone,
     phoneHref: phone.replace(/[^\d+]/g, ""),
-    whatsapp: pick(process.env.NEXT_PUBLIC_WHATSAPP, "905000000000").replace(/\D/g, ""),
+    whatsapp: whatsappNumbers[0] ?? "",
+    whatsappNumbers,
     email: pick(process.env.NEXT_PUBLIC_EMAIL, "info@umbacoffee.com.tr"),
     address: pick(process.env.NEXT_PUBLIC_ADDRESS, "Organize Sanayi Bölgesi, 1. Cadde No: 1, İstanbul / Türkiye"),
     workingHours: "Hafta içi 09:00 – 18:00",

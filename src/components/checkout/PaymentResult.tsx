@@ -7,7 +7,7 @@ import { useLastOrder, updateLastOrder } from "@/lib/last-order";
 import { cartStore } from "@/lib/cart-store";
 import { orderToText } from "@/lib/order";
 import { formatPrice } from "@/lib/format";
-import { whatsappUrl } from "@/lib/forms";
+import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { site } from "@/lib/site";
 
 export function PaymentResult({ status }: { status: "success" | "failed" }) {
@@ -34,14 +34,12 @@ export function PaymentResult({ status }: { status: "success" | "failed" }) {
           <Link href="/odeme" className="inline-flex h-12 items-center rounded-full bg-caramel-500 px-7 text-sm font-bold text-espresso-950 hover:bg-caramel-400">
             Tekrar dene
           </Link>
-          <a
-            href={whatsappUrl(`Merhaba, ${order?.orderNo ?? ""} numaralı siparişimde kart ödemesi tamamlanamadı, yardımcı olur musunuz?`)}
-            target="_blank"
-            rel="noopener noreferrer"
+          <WhatsAppLink
+            text={`Merhaba, ${order?.orderNo ?? ""} numaralı siparişimde kart ödemesi tamamlanamadı, yardımcı olur musunuz?`}
             className="inline-flex h-12 items-center gap-2 rounded-full border border-espresso-900/20 px-6 text-sm font-semibold hover:bg-cream-200"
           >
             <MessageCircle className="h-4 w-4" /> Destek al
-          </a>
+          </WhatsAppLink>
         </div>
       </div>
     );
@@ -89,14 +87,12 @@ export function PaymentResult({ status }: { status: "success" | "failed" }) {
       )}
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a
-          href={whatsappUrl(order ? `Merhaba, ${order.orderNo} numaralı siparişimin ödemesini tamamladım.\n\n${orderToText(order)}` : "Merhaba, siparişim hakkında bilgi almak istiyorum.")}
-          target="_blank"
-          rel="noopener noreferrer"
+        <WhatsAppLink
+          text={order ? `Merhaba, ${order.orderNo} numaralı siparişimin ödemesini tamamladım.\n\n${orderToText(order)}` : "Merhaba, siparişim hakkında bilgi almak istiyorum."}
           className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-bold text-white hover:brightness-95"
         >
           <MessageCircle className="h-4 w-4" /> WhatsApp ile yazın
-        </a>
+        </WhatsAppLink>
         <button type="button" onClick={() => window.print()} className="inline-flex h-12 items-center gap-2 rounded-full border border-espresso-900/20 px-6 text-sm font-semibold hover:bg-cream-200">
           <Printer className="h-4 w-4" /> Yazdır
         </button>

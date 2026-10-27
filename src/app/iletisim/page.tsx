@@ -3,6 +3,7 @@ import { Mail, MapPin, Phone, Clock, MessageCircle } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { site } from "@/lib/site";
+import { formatWhatsApp } from "@/lib/forms";
 
 export const metadata: Metadata = {
   title: "İletişim",
@@ -24,12 +25,12 @@ export default function ContactPage() {
           <ul className="space-y-4">
             {[
               { icon: Phone, title: "Telefon", text: site.contact.phone, href: `tel:${site.contact.phoneHref}` },
-              {
+              ...site.contact.whatsappNumbers.map((n, i) => ({
                 icon: MessageCircle,
-                title: "WhatsApp",
-                text: "Hızlı yanıt için mesaj atın",
-                href: `https://wa.me/${site.contact.whatsapp}`,
-              },
+                title: site.contact.whatsappNumbers.length > 1 ? `WhatsApp · ${i + 1}. Hat` : "WhatsApp",
+                text: formatWhatsApp(n),
+                href: `https://wa.me/${n}`,
+              })),
               { icon: Mail, title: "E-posta", text: site.contact.email, href: `mailto:${site.contact.email}` },
               { icon: MapPin, title: "Adres", text: site.contact.address },
               { icon: Clock, title: "Çalışma saatleri", text: site.contact.workingHours },

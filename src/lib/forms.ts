@@ -24,10 +24,16 @@ export async function submitForm(payload: Record<string, string | number | boole
   }
 }
 
-export function whatsappUrl(text: string): string {
-  return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(text)}`;
+export function whatsappUrl(text: string, number: string = site.contact.whatsapp): string {
+  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
 
 export function mailtoUrl(subject: string, body: string, to: string = site.contact.email): string {
   return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+/** 905076844993 → "0507 684 49 93" */
+export function formatWhatsApp(n: string): string {
+  const d = n.replace(/^90/, "");
+  return d.length === 10 ? `0${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6, 8)} ${d.slice(8)}` : `+${n}`;
 }

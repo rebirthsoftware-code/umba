@@ -5,6 +5,7 @@ import { useEffect, type CSSProperties } from "react";
 import { ArrowUpRight, Phone, Search, X, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/SocialIcons";
+import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { CategoryVisual } from "@/components/product/CategoryVisual";
 import { categories } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
@@ -132,14 +133,14 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
 
           {/* Alt bilgi */}
           <div className="menu-item mt-auto pt-8" style={item()}>
-            <a
-              href={`https://wa.me/${site.contact.whatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-13 items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-bold text-white"
+            <WhatsAppLink
+              text="Merhaba Umba Coffee, sipariş ve ürünleriniz hakkında bilgi almak istiyorum."
+              placement="top"
+              className="flex h-13 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-bold text-white"
+              menuClassName="left-0 right-auto w-full"
             >
               <MessageCircle className="h-5 w-5" /> WhatsApp ile sipariş & destek
-            </a>
+            </WhatsAppLink>
             <div className="mt-4 flex items-center justify-between text-sm">
               <a href={`tel:${site.contact.phoneHref}`} className="flex items-center gap-2 font-semibold">
                 <Phone className="h-4 w-4 text-caramel-300" /> {site.contact.phone}

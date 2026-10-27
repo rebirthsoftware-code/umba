@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { Loader2, Send, CheckCircle2, AlertCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/format";
-import { submitForm, formsEnabled, mailtoUrl, whatsappUrl } from "@/lib/forms";
+import { submitForm, formsEnabled, mailtoUrl } from "@/lib/forms";
+import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { site } from "@/lib/site";
 
 const inputCls =
@@ -74,14 +75,9 @@ export function ContactForm({ type }: Props) {
           Mesajınız hazır; göndermeniz yeterli. Uygulama açılmadıysa WhatsApp üzerinden de iletebilirsiniz.
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-3">
-          <a
-            href={whatsappUrl(composeText())}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-11 items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-white"
-          >
+          <WhatsAppLink text={composeText()} className="inline-flex h-11 items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-white">
             WhatsApp ile gönder
-          </a>
+          </WhatsAppLink>
           <a href={`mailto:${site.contact.email}`} className="inline-flex h-11 items-center rounded-full border border-espresso-900/20 px-5 text-sm font-semibold">
             {site.contact.email}
           </a>

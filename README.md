@@ -57,7 +57,7 @@ Telefon, IBAN gibi bilgileri koda yazmadan vermek için **Settings → Secrets a
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Canlı adres (sitemap, OG, canonical için). GitHub Actions otomatik verir. |
 | `NEXT_PUBLIC_BASE_PATH` | Alt dizinde yayın (ör. `/umba`). GitHub Actions otomatik verir; kök alan adında boş. |
-| `NEXT_PUBLIC_PHONE`, `NEXT_PUBLIC_WHATSAPP`, `NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_ADDRESS` | İletişim bilgileri. WhatsApp numarası ülke koduyla, boşluksuz: `905xxxxxxxxx` |
+| `NEXT_PUBLIC_PHONE`, `NEXT_PUBLIC_WHATSAPP`, `NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_ADDRESS` | İletişim bilgileri. WhatsApp numarası ülke koduyla, boşluksuz: `905xxxxxxxxx`; birden fazla hat için virgülle ayırın, site numara seçtirir |
 | `NEXT_PUBLIC_INSTAGRAM`, `NEXT_PUBLIC_FACEBOOK` | Sosyal medya bağlantıları |
 | `NEXT_PUBLIC_COMPANY_NAME`, `NEXT_PUBLIC_MERSIS` | Yasal sayfalarda görünen şirket bilgileri |
 | `NEXT_PUBLIC_BANK_NAME`, `NEXT_PUBLIC_BANK_HOLDER`, `NEXT_PUBLIC_IBAN` | Havale/EFT bilgileri |

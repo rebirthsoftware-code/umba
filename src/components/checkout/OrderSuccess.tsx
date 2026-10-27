@@ -8,7 +8,8 @@ import { CheckCircle2, Copy, Mail, MessageCircle, Printer, Send } from "lucide-r
 import { paymentLabels, orderToText } from "@/lib/order";
 import { formatPrice, formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
-import { whatsappUrl, mailtoUrl } from "@/lib/forms";
+import { mailtoUrl } from "@/lib/forms";
+import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
 
 export function OrderSuccess() {
   const params = useSearchParams();
@@ -19,7 +20,7 @@ export function OrderSuccess() {
 
   const orderNo = order?.orderNo ?? no ?? "";
   const text = order ? orderToText(order) : `Merhaba, ${orderNo} numaralı siparişim hakkında bilgi almak istiyorum.`;
-  const waHref = whatsappUrl(order?.delivered && order.paymentMethod === "havale" ? `Merhaba, ${orderNo} numaralı siparişim için havale dekontunu iletiyorum.` : text);
+  const waText = (order?.delivered && order.paymentMethod === "havale" ? `Merhaba, ${orderNo} numaralı siparişim için havale dekontunu iletiyorum.` : text);
   const mailHref = mailtoUrl(`Sipariş ${orderNo}`, text);
 
   const copyIban = async () => {
@@ -60,14 +61,9 @@ export function OrderSuccess() {
             Siparişiniz bize ulaştığında {site.commerce.deliveryEstimate} içinde kargoya verilir.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-13 items-center gap-2 rounded-full bg-[#25D366] px-7 text-base font-bold text-white hover:brightness-95"
-            >
+            <WhatsAppLink text={waText} className="inline-flex h-13 items-center gap-2 rounded-full bg-[#25D366] px-7 text-base font-bold text-white hover:brightness-95">
               <MessageCircle className="h-5 w-5" /> WhatsApp ile gönder
-            </a>
+            </WhatsAppLink>
             <a
               href={mailHref}
               className="inline-flex h-13 items-center gap-2 rounded-full border border-espresso-900/20 bg-cream-50 px-6 text-sm font-semibold hover:bg-cream-200"
@@ -183,15 +179,10 @@ export function OrderSuccess() {
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         {order?.delivered && (
-          <a
-            href={waHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-bold text-white hover:brightness-95"
-          >
+          <WhatsAppLink text={waText} placement="top" className="inline-flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-bold text-white hover:brightness-95">
             <Send className="h-4 w-4" />
             {order.paymentMethod === "havale" ? "WhatsApp ile dekont gönder" : "WhatsApp ile yazın"}
-          </a>
+          </WhatsAppLink>
         )}
         <button
           type="button"
