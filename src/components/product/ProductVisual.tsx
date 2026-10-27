@@ -13,13 +13,14 @@ export function ProductVisual({
   sizeLabel,
   priority = false,
 }: {
-  product: Pick<Product, "name" | "color" | "color2" | "art" | "category" | "slug" | "variants" | "image">;
+  product: Pick<Product, "name" | "color" | "color2" | "art" | "category" | "slug" | "variants" | "image" | "imageFit" | "imageCutout">;
   className?: string;
   sizeLabel?: string;
   priority?: boolean;
 }) {
-  if (product.image) {
-    return <Image src={assetUrl(product.image)} alt={product.name} width={900} height={1200} priority={priority} className={className} style={{ objectFit: "contain" }} />;
+  const cutout = product.imageCutout ?? (product.imageFit !== "cover" ? product.image : undefined);
+  if (cutout) {
+    return <Image src={assetUrl(cutout)} alt={product.name} width={900} height={1200} priority={priority} className={className} style={{ objectFit: "contain" }} />;
   }
   return <ProductArt product={product} className={className} sizeLabel={sizeLabel} />;
 }

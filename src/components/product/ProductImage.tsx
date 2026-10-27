@@ -30,9 +30,9 @@ export function ProductImage({
         background: `radial-gradient(120% 90% at 50% 100%, ${product.color}33 0%, transparent 60%), linear-gradient(180deg, #fdfaf5 0%, #f3ebdf 100%)`,
       }}
     >
-      {product.image ? (
+      {product.imageCutout || product.image ? (
         <Image
-          src={assetUrl(product.image)}
+          src={assetUrl(product.imageCutout ?? product.image!)}
           alt={product.name}
           fill
           sizes={sizes}

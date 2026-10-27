@@ -28,7 +28,7 @@ export function ProductCard({ product }: { product: Product; priority?: boolean 
         {/* Ambalaj */}
         <span className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-3 group-hover:opacity-0">
           {product.image ? (
-            <Image src={assetUrl(product.image)} alt={product.name} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-contain p-3 drop-shadow-lg" />
+            <Image src={assetUrl(product.image)} alt={product.name} fill sizes="(min-width: 1024px) 25vw, 50vw" className={product.imageFit === "cover" ? "object-cover" : "object-contain p-3 drop-shadow-lg"} />
           ) : (
             <ProductArt product={product} className="h-[78%] w-auto drop-shadow-lg" />
           )}
@@ -36,7 +36,7 @@ export function ProductCard({ product }: { product: Product; priority?: boolean 
         {/* Bardakta */}
         <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:translateY(12px)] group-hover:opacity-100 group-hover:[transform:translateY(0)]">
           {product.imageHover ? (
-            <Image src={assetUrl(product.imageHover)} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-contain p-6" />
+            <Image src={assetUrl(product.imageHover)} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-contain p-3 drop-shadow-lg" />
           ) : (
             <DrinkArt product={product} className="h-[78%] w-auto drop-shadow-lg" />
           )}

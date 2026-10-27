@@ -54,6 +54,10 @@ export interface Product {
   image?: string;
   /** Kartta hover'da gösterilecek ikinci fotoğraf (yoksa bardak çizimi kullanılır) */
   imageHover?: string;
+  /** "cover": sahne fotoğrafı, alanı tam kaplar; "contain" (varsayılan): şeffaf ürün kesimi */
+  imageFit?: "cover" | "contain";
+  /** Slider, arama ve küçük önizlemeler için şeffaf ürün kesimi */
+  imageCutout?: string;
   short: string;
   description: string;
   highlights: string[];
