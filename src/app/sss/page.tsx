@@ -34,7 +34,7 @@ const groups = [
       { q: "Pürelerin saklama koşulu nedir?", a: "Açılmamış püreler oda sıcaklığında 12 ay saklanabilir. Açıldıktan sonra buzdolabında (2–6 °C) 15 gün içinde tüketilmelidir." },
       { q: "Bir latte için ne kadar şurup kullanmalıyım?", a: "Standart 300 ml latte için 20–30 ml (2–3 pompa) yeterlidir. Her ürün sayfasında içecek bazlı dozaj önerileri yer alır." },
       { q: "Kahveler çekirdek mi öğütülmüş mü gönderiliyor?", a: "Varsayılan olarak çekirdek gönderilir. Sipariş notuna “espresso / filtre / French press öğütüm” yazmanız hâlinde istediğiniz incelikte öğütüp gönderiyoruz." },
-      { q: "Şekersiz ürünleriniz var mı?", a: "Evet; şekersiz vanilya ve karamel şurupları ile bitter sıcak çikolata düşük şekerli seçeneklerdir. Tüm ürünlerde “Şekersiz” etiketiyle filtreleyebilirsiniz." },
+      { q: "Şekersiz ürünleriniz var mı?", a: "Bitter sıcak çikolata düşük şekerli seçeneğimizdir; şekersiz şurup çeşitleri için kurumsal ekibimize yazabilirsiniz." },
     ],
   },
   {

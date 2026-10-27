@@ -21,7 +21,7 @@ const values = [
 
 export default function AboutPage() {
   const a = getProduct("umba-signature-espresso")!;
-  const b = getProduct("vanilya-surubu")!;
+  const b = getProduct("tuzlu-karamel-surubu")!;
   const c = getProduct("mango-puresi")!;
 
   return (

@@ -30,17 +30,16 @@ const v = (
   extra: Partial<Variant> = {},
 ): Variant => ({ id, label, price, sku, inStock: true, ...extra });
 
-function syrup(b: Base, opts: { sugarFree?: boolean } = {}): Product {
-  const sf = opts.sugarFree ?? false;
+function syrup(b: Base): Product {
   const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
   return {
     category: "suruplar",
     art: "bottle",
     highlights: [
-      "Doğal aroma, yapay renklendirici içermez",
+      "Premium kalite, doğal aroma",
       "Sıcak ve soğuk içeceklerde çökmeden karışır",
       "Pompa ile porsiyon kontrolü (1 pompa ≈ 10 ml)",
-      sf ? "Şeker ilavesiz, düşük kalorili" : "Dengeli tatlılık, baskın olmayan aroma",
+      "Dengeli tatlılık, baskın olmayan aroma",
     ],
     usage: [
       "Latte / Cappuccino: 20–30 ml",
@@ -49,21 +48,13 @@ function syrup(b: Base, opts: { sugarFree?: boolean } = {}): Product {
       "Kokteyl: 15–20 ml",
     ],
     specs: [
-      { label: "Hacim", value: "700 ml cam şişe / 1 L PET" },
+      { label: "Hacim", value: "750 ml PET şişe" },
       { label: "Raf ömrü", value: "24 ay (açıldıktan sonra 3 ay)" },
       { label: "Saklama", value: "Serin ve kuru yerde, doğrudan güneş ışığından uzak" },
       { label: "Menşei", value: "Türkiye" },
     ],
-    variants: sf
-      ? [
-          v("700ml", "700 ml", 369.9, `SRP-${code}-SF-700`),
-          v("1l", "1 L", 469.9, `SRP-${code}-SF-1000`),
-        ]
-      : [
-          v("700ml", "700 ml", 329.9, `SRP-${code}-700`),
-          v("1l", "1 L", 419.9, `SRP-${code}-1000`),
-        ],
-    tags: [...(b.tags ?? []), ...(sf ? (["sekersiz"] as ProductTag[]) : [])],
+    variants: [v("750ml", "750 ml", 329.9, `SRP-${code}-750`)],
+    tags: b.tags ?? [],
     ...b,
   };
 }
@@ -283,162 +274,192 @@ function tea(b: Base & { brew: string }): Product {
 export const products: Product[] = [
   /* ---------------------------------- Şuruplar --------------------------------- */
   syrup({
-    slug: "vanilya-surubu",
-    name: "Vanilya Şurubu",
-    color: "#e9c98a",
-    color2: "#c99a4d",
-    short: "Yumuşak, kremamsı vanilya; her lattenin klasiği.",
-    description:
-      "Madagaskar vanilyası esintisiyle hazırlanan Vanilya Şurubu, kahvenin acılığını kırmadan yuvarlak ve sıcak bir tat katar. Vanilla latte, soğuk kahve ve milkshake'lerin vazgeçilmezi.",
-    tags: ["cok-satan"],
-  }),
-  syrup({
-    slug: "karamel-surubu",
-    name: "Karamel Şurubu",
-    color: "#d9892c",
-    color2: "#a85f12",
-    short: "Yanık şeker notalarıyla derin, sıcak karamel.",
-    description:
-      "Kafe menülerinin en çok satan aroması. Karamel Şurubu; caramel macchiato, frappe ve soğuk kahvelerde yoğun ve dengeli bir tatlılık sağlar.",
-    tags: ["cok-satan"],
-  }),
-  syrup({
-    slug: "findik-surubu",
-    name: "Fındık Şurubu",
-    color: "#b67c4a",
-    color2: "#7a4a22",
-    short: "Kavrulmuş fındığın sıcak, hafif tatlı aroması.",
-    description:
-      "Kavrulmuş Karadeniz fındığının karakterini taşıyan Fındık Şurubu, özellikle sütlü kahvelerde ve sıcak çikolatada öne çıkar.",
-    tags: ["cok-satan"],
-  }),
-  syrup({
-    slug: "cikolata-surubu",
-    name: "Çikolata Şurubu",
-    color: "#5a3222",
-    color2: "#2e170e",
-    short: "Yoğun kakao, mocha için ideal akışkanlık.",
-    description:
-      "Gerçek kakao ile hazırlanan Çikolata Şurubu; mocha, soğuk çikolata ve soda bazlı içeceklerde çökmeden karışır.",
-  }),
-  syrup({
-    slug: "beyaz-cikolata-surubu",
-    name: "Beyaz Çikolata Şurubu",
-    color: "#f3e6cf",
-    color2: "#d9c39c",
-    short: "Kremamsı, tatlı beyaz çikolata lezzeti.",
-    description:
-      "White mocha ve tatlı kahvelerin yıldızı. Beyaz Çikolata Şurubu, süt bazlı içeceklere ipeksi bir doku kazandırır.",
-  }),
-  syrup({
     slug: "cilek-surubu",
     name: "Çilek Şurubu",
-    color: "#e0484f",
-    color2: "#a81f2c",
-    short: "Taze çilek aroması; soda ve limonatalarda canlı renk.",
-    description:
-      "Yaz menülerinin olmazsa olmazı. Çilek Şurubu, meyveli sodalar, limonatalar ve milkshake'lerde parlak renk ve taze meyve tadı sunar.",
+    color: "#c41e3a",
+    color2: "#7e1024",
+    image: "/products/cilek-surubu.webp",
+    imageFit: "cover",
+    short: "Olgun çilek; limonata ve sodanın yıldızı.",
+    description: "Taze çilek aromasıyla parlak kırmızı şurup. Çilekli limonata, soda, milkshake ve frozen için; sütlü içeceklerde kesilmeden karışır.",
     tags: ["cok-satan"],
   }),
   syrup({
-    slug: "mango-surubu",
-    name: "Mango Şurubu",
-    color: "#f4a622",
-    color2: "#e2731a",
-    short: "Tropik mango; frozen ve ice tea için.",
-    description:
-      "Olgun mango aromasıyla hazırlanan Mango Şurubu, soğuk çaylarda, frozenlarda ve alkolsüz kokteyllerde tropik bir karakter verir.",
+    slug: "seftali-surubu",
+    name: "Şeftali Şurubu",
+    color: "#f4a53a",
+    color2: "#c77214",
+    image: "/products/seftali-surubu.webp",
+    imageFit: "cover",
+    short: "Güneşli, sulu şeftali; buzlu çayın klasiği.",
+    description: "Şeftali aromasıyla hazırlanan altın sarısı şurup. Peach iced tea, soda ve kokteyllerde yaz menüsünün vazgeçilmezi.",
+    tags: ["cok-satan"],
   }),
   syrup({
-    slug: "yesil-elma-surubu",
-    name: "Yeşil Elma Şurubu",
-    color: "#9ccb4a",
-    color2: "#5f9a1f",
-    short: "Ekşimsi, ferahlatıcı yeşil elma.",
-    description:
-      "Granny Smith elmasının ekşimsi ferahlığı. Yeşil Elma Şurubu; soda, mojito ve soğuk çaylarda ağızda kalan canlı bir tat bırakır.",
+    slug: "visne-surubu",
+    name: "Vişne Şurubu",
+    color: "#8b0a2a",
+    color2: "#4f0516",
+    image: "/products/visne-surubu.webp",
+    imageFit: "cover",
+    short: "Ekşi tatlı dengesiyle derin vişne.",
+    description: "Yoğun vişne aromalı, koyu kırmızı şurup. Vişneli soda, limonata ve kokteyllerde; sütlü içeceklerde cherry latte için.",
+    tags: [],
   }),
   syrup({
-    slug: "hindistan-cevizi-surubu",
-    name: "Hindistan Cevizi Şurubu",
-    color: "#f1ebe1",
-    color2: "#cdbfa8",
-    short: "Tropik, kremamsı hindistan cevizi.",
-    description:
-      "Soğuk kahve ve pina colada tarzı içeceklerde yumuşak, tropik bir tat. Süt bazlı içeceklerle mükemmel uyum.",
+    slug: "chai-tea-surubu",
+    name: "Chai Tea Şurubu",
+    color: "#5a3a22",
+    color2: "#2f1c0f",
+    image: "/products/chai-tea-surubu.webp",
+    imageFit: "cover",
+    short: "Tarçın, kakule ve karanfil; baharatlı çay.",
+    description: "Siyah çay ve baharat karışımı aromalı şurup. Süt ile chai latte, buz ile iced chai; kış ve yaz menüsünde.",
+    tags: ["yeni"],
   }),
   syrup({
-    slug: "tarcin-surubu",
-    name: "Tarçın Şurubu",
-    color: "#b8623b",
-    color2: "#7d3a1c",
-    short: "Sıcak baharat notaları; kış menülerinin favorisi.",
-    description:
-      "Seylan tarçınının sıcak, hafif tatlı aroması. Chai latte, cappuccino ve sıcak elma suyunda kış dokunuşu.",
+    slug: "cookies-surubu",
+    name: "Cookies Şurubu",
+    color: "#2a1d18",
+    color2: "#120b08",
+    image: "/products/cookies-surubu.webp",
+    imageFit: "cover",
+    short: "Kakaolu kurabiye ve krema; tatlı menüsü.",
+    description: "Kakaolu kurabiye aromalı şurup. Cookies frappe, milkshake ve soğuk kahvelerde; krem şanti ile tatlı menüsünün favorisi.",
+    tags: ["yeni"],
+  }),
+  syrup({
+    slug: "tuzlu-karamel-surubu",
+    name: "Tuzlu Karamel Şurubu",
+    color: "#b8651f",
+    color2: "#7a3f0e",
+    image: "/products/tuzlu-karamel-surubu.webp",
+    imageFit: "cover",
+    short: "Yanık karamel ve deniz tuzu dengesi.",
+    description: "Karamelin tatlılığını bir tutam tuzla dengeleyen şurup. Salted caramel latte, frappe ve soğuk kahvelerde.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "damla-sakizi-surubu",
+    name: "Damla Sakızı Şurubu",
+    color: "#3f8fa3",
+    color2: "#22596a",
+    image: "/products/damla-sakizi-surubu.webp",
+    imageFit: "cover",
+    short: "Ege'nin damla sakızı; ferah ve reçineli.",
+    description: "Damla sakızı aromalı, açık renkli şurup. Sakızlı limonata, soda ve sütlü içeceklerde; Türk kahvesi ve sütlü tatlılarla uyumlu.",
+    tags: ["yeni"],
   }),
   syrup({
     slug: "irish-cream-surubu",
     name: "Irish Cream Şurubu",
-    color: "#c9a27a",
-    color2: "#8f6a46",
-    short: "Kremamsı, hafif karamelli Irish cream.",
-    description:
-      "Alkolsüz Irish cream aroması; kahve ve sıcak çikolataya zengin, kremamsı bir derinlik katar.",
+    color: "#b9773c",
+    color2: "#7a4a1e",
+    image: "/products/irish-cream-surubu.webp",
+    imageFit: "cover",
+    short: "Kremamsı, hafif viski esintili.",
+    description: "Irish cream aromasıyla kremamsı ve yuvarlak şurup. Latte, soğuk kahve ve sıcak çikolatada bar klasiği.",
+    tags: [],
   }),
   syrup({
-    slug: "toffee-nut-surubu",
-    name: "Toffee Nut Şurubu",
-    color: "#c58a3b",
-    color2: "#8b5a1a",
-    short: "Tereyağlı karamel ve kavrulmuş kuruyemiş.",
-    description:
-      "Tereyağlı toffee ile kavrulmuş kuruyemişin buluşması. Sezonluk latte menüleri için güçlü bir seçim.",
-    tags: ["yeni"],
+    slug: "muz-surubu",
+    name: "Muz Şurubu",
+    color: "#e8c227",
+    color2: "#b48f0d",
+    image: "/products/muz-surubu.webp",
+    imageFit: "cover",
+    short: "Olgun muz; milkshake ve smoothie bazı.",
+    description: "Muz aromalı, altın sarısı şurup. Muzlu süt, milkshake ve frappe için; kahveyle de uyumlu.",
+    tags: [],
   }),
   syrup({
-    slug: "lavanta-surubu",
-    name: "Lavanta Şurubu",
-    color: "#a98bd0",
-    color2: "#7458a8",
-    short: "Çiçeksi, zarif lavanta; limonata ve latte için.",
-    description:
-      "Hafif çiçeksi lavanta aroması, özellikle limonata ve honey-lavender latte tariflerinde fark yaratır. Dozaj hassasiyeti için pompa önerilir.",
-    tags: ["yeni"],
+    slug: "karpuz-surubu",
+    name: "Karpuz Şurubu",
+    color: "#e0313d",
+    color2: "#9f1620",
+    image: "/products/karpuz-surubu.webp",
+    imageFit: "cover",
+    short: "Sulu karpuz; yaz sodasının favorisi.",
+    description: "Karpuz aromalı, canlı kırmızı şurup. Karpuzlu soda, limonata ve frozen içeceklerde yaz menüsü için.",
+    tags: [],
+  }),
+  syrup({
+    slug: "kivi-surubu",
+    name: "Kivi Şurubu",
+    color: "#5c9a2b",
+    color2: "#366117",
+    image: "/products/kivi-surubu.webp",
+    imageFit: "cover",
+    short: "Ekşi tatlı kivi; yeşil ve ferah.",
+    description: "Kivi aromalı yeşil şurup. Kivili soda, limonata ve mojito çeşitlemelerinde renk ve ferahlık.",
+    tags: [],
+  }),
+  syrup({
+    slug: "mango-surubu",
+    name: "Mango Şurubu",
+    color: "#f08a24",
+    color2: "#b85d0b",
+    image: "/products/mango-surubu.webp",
+    imageFit: "cover",
+    short: "Tropikal, yoğun mango.",
+    description: "Mango aromalı turuncu şurup. Mango soda, frozen ve kokteyllerde; buzlu çaya tropik dokunuş.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "frambuaz-surubu",
+    name: "Frambuaz Şurubu",
+    color: "#c2185b",
+    color2: "#7d0d39",
+    image: "/products/frambuaz-surubu.webp",
+    imageFit: "cover",
+    short: "Ekşi tatlı frambuaz; soda ve kokteyl.",
+    description: "Frambuaz aromalı pembe-kırmızı şurup. Frambuazlı soda, limonata ve beyaz çikolatalı içeceklerle uyumlu.",
+    tags: [],
+  }),
+  syrup({
+    slug: "findik-surubu",
+    name: "Fındık Şurubu",
+    color: "#a9652c",
+    color2: "#6e3f16",
+    image: "/products/findik-surubu.webp",
+    imageFit: "cover",
+    short: "Kavrulmuş fındık; latte ve sıcak çikolata.",
+    description: "Kavrulmuş fındık aromalı şurup. Hazelnut latte, sıcak çikolata ve soğuk kahvelerde kış ve yaz klasiği.",
+    tags: ["cok-satan"],
   }),
   syrup({
     slug: "blue-curacao-surubu",
     name: "Blue Curaçao Şurubu",
-    color: "#2f8fe0",
-    color2: "#1b5fb0",
-    short: "Portakal kabuğu aromalı, canlı mavi.",
-    description:
-      "Alkolsüz Blue Curaçao; mavi limonata, lagoon ve yaz kokteyllerinde çarpıcı renk ve turunçgil aroması.",
+    color: "#1e3fae",
+    color2: "#102466",
+    image: "/products/blue-curacao-surubu.webp",
+    imageFit: "cover",
+    short: "Turunç aromalı, parlak mavi.",
+    description: "Portakal kabuğu (turunç) aromalı, canlı mavi şurup. Blue lagoon, soda ve alkolsüz kokteyllerde göz alıcı renk.",
+    tags: ["yeni"],
   }),
-  syrup(
-    {
-      slug: "sekersiz-vanilya-surubu",
-      name: "Şekersiz Vanilya Şurubu",
-      color: "#e4d2b3",
-      color2: "#b99c6c",
-      short: "Şeker ilavesiz, aynı vanilya karakteri.",
-      description:
-        "Tatlandırıcı ile hazırlanan Şekersiz Vanilya Şurubu, kalori hassasiyeti olan müşteriler için klasik vanilya tadını korur.",
-    },
-    { sugarFree: true },
-  ),
-  syrup(
-    {
-      slug: "sekersiz-karamel-surubu",
-      name: "Şekersiz Karamel Şurubu",
-      color: "#d79a4e",
-      color2: "#a06621",
-      short: "Şeker ilavesiz karamel; düşük kalorili.",
-      description:
-        "Şeker ilavesiz formülüyle Karamel Şurubu'nun tüm sıcaklığını sunar. Fit menüler ve diyabetik müşteriler için.",
-    },
-    { sugarFree: true },
-  ),
-
+  syrup({
+    slug: "mojito-surubu",
+    name: "Mojito Şurubu",
+    color: "#7fbf6a",
+    color2: "#4e8a3b",
+    image: "/products/mojito-surubu.webp",
+    imageFit: "cover",
+    short: "Nane ve lime; alkolsüz mojito bazı.",
+    description: "Nane ve lime aromalı şurup. Soda ve buz ile virgin mojito, limonatalara ferah bir dokunuş.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "nar-surubu",
+    name: "Nar Şurubu",
+    color: "#9b1030",
+    color2: "#5c0719",
+    image: "/products/nar-surubu.webp",
+    imageFit: "cover",
+    short: "Ekşi tatlı nar; soda ve kokteyl.",
+    description: "Nar aromalı, koyu kırmızı şurup. Narlı soda, limonata ve kokteyllerde; buzlu çaya derinlik katar.",
+    tags: [],
+  }),
   /* ----------------------------------- Soslar ---------------------------------- */
   sauce({
     slug: "cikolata-sosu",
@@ -969,11 +990,11 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
   let reason = "";
   switch (product.category) {
     case "suruplar":
-      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cikolata") ? "cikolata-sosu" : "umba-signature-espresso");
+      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cookies") ? "cikolata-sosu" : "umba-signature-espresso");
       reason = partner?.category === "soslar" ? "Şurup içeride, sos üstte: tam kafe sunumu." : "Latte için şurup ve dengeli bir espresso harmanı.";
       break;
     case "soslar":
-      partner = pick(product.slug.includes("cikolata") ? "klasik-sicak-cikolata" : "vanilya-surubu");
+      partner = pick(product.slug.includes("cikolata") ? "klasik-sicak-cikolata" : "tuzlu-karamel-surubu");
       reason = "Topping sos ile yanına yakışan içecek bazı.";
       break;
     case "pureler":
@@ -981,8 +1002,8 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
       reason = "Meyveli limonata ve frozen için püre + limonata konsantresi.";
       break;
     case "kahve":
-      partner = pick("vanilya-surubu");
-      reason = "Espresso'nun yanına en çok satan aroma: vanilya.";
+      partner = pick("tuzlu-karamel-surubu");
+      reason = "Espresso'nun yanına en çok satan aroma: tuzlu karamel.";
       break;
     case "sicak-cikolata":
       partner = pick("findik-surubu");

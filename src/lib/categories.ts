@@ -6,7 +6,7 @@ export const categories: Category[] = [
     name: "Şuruplar",
     tagline: "Latte, soda ve kokteyller için aroma şurupları",
     description:
-      "Doğal aromalarla hazırlanan, sıcak ve soğuk içeceklerde dengeli tat veren bar şurupları. 700 ml cam şişe ve 1 litre ekonomik seçenekleriyle.",
+      "Çilekten damla sakızına 17 aroma; sıcak ve soğuk içeceklerde dengeli tat veren premium bar şurupları. 750 ml şişede.",
     color: "#d08f2e",
     colorSoft: "#fbf0dc",
     art: "bottle",

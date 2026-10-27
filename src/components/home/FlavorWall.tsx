@@ -24,14 +24,14 @@ export function FlavorWall() {
             tone="light"
             eyebrow="Şurup duvarı"
             title={`${syrups.length} aroma, tek pompa uzağınızda.`}
-            description="Klasiklerden sezonluklara, şekersiz seçeneklere kadar. Her şurup; sıcak, soğuk ve soda bazlı içeceklerde test edildi."
+            description="Çilekten damla sakızına, tuzlu karamelden mojitoya. Her şurup; sıcak, soğuk ve soda bazlı içeceklerde test edildi."
           />
           <div className="mt-8 flex flex-wrap gap-3">
             <Button href="/kategori/suruplar" variant="primary">
               Şurupları incele
             </Button>
-            <Button href="/urunler?etiket=sekersiz" variant="light">
-              Şekersiz seçenekler
+            <Button href="/#tarifler" variant="light">
+              Barista tarifleri
             </Button>
           </div>
         </Reveal>
