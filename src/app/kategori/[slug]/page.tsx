@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { categories, getCategory } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { ProductVisual } from "@/components/product/ProductVisual";
+import { CategoryVisual } from "@/components/product/CategoryVisual";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { GridSkeleton } from "@/components/product/GridSkeleton";
 import Link from "next/link";
@@ -74,7 +74,7 @@ export default async function CategoryPage({ params }: PageProps<"/kategori/[slu
                 className="absolute inset-0 rounded-full opacity-30 blur-3xl"
                 style={{ background: category.color }}
               />
-              <ProductVisual product={sample} className="relative mx-auto h-full w-auto drop-shadow-2xl" />
+              <CategoryVisual category={category} sample={sample} className="relative mx-auto h-full w-auto drop-shadow-2xl" />
             </div>
           )}
         </div>

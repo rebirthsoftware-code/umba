@@ -1,13 +1,17 @@
 export const dynamic = "force-static";
 
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { site } from "@/lib/site";
 
 export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function Image() {
+export default async function Image() {
+  const logo = await readFile(join(process.cwd(), "public/brand/logo-white.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
   return new ImageResponse(
     (
       <div
@@ -34,24 +38,12 @@ export default function Image() {
           }}
         />
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: 80, flex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            <div
-              style={{
-                width: 64,
-                height: 90,
-                borderRadius: 9999,
-                background: "linear-gradient(135deg,#e2a84b,#b4761f)",
-                transform: "rotate(-32deg)",
-              }}
-            />
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <span style={{ fontSize: 72, fontWeight: 700, letterSpacing: -2 }}>umba</span>
-              <span style={{ fontSize: 22, letterSpacing: 10, color: "#e2a84b", fontFamily: "sans-serif" }}>COFFEE</span>
-            </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img src={logoSrc} alt="" width={340} height={150} />
           </div>
           <div style={{ marginTop: 50, fontSize: 56, lineHeight: 1.1, maxWidth: 900 }}>Barınızın lezzet ortağı.</div>
           <div style={{ marginTop: 24, fontSize: 28, color: "#efe3d2", fontFamily: "sans-serif" }}>
-            Şurup · Sos · Püre · Kahve · Sıcak Çikolata · Bar Ürünleri
+            Şurup · Sos · Püre · Kahve · Sıcak Çikolata · Bitki Çayı · Bar Ürünleri
           </div>
         </div>
       </div>

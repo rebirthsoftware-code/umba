@@ -25,6 +25,8 @@ export interface Category {
   color: string;
   colorSoft: string;
   art: ArtKind;
+  /** Kategoriye özel şeffaf görsel (public yolu). */
+  image?: string;
   order: number;
 }
 

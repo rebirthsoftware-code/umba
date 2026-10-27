@@ -70,6 +70,7 @@ export const categories: Category[] = [
   {
     slug: "bitki-cayi",
     name: "Bitki Çayları",
+    image: "/categories/bitki-cayi.webp",
     tagline: "Doğal meyve ve bitki çayları, kilitli poşette",
     description:
       "Ümba Premium serisi meyve ve bitki çayları: nane limon, kuşburnu, hibiskus, ıhlamur, ada çayı, yeşil çay, elma ve orman meyveli. Katkısız, pencereli kilitli poşetlerde.",

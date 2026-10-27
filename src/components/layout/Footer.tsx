@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/SocialIcons";
-import { Logo } from "@/components/ui/Logo";
+import { Logo, LogoImage } from "@/components/ui/Logo";
 import { categories } from "@/lib/categories";
 import { site } from "@/lib/site";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
@@ -135,10 +135,8 @@ export function Footer() {
         </div>
       </div>
 
-      <div aria-hidden="true" className="container-x select-none overflow-hidden">
-        <p className="-mb-[0.18em] translate-y-[0.08em] font-display text-[clamp(5rem,21vw,20rem)] font-semibold leading-none tracking-tight text-cream-50/[0.06]">
-          umba
-        </p>
+      <div aria-hidden="true" className="container-x select-none overflow-hidden pb-2">
+        <LogoImage tone="light" className="mx-auto h-auto w-full max-w-3xl opacity-[0.07]" />
       </div>
 
       <div className="border-t border-cream-50/10">
