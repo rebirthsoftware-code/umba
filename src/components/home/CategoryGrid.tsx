@@ -4,11 +4,12 @@ import { categories } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
 import { ProductArt } from "@/components/product/ProductArt";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function CategoryGrid() {
   return (
     <section className="container-x py-16 sm:py-24">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <Reveal className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading
           eyebrow="Ürün grupları"
           title="Barınızda ne eksikse, burada."
@@ -18,20 +19,19 @@ export function CategoryGrid() {
           Tüm ürünler
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </Link>
-      </div>
+      </Reveal>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((c, i) => {
           const sample = getProductsByCategory(c.slug)[0];
           const count = getProductsByCategory(c.slug).length;
           return (
+            <Reveal key={c.slug} delay={i * 70} className="h-full">
             <Link
-              key={c.slug}
               href={`/kategori/${c.slug}`}
-              className="group relative flex min-h-[15rem] overflow-hidden rounded-[2rem] border border-espresso-900/5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
+              className="group relative flex h-full min-h-[15rem] overflow-hidden rounded-[2rem] border border-espresso-900/5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
               style={{
                 background: `linear-gradient(135deg, ${c.colorSoft} 0%, #fdfaf5 70%)`,
-                animationDelay: `${i * 60}ms`,
               }}
             >
               <div className="flex flex-1 flex-col justify-between p-6">
@@ -61,6 +61,7 @@ export function CategoryGrid() {
                 )}
               </div>
             </Link>
+            </Reveal>
           );
         })}
       </div>

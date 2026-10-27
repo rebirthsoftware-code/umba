@@ -1,5 +1,6 @@
 import { Factory, FlaskConical, Truck, Users } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 
 const reasons = [
   {
@@ -27,24 +28,25 @@ const reasons = [
 export function WhyUmba() {
   return (
     <section className="container-x py-16 sm:py-24">
+      <Reveal>
       <SectionHeading
         align="center"
         eyebrow="Neden Umba?"
         title="Küçük bir kafeden büyük bir zincire kadar aynı standart."
         description="Üretimden teslimata her adımı kendimiz yönetiyoruz; böylece her siparişte aynı tadı ve aynı kıvamı alıyorsunuz."
       />
+      </Reveal>
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {reasons.map(({ icon: Icon, title, text }) => (
-          <div
-            key={title}
-            className="rounded-3xl border border-espresso-900/5 bg-cream-50 p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-lift"
-          >
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-caramel-500/15 text-caramel-700">
-              <Icon className="h-6 w-6" />
-            </span>
-            <h3 className="mt-5 font-display text-xl font-semibold text-espresso-900">{title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-espresso-700">{text}</p>
-          </div>
+        {reasons.map(({ icon: Icon, title, text }, i) => (
+          <Reveal key={title} delay={i * 90} className="h-full">
+            <div className="group h-full rounded-3xl border border-espresso-900/5 bg-cream-50 p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-caramel-500/15 text-caramel-700 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
+                <Icon className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 font-display text-xl font-semibold text-espresso-900">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-espresso-700">{text}</p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>

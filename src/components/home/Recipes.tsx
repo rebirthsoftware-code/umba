@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 import { getProduct } from "@/lib/products";
 import { ProductArt } from "@/components/product/ProductArt";
 
@@ -35,19 +36,21 @@ export function Recipes() {
   return (
     <section className="bg-cream-100 py-16 sm:py-24">
       <div className="container-x">
+        <Reveal>
         <SectionHeading
           eyebrow="Barista tarifleri"
           title="Menünüze bugün ekleyebileceğiniz üç içecek."
           description="Her ürün sayfasında dozaj önerileri var. Burada en çok sorulan üç tarifi bıraktık."
         />
+        </Reveal>
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {recipes.map((r) => {
+          {recipes.map((r, i) => {
             const p = getProduct(r.product)!;
             const t = getProduct(r.topping)!;
             return (
+              <Reveal key={r.title} delay={i * 100} className="h-full">
               <article
-                key={r.title}
-                className="group relative overflow-hidden rounded-[2rem] border border-espresso-900/5 bg-cream-50 p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-lift"
+                className="group relative h-full overflow-hidden rounded-[2rem] border border-espresso-900/5 bg-cream-50 p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-lift"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -62,7 +65,7 @@ export function Recipes() {
                       className="absolute inset-0 rounded-full opacity-30 blur-xl"
                       style={{ background: r.accent }}
                     />
-                    <ProductArt product={p} className="relative h-full w-auto drop-shadow-lg" />
+                    <ProductArt product={p} className="relative h-full w-auto drop-shadow-lg transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
                   </div>
                 </div>
                 <ol className="mt-4 space-y-2 text-sm text-espresso-700">
@@ -87,6 +90,7 @@ export function Recipes() {
                   </Link>
                 </div>
               </article>
+              </Reveal>
             );
           })}
         </div>

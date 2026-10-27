@@ -15,11 +15,12 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-espresso-900/5 bg-cream-50 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
-      <Link href={`/urun/${product.slug}`} className="relative block" aria-label={product.name}>
+      <Link href={`/urun/${product.slug}`} className="shine relative block" aria-label={product.name}>
         <ProductImage
           product={product}
           priority={priority}
-          className="aspect-[4/5] w-full transition-transform duration-500 group-hover:scale-[1.03]"
+          className="aspect-[4/5] w-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+          artClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-rotate-3 group-hover:-translate-y-1"
         />
         {visibleTags.length > 0 && (
           <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">

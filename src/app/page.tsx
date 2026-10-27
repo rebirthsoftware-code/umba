@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { TrustStrip } from "@/components/home/TrustStrip";
+import { Ticker } from "@/components/home/Ticker";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { FlavorWall } from "@/components/home/FlavorWall";
@@ -11,6 +12,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Ticker />
       <TrustStrip />
       <CategoryGrid />
       <FeaturedProducts />

@@ -1,9 +1,11 @@
 import { ArrowRight, Building2, Coffee, Hotel, Store } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function B2BBand() {
   return (
     <section className="container-x py-16 sm:py-24">
+      <Reveal direction="scale">
       <div className="relative overflow-hidden rounded-[2.5rem] bg-espresso-900 px-6 py-12 text-cream-50 shadow-lift sm:px-12 lg:px-16 lg:py-16">
         <div
           aria-hidden="true"
@@ -35,14 +37,15 @@ export function B2BBand() {
               { icon: Store, label: "Pastane & Büfeler" },
               { icon: Building2, label: "Ofis & Toplu tüketim" },
             ].map(({ icon: Icon, label }) => (
-              <li key={label} className="rounded-3xl border border-cream-50/10 bg-cream-50/5 p-5 backdrop-blur">
-                <Icon className="h-6 w-6 text-caramel-300" />
+              <li key={label} className="group rounded-3xl border border-cream-50/10 bg-cream-50/5 p-5 backdrop-blur transition-all hover:-translate-y-1 hover:border-caramel-400/40 hover:bg-cream-50/10">
+                <Icon className="h-6 w-6 text-caramel-300 transition-transform duration-500 group-hover:scale-110" />
                 <p className="mt-3 text-sm font-semibold leading-snug">{label}</p>
               </li>
             ))}
           </ul>
         </div>
       </div>
+      </Reveal>
     </section>
   );
 }

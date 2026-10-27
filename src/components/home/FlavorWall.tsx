@@ -3,6 +3,7 @@ import { getProductsByCategory } from "@/lib/products";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { artLabel } from "@/components/product/ProductArt";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function FlavorWall() {
   const syrups = getProductsByCategory("suruplar");
@@ -17,7 +18,7 @@ export function FlavorWall() {
         }}
       />
       <div className="container-x relative grid gap-12 lg:grid-cols-12 lg:items-center">
-        <div className="lg:col-span-5">
+        <Reveal direction="left" className="lg:col-span-5">
           <SectionHeading
             tone="light"
             eyebrow="Şurup duvarı"
@@ -32,10 +33,10 @@ export function FlavorWall() {
               Şekersiz seçenekler
             </Button>
           </div>
-        </div>
+        </Reveal>
         <ul className="grid grid-cols-4 gap-3 sm:grid-cols-6 lg:col-span-7 lg:grid-cols-6">
-          {syrups.map((p) => (
-            <li key={p.slug}>
+          {syrups.map((p, i) => (
+            <Reveal as="li" key={p.slug} delay={i * 35} direction="scale">
               <Link
                 href={`/urun/${p.slug}`}
                 className="group flex flex-col items-center gap-2 text-center"
@@ -52,7 +53,7 @@ export function FlavorWall() {
                   {artLabel(p.name, 16).join(" ")}
                 </span>
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>
