@@ -6,7 +6,7 @@ import { ArrowUpRight, Plus, ShoppingBag, Check } from "lucide-react";
 import { getProduct, minPrice } from "@/lib/products";
 import { formatPrice, cn } from "@/lib/format";
 import { DrinkArt, type DrinkKind } from "@/components/product/DrinkArt";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useCart } from "@/components/cart/CartProvider";
 
@@ -194,7 +194,7 @@ function ProductMini({ product }: { product: ReturnType<typeof getProduct> & obj
   return (
     <div className="group relative flex min-w-0 items-center gap-3 rounded-xl border border-espresso-900/10 bg-cream-50 p-3 transition-colors hover:bg-cream-100">
       <span className="flex h-16 w-14 shrink-0 items-center justify-center rounded-xl" style={{ background: `radial-gradient(120% 90% at 50% 100%, ${p.color}33 0%, transparent 60%), #f3ebdf` }}>
-        <ProductArt product={p} className="h-[84%] w-auto drop-shadow transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
+        <ProductVisual product={p} className="h-[84%] w-auto drop-shadow transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
       </span>
       <div className="min-w-0 flex-1">
         <Link href={`/urun/${p.slug}`} className="block truncate text-sm font-bold text-espresso-900 after:absolute after:inset-0">

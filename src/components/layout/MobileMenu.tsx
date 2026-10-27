@@ -5,7 +5,7 @@ import { useEffect, type CSSProperties } from "react";
 import { ArrowUpRight, Phone, Search, X, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/SocialIcons";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { categories } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
 import { site } from "@/lib/site";
@@ -104,7 +104,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
                       <span className="block text-[0.7rem] text-cream-50/80">{list.length} ürün</span>
                     </span>
                     {list[0] && (
-                      <ProductArt
+                      <ProductVisual
                         product={list[0]}
                         className="absolute -right-2 -top-1 h-[115%] w-auto opacity-90 drop-shadow-lg transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105"
                       />

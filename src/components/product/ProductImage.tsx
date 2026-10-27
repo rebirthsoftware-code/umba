@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { assetUrl } from "@/lib/assets";
 import type { Product } from "@/lib/types";
 import { cn } from "@/lib/format";
 import { ProductArt } from "./ProductArt";
@@ -31,12 +32,12 @@ export function ProductImage({
     >
       {product.image ? (
         <Image
-          src={product.image}
+          src={assetUrl(product.image)}
           alt={product.name}
           fill
           sizes={sizes}
           priority={priority}
-          className="object-contain p-6"
+          className="object-contain p-3 drop-shadow-lg"
         />
       ) : (
         <ProductArt product={product} sizeLabel={sizeLabel} className={cn("h-[82%] w-auto drop-shadow-xl", artClassName)} />

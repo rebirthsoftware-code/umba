@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { getProduct, products } from "@/lib/products";
 import { categories } from "@/lib/categories";
 
@@ -58,9 +58,9 @@ export default function AboutPage() {
         <div className="relative lg:col-span-6">
           <div className="relative mx-auto aspect-[5/4] max-w-lg overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-cream-100 to-cream-300 shadow-lift">
             <div className="absolute inset-0 bg-grain opacity-70" />
-            <ProductArt product={b} className="absolute bottom-6 left-[8%] h-[70%] w-auto drop-shadow-2xl" />
-            <ProductArt product={a} className="absolute bottom-10 left-[36%] h-[76%] w-auto drop-shadow-2xl" />
-            <ProductArt product={c} className="absolute bottom-6 right-[6%] h-[68%] w-auto drop-shadow-2xl" />
+            <ProductVisual product={b} className="absolute bottom-6 left-[8%] h-[70%] w-auto drop-shadow-2xl" />
+            <ProductVisual product={a} className="absolute bottom-10 left-[36%] h-[76%] w-auto drop-shadow-2xl" />
+            <ProductVisual product={c} className="absolute bottom-6 right-[6%] h-[68%] w-auto drop-shadow-2xl" />
           </div>
         </div>
       </section>

@@ -9,7 +9,7 @@ import { getProductsByCategory, minPrice } from "@/lib/products";
 import { searchProducts, countResults, highlight, popularSearches } from "@/lib/search";
 import { addRecentSearch, clearRecentSearches, getServerSnapshot, getSnapshot, subscribe } from "@/lib/recent-searches";
 import { formatPrice, cn } from "@/lib/format";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 
 export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const router = useRouter();
@@ -217,7 +217,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                             <span className="block text-[0.7rem] text-espresso-600">{getProductsByCategory(c.slug).length} ürün</span>
                           </span>
                           {sample && (
-                            <ProductArt
+                            <ProductVisual
                               product={sample}
                               className="absolute -right-1 bottom-1 h-[88%] w-auto drop-shadow-md transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
                             />
@@ -260,7 +260,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                           className="flex h-16 w-14 shrink-0 items-center justify-center rounded-xl"
                           style={{ background: `radial-gradient(120% 90% at 50% 100%, ${p.color}33 0%, transparent 60%), #f3ebdf` }}
                         >
-                          <ProductArt product={p} className="h-[84%] w-auto drop-shadow" />
+                          <ProductVisual product={p} className="h-[84%] w-auto drop-shadow" />
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-sm font-bold text-espresso-900">

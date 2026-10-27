@@ -8,7 +8,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
 import { getFeaturedProducts } from "@/lib/products";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 
 export function CartDrawer() {
   const { isOpen, close, lines, totals, setQuantity, remove, add } = useCart();
@@ -152,7 +152,7 @@ export function CartDrawer() {
                   {suggestions.map((p) => (
                     <li key={p.slug} className="flex w-44 shrink-0 items-center gap-2 rounded-2xl border border-espresso-900/10 bg-cream-50 p-2">
                       <span className="flex h-12 w-10 shrink-0 items-center justify-center rounded-lg bg-cream-100">
-                        <ProductArt product={p} className="h-[84%] w-auto" />
+                        <ProductVisual product={p} className="h-[84%] w-auto" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-xs font-bold text-espresso-900">{p.name}</span>

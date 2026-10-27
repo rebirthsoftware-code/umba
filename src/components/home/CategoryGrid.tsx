@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { categories } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -34,7 +34,7 @@ export function CategoryGrid() {
                     İncele
                     <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
-                  {sample && <ProductArt product={sample} className="h-28 w-auto drop-shadow-md transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 group-hover:-rotate-3" />}
+                  {sample && <ProductVisual product={sample} className="h-28 w-auto drop-shadow-md transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 group-hover:-rotate-3" />}
                 </div>
               </Link>
             </Reveal>

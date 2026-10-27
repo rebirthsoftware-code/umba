@@ -10,7 +10,7 @@ import { getProductsByCategory } from "@/lib/products";
 import { site } from "@/lib/site";
 import { cn, formatPrice } from "@/lib/format";
 import { useCart } from "@/components/cart/CartProvider";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
 import { SearchTrigger } from "@/components/search/SearchTrigger";
 import { MobileMenu } from "./MobileMenu";
@@ -188,7 +188,7 @@ export function Header() {
                                   <span className="mt-0.5 block text-xs leading-snug text-espresso-600">{c.tagline}</span>
                                 </span>
                                 {sample && (
-                                  <ProductArt
+                                  <ProductVisual
                                     product={sample}
                                     className="absolute -right-1 bottom-0 h-[92%] w-auto drop-shadow-md transition-transform duration-500 group-hover/item:-rotate-6 group-hover/item:scale-110"
                                   />

@@ -16,6 +16,7 @@ type Base = {
   highlights?: string[];
   usage?: string[];
   specs?: Spec[];
+  variants?: Variant[];
 };
 
 const v = (
@@ -468,12 +469,21 @@ export const products: Product[] = [
   puree({
     slug: "cilek-puresi",
     name: "Çilek Püresi",
-    color: "#e04a52",
-    color2: "#b2222c",
+    color: "#b4232f",
+    color2: "#7a1420",
+    image: "/products/cilek-puresi.webp",
     short: "Yüksek meyveli çilek; smoothie ve frozen bazı.",
     description:
-      "Olgun çileklerden hazırlanan, %75 meyve oranlı püre. Smoothie, frozen ve çilekli limonata için gerçek meyve lezzeti.",
+      "Olgun çileklerden hazırlanan, gerçek meyve parçacıklı çilek püresi. Smoothie, frozen, milkshake ve çilekli limonata için; damlatmayan dozaj kapaklı 1 L şişede.",
     tags: ["cok-satan"],
+    specs: [
+      { label: "Etiket adı", value: "Çilek Aromalı Meyveli Sos (Strawberry Fruity Sauce)" },
+      { label: "Ambalaj", value: "1 L dozaj kapaklı şişe" },
+      { label: "Raf ömrü", value: "12 ay (açıldıktan sonra buzdolabında 15 gün)" },
+      { label: "Saklama", value: "Serin ve kuru yerde, açıldıktan sonra 2–6 °C" },
+      { label: "Menşei", value: "Türkiye" },
+    ],
+    variants: [{ id: "1l", label: "1 L", price: 449.9, sku: "PUR-CILEKPUR-1000", inStock: true }],
   }),
   puree({
     slug: "mango-puresi",

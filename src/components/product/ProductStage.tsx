@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { assetUrl } from "@/lib/assets";
 import type { Product } from "@/lib/types";
 import { ProductArt } from "./ProductArt";
 
@@ -12,7 +13,7 @@ export function ProductStage({ product }: { product: Product }) {
       <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2" style={{ background: `linear-gradient(180deg, transparent, ${product.color}26)` }} />
       <span aria-hidden="true" className="absolute left-1/2 top-[64%] h-10 w-2/3 -translate-x-1/2 rounded-[100%] bg-espresso-900/10 blur-xl" />
       {product.image ? (
-        <Image src={product.image} alt={product.name} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-contain p-10" />
+        <Image src={assetUrl(product.image)} alt={product.name} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-contain p-4 drop-shadow-2xl" />
       ) : (
         <ProductArt
           product={product}

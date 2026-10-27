@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getProduct } from "@/lib/products";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { DrinkArt } from "@/components/product/DrinkArt";
 import { cn } from "@/lib/format";
 
@@ -104,7 +104,7 @@ export function ProcessStory() {
                         on ? "translate-y-0 scale-100 opacity-100" : "translate-y-6 scale-90 opacity-0",
                       )}
                     >
-                      {s.drink ? <DrinkArt product={p} className="h-[88%] w-auto drop-shadow-2xl" /> : <ProductArt product={p} className="h-[88%] w-auto drop-shadow-2xl" />}
+                      {s.drink ? <DrinkArt product={p} className="h-[88%] w-auto drop-shadow-2xl" /> : <ProductVisual product={p} className="h-[88%] w-auto drop-shadow-2xl" />}
                     </div>
                   );
                 })}

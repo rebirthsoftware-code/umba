@@ -2,7 +2,7 @@
 
 import { useRef, type CSSProperties, type MouseEvent } from "react";
 import type { Product } from "@/lib/types";
-import { ProductArt } from "@/components/product/ProductArt";
+import { ProductVisual } from "@/components/product/ProductVisual";
 import { formatPrice } from "@/lib/format";
 
 export interface StageTheme {
@@ -90,7 +90,7 @@ export function HeroStage({
       {products.slice(0, 4).map((p, i) => (
         <div key={p.slug} className={positions[i]} style={layer(depths[i], 120 + i * 90)}>
           <div className="animate-float" style={{ animationDelay: `${-i * 1.6}s` }}>
-            <ProductArt product={p} className="w-full drop-shadow-2xl" />
+            <ProductVisual product={p} className="w-full drop-shadow-2xl" />
           </div>
         </div>
       ))}

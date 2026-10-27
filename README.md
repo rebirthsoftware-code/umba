@@ -91,7 +91,7 @@ Kurulum adımları `paytr-worker/README.md` dosyasında. Özetle: `npx wrangler 
 
 - Ürünler `src/lib/products.ts` içinde; her kategori için `syrup()`, `sauce()`, `puree()`, `coffee()`, `hotChocolate()`, `bar()` yardımcıları standart varyant ve özellikleri üretir. Fiyatlar bu yardımcıların içindedir.
 - Yeni ürün eklemek için ilgili diziye bir kayıt ekleyin; `slug` benzersiz olmalı.
-- **Fotoğraf eklemek için:** görseli `public/products/` altına koyun ve ürüne `image: "/products/dosya.jpg"` alanı ekleyin. Fotoğrafı olmayan ürünlerde vektörel çizim (`ProductArt`) otomatik gösterilir.
+- **Fotoğraf eklemek için:** `python3 scripts/urun-foto.py cekim.jpg public/products/urun-adi.webp` komutu arka planı kaldırıp şeffaf 900×1200 WebP üretir (gereksinimler: `pip install opencv-python-headless pillow numpy`). Ardından ürüne `image: "/products/urun-adi.webp"` alanı ekleyin. Fotoğrafı olmayan ürünlerde vektörel çizim otomatik gösterilir; fotoğrafı olanlar kart, ürün sayfası, slider ve aramada fotoğrafla görünür.
 - Kategoriler `src/lib/categories.ts` içinde.
 
 ## Yayın öncesi kontrol listesi

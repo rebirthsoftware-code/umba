@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Plus, Check } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
-import { ProductArt } from "./ProductArt";
+import { ProductVisual } from "./ProductVisual";
 import { formatPrice, cn } from "@/lib/format";
 
 /** "Birlikte daha iyi": iki ürünü tek tıkla sepete ekler. */
@@ -27,7 +27,7 @@ export function Bundle({ product, partner, reason }: { product: Product; partner
   const tile = (p: Product) => (
     <Link href={`/urun/${p.slug}`} className="group flex min-w-0 flex-1 items-center gap-3">
       <span className="flex h-16 w-14 shrink-0 items-center justify-center rounded-xl bg-cream-100">
-        <ProductArt product={p} className="h-[84%] w-auto transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105" />
+        <ProductVisual product={p} className="h-[84%] w-auto transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105" />
       </span>
       <span className="min-w-0">
         <span className="line-clamp-2 text-sm font-semibold leading-snug text-espresso-900">{p.name}</span>

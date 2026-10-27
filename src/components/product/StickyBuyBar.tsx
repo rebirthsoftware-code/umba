@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ShoppingBag, Check } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
-import { ProductArt } from "./ProductArt";
+import { ProductVisual } from "./ProductVisual";
 import { formatPrice, cn } from "@/lib/format";
 
 /** Satın alma paneli görünümden çıkınca altta beliren sabit çubuk. */
@@ -45,7 +45,7 @@ export function StickyBuyBar({ product, targetId }: { product: Product; targetId
       <div className="container-x pb-3">
         <div className="flex items-center gap-3 rounded-2xl border border-espresso-900/10 bg-cream-50/95 p-2.5 pr-3 shadow-lift backdrop-blur-xl">
           <span className="hidden h-12 w-10 shrink-0 items-center justify-center rounded-xl bg-cream-100 sm:flex">
-            <ProductArt product={product} className="h-[84%] w-auto" />
+            <ProductVisual product={product} className="h-[84%] w-auto" />
           </span>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-bold text-espresso-900">{product.name}</p>
