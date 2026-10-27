@@ -65,7 +65,7 @@ export function ProcessStory() {
   const current = steps[active];
 
   return (
-    <section className="bg-cream-100 py-16 sm:py-24">
+    <section className="py-20 sm:py-28">
       <div className="container-x">
         <div className="max-w-2xl">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-caramel-600">Tarladan bardağa</p>
@@ -78,9 +78,9 @@ export function ProcessStory() {
           {/* Sabit panel */}
           <div className="lg:col-span-5">
             <div
-              className="grain sticky top-24 flex aspect-[4/5] max-h-[34rem] flex-col justify-between overflow-hidden rounded-[2.5rem] p-7 text-cream-50 shadow-lift transition-colors duration-700 lg:p-9"
-              style={{ background: `linear-gradient(160deg, ${current.color} 0%, #2b1b12 120%)` }}
+              className="grain sticky top-24 flex aspect-[4/5] max-h-[34rem] flex-col justify-between overflow-hidden rounded-[1.75rem] bg-espresso-950 p-7 text-cream-50 lg:p-9"
             >
+              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 transition-colors duration-700" style={{ background: `linear-gradient(180deg, transparent, ${current.color}55)` }} />
               <div className="relative flex items-start justify-between">
                 <span key={current.no} className="animate-pop-in font-display text-6xl font-semibold text-cream-50/90">
                   {current.no}

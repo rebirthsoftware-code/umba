@@ -56,7 +56,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="relative lg:col-span-6">
-          <div className="relative mx-auto aspect-[5/4] max-w-lg overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-cream-100 to-cream-300 shadow-lift">
+          <div className="relative mx-auto aspect-[5/4] max-w-lg overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-cream-100 to-cream-300 shadow-lift">
             <div className="absolute inset-0 bg-grain opacity-70" />
             <ProductArt product={b} className="absolute bottom-6 left-[8%] h-[70%] w-auto drop-shadow-2xl" />
             <ProductArt product={a} className="absolute bottom-10 left-[36%] h-[76%] w-auto drop-shadow-2xl" />
@@ -70,7 +70,7 @@ export default function AboutPage() {
           <SectionHeading align="center" eyebrow="Değerlerimiz" title="Dört şeye söz veriyoruz." />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
-              <div key={v.title} className="rounded-3xl border border-espresso-900/5 bg-cream-50 p-6 shadow-card">
+              <div key={v.title} className="rounded-2xl border border-espresso-900/5 bg-cream-50 p-6 shadow-card">
                 <span className="font-display text-4xl font-semibold text-caramel-500">0{i + 1}</span>
                 <h3 className="mt-3 font-display text-xl font-semibold text-espresso-900">{v.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-espresso-700">{v.text}</p>
@@ -81,7 +81,7 @@ export default function AboutPage() {
       </section>
 
       <section className="container-x py-16">
-        <div className="grid gap-6 rounded-[2.5rem] bg-espresso-900 p-8 text-cream-50 sm:grid-cols-3 sm:p-12">
+        <div className="grid gap-6 rounded-[1.75rem] bg-espresso-900 p-8 text-cream-50 sm:grid-cols-3 sm:p-12">
           {[
             { k: `${products.length}+`, v: "ürün" },
             { k: `${categories.length}`, v: "ürün grubu" },

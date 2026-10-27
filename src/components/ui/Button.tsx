@@ -2,15 +2,15 @@ import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/format";
 
-type Variant = "primary" | "secondary" | "ghost" | "dark" | "outline" | "light";
+type Variant = "primary" | "accent" | "secondary" | "ghost" | "dark" | "outline" | "light";
 type Size = "sm" | "md" | "lg";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 select-none disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] whitespace-nowrap";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-caramel-500 text-espresso-950 hover:bg-caramel-400 shadow-[0_8px_20px_-10px_rgb(208_143_46/0.8)]",
+  primary: "bg-espresso-900 text-cream-50 hover:bg-espresso-800",
+  accent: "bg-caramel-500 text-espresso-950 hover:bg-caramel-400",
   secondary: "bg-espresso-900 text-cream-50 hover:bg-espresso-800",
   dark: "bg-espresso-950 text-cream-50 hover:bg-espresso-800",
   ghost: "bg-transparent text-espresso-900 hover:bg-cream-200",
@@ -21,8 +21,8 @@ const variants: Record<Variant, string> = {
 
 const sizes: Record<Size, string> = {
   sm: "h-9 px-4 text-sm",
-  md: "h-11 px-6 text-sm",
-  lg: "h-13 px-8 text-base",
+  md: "h-11 px-5 text-sm",
+  lg: "h-12 px-7 text-[15px]",
 };
 
 type CommonProps = {

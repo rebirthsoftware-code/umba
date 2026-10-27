@@ -41,7 +41,7 @@ export default function B2BPage() {
       <section className="container-x py-14">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {perks.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="rounded-3xl border border-espresso-900/5 bg-cream-50 p-6 shadow-card">
+            <div key={title} className="rounded-2xl border border-espresso-900/5 bg-cream-50 p-6 shadow-card">
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-caramel-500/15 text-caramel-700">
                 <Icon className="h-5 w-5" />
               </span>
@@ -59,7 +59,7 @@ export default function B2BPage() {
           </div>
           <ol className="grid gap-3 sm:grid-cols-2 lg:col-span-7">
             {steps.map((s, i) => (
-              <li key={s} className="flex gap-4 rounded-3xl border border-cream-50/10 bg-cream-50/5 p-5">
+              <li key={s} className="flex gap-4 rounded-2xl border border-cream-50/10 bg-cream-50/5 p-5">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-caramel-500 font-display text-lg font-semibold text-espresso-950">
                   {i + 1}
                 </span>
@@ -88,7 +88,7 @@ export default function B2BPage() {
             Telefonla ulaşmak isterseniz: <a href={`tel:${site.contact.phoneHref}`} className="font-bold text-espresso-900">{site.contact.phone}</a>
           </p>
         </div>
-        <div className="rounded-[2rem] border border-espresso-900/10 bg-cream-100 p-6 sm:p-8 lg:col-span-7">
+        <div className="rounded-[1.5rem] border border-espresso-900/10 bg-cream-100 p-6 sm:p-8 lg:col-span-7">
           <ContactForm type="kurumsal" />
         </div>
       </section>

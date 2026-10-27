@@ -43,7 +43,7 @@ export function StickyBuyBar({ product, targetId }: { product: Product; targetId
       aria-hidden={!visible}
     >
       <div className="container-x pb-3">
-        <div className="flex items-center gap-3 rounded-3xl border border-espresso-900/10 bg-cream-50/95 p-2.5 pr-3 shadow-lift backdrop-blur-xl">
+        <div className="flex items-center gap-3 rounded-2xl border border-espresso-900/10 bg-cream-50/95 p-2.5 pr-3 shadow-lift backdrop-blur-xl">
           <span className="hidden h-12 w-10 shrink-0 items-center justify-center rounded-xl bg-cream-100 sm:flex">
             <ProductArt product={product} className="h-[84%] w-auto" />
           </span>
@@ -74,7 +74,7 @@ export function StickyBuyBar({ product, targetId }: { product: Product; targetId
             }}
             className={cn(
               "inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-sm font-bold transition-all",
-              done ? "bg-leaf-500 text-cream-50" : "bg-caramel-500 text-espresso-950 hover:bg-caramel-400",
+              done ? "bg-leaf-500 text-cream-50" : "bg-espresso-900 text-cream-50 hover:bg-espresso-800",
             )}
           >
             {done ? <Check className="h-4 w-4" /> : <ShoppingBag className="h-4 w-4" />}

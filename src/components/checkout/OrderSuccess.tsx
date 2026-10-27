@@ -52,7 +52,7 @@ export function OrderSuccess() {
       </div>
 
       {order && !order.delivered && (
-        <div className="mt-8 rounded-3xl border-2 border-caramel-500 bg-caramel-500/10 p-6">
+        <div className="mt-8 rounded-2xl border-2 border-caramel-500 bg-caramel-500/10 p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-caramel-700">Son adım</p>
           <h2 className="mt-1 font-display text-2xl font-semibold text-espresso-900">Siparişinizi bize iletin</h2>
           <p className="mt-2 text-sm leading-relaxed text-espresso-700">
@@ -79,7 +79,7 @@ export function OrderSuccess() {
       )}
 
       {order?.paymentMethod === "havale" && (
-        <div className="mt-8 rounded-3xl border border-caramel-500/40 bg-cream-100 p-6">
+        <div className="mt-8 rounded-2xl border border-caramel-500/40 bg-cream-100 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Havale / EFT bilgileri</h2>
           <p className="mt-2 text-sm text-espresso-700">
             Aşağıdaki hesaba <strong>{formatPrice(order.totals.total)}</strong> tutarını, açıklama kısmına{" "}
@@ -112,14 +112,14 @@ export function OrderSuccess() {
       )}
 
       {order?.paymentMethod === "kapida" && order.delivered && (
-        <div className="mt-8 rounded-3xl border border-espresso-900/10 bg-cream-100 p-6 text-sm text-espresso-700">
+        <div className="mt-8 rounded-2xl border border-espresso-900/10 bg-cream-100 p-6 text-sm text-espresso-700">
           Siparişiniz hazırlanıyor. Kargo görevlisine <strong>{formatPrice(order.totals.total)}</strong> tutarını nakit veya kart ile
           ödeyebilirsiniz.
         </div>
       )}
 
       {order && (
-        <div className="mt-8 rounded-3xl border border-espresso-900/10 bg-cream-50 p-6">
+        <div className="mt-8 rounded-2xl border border-espresso-900/10 bg-cream-50 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Sipariş detayı</h2>
           <ul className="mt-4 divide-y divide-espresso-900/10">
             {order.lines.map((l) => (

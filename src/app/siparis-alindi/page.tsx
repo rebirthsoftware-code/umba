@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function OrderSuccessPage() {
   return (
     <section className="container-x py-12 sm:py-16">
-      <Suspense fallback={<div className="h-64 animate-pulse rounded-3xl bg-cream-200" />}>
+      <Suspense fallback={<div className="h-64 animate-pulse rounded-2xl bg-cream-200" />}>
         <OrderSuccess />
       </Suspense>
     </section>

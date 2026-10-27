@@ -198,10 +198,10 @@ export function ProductGrid({
   );
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-12">
       {/* Masaüstü filtreler */}
       <aside className="hidden lg:col-span-3 lg:block">
-        <div className="sticky top-28 rounded-3xl border border-espresso-900/5 bg-cream-100 p-5">{Filters}</div>
+        <div className="sticky top-28 rounded-2xl border border-espresso-900/5 bg-cream-100 p-5">{Filters}</div>
       </aside>
 
       <div className="lg:col-span-9">
@@ -247,7 +247,7 @@ export function ProductGrid({
         </div>
 
         {filtered.length === 0 ? (
-          <div className="mt-10 rounded-3xl border border-dashed border-espresso-900/15 p-12 text-center">
+          <div className="mt-10 rounded-2xl border border-dashed border-espresso-900/15 p-12 text-center">
             <p className="font-display text-2xl font-semibold text-espresso-900">Sonuç bulunamadı</p>
             <p className="mt-2 text-sm text-espresso-600">Farklı bir arama deneyin veya filtreleri temizleyin.</p>
             <button

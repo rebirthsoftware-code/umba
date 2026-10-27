@@ -67,7 +67,7 @@ export function ContactForm({ type }: Props) {
 
   if (state === "mailto") {
     return (
-      <div className="rounded-3xl bg-cream-200 p-8 text-center">
+      <div className="rounded-2xl bg-cream-200 p-8 text-center">
         <Mail className="mx-auto h-10 w-10 text-caramel-700" />
         <h3 className="mt-3 font-display text-2xl font-semibold text-espresso-900">E-posta uygulamanız açıldı</h3>
         <p className="mt-2 text-sm text-espresso-700">
@@ -92,7 +92,7 @@ export function ContactForm({ type }: Props) {
 
   if (state === "done") {
     return (
-      <div className="rounded-3xl bg-leaf-100 p-8 text-center">
+      <div className="rounded-2xl bg-leaf-100 p-8 text-center">
         <CheckCircle2 className="mx-auto h-10 w-10 text-leaf-500" />
         <h3 className="mt-3 font-display text-2xl font-semibold text-espresso-900">Mesajınız bize ulaştı</h3>
         <p className="mt-2 text-sm text-espresso-700">

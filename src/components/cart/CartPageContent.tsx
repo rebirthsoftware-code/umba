@@ -13,14 +13,14 @@ export function CartPageContent() {
   const { lines, totals, setQuantity, remove, clear, hydrated } = useCart();
 
   if (!hydrated) {
-    return <div className="h-64 animate-pulse rounded-3xl bg-cream-200" aria-busy="true" />;
+    return <div className="h-64 animate-pulse rounded-2xl bg-cream-200" aria-busy="true" />;
   }
 
   if (lines.length === 0) {
     const suggestions = getFeaturedProducts(4);
     return (
       <div>
-        <div className="mx-auto max-w-lg rounded-[2rem] border border-dashed border-espresso-900/15 p-10 text-center">
+        <div className="mx-auto max-w-lg rounded-[1.5rem] border border-dashed border-espresso-900/15 p-10 text-center">
           <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-cream-200 text-espresso-600">
             <ShoppingBag className="h-9 w-9" />
           </span>
@@ -46,9 +46,9 @@ export function CartPageContent() {
   const progress = Math.min(100, (totals.subtotal / site.commerce.freeShippingThreshold) * 100);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-12">
       <div className="lg:col-span-8">
-        <div className="rounded-3xl border border-espresso-900/10 bg-cream-50">
+        <div className="rounded-2xl border border-espresso-900/10 bg-cream-50">
           <div className="flex items-center justify-between border-b border-espresso-900/10 px-5 py-4">
             <p className="text-sm font-semibold text-espresso-900">{totals.itemCount} ürün</p>
             <button type="button" onClick={clear} className="text-xs font-semibold text-espresso-600 hover:text-berry-500">
@@ -114,7 +114,7 @@ export function CartPageContent() {
       </div>
 
       <aside className="lg:col-span-4">
-        <div className="sticky top-28 rounded-3xl border border-espresso-900/10 bg-cream-100 p-6">
+        <div className="sticky top-28 rounded-2xl border border-espresso-900/10 bg-cream-100 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Sipariş özeti</h2>
           <div className="mt-4">
             <p className="flex items-center gap-2 text-xs font-semibold text-espresso-700">
@@ -144,7 +144,7 @@ export function CartPageContent() {
           <p className="mt-2 text-xs text-espresso-600">Fiyatlara KDV dahildir. Kapıda ödeme seçilirse {formatPrice(site.commerce.codFee)} hizmet bedeli eklenir.</p>
           <Link
             href="/odeme"
-            className="mt-5 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-caramel-500 text-base font-bold text-espresso-950 hover:bg-caramel-400"
+            className="mt-5 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-espresso-900 text-base font-bold text-cream-50 hover:bg-espresso-800"
           >
             Ödemeye geç <ArrowRight className="h-4 w-4" />
           </Link>

@@ -19,7 +19,7 @@ export function PaytrFrame() {
 
   if (!order || !token) {
     return (
-      <div className="mx-auto max-w-lg rounded-[2rem] border border-dashed border-espresso-900/15 p-10 text-center">
+      <div className="mx-auto max-w-lg rounded-[1.5rem] border border-dashed border-espresso-900/15 p-10 text-center">
         <h2 className="font-display text-2xl font-semibold text-espresso-900">Ödeme oturumu bulunamadı</h2>
         <p className="mt-2 text-sm text-espresso-600">Ödeme sayfasının süresi dolmuş olabilir. Lütfen ödeme adımına geri dönün.</p>
         <Link href="/odeme" className="mt-6 inline-flex h-12 items-center rounded-full bg-espresso-900 px-7 text-sm font-semibold text-cream-50">
@@ -32,9 +32,9 @@ export function PaytrFrame() {
   const url = paytrIframeUrl(token);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-12">
       <div className="lg:col-span-8">
-        <div className="overflow-hidden rounded-3xl border border-espresso-900/10 bg-cream-50 shadow-card">
+        <div className="overflow-hidden rounded-2xl border border-espresso-900/10 bg-cream-50 shadow-card">
           <div className="flex items-center justify-between border-b border-espresso-900/10 bg-cream-100 px-5 py-3 text-xs font-semibold text-espresso-700">
             <span className="inline-flex items-center gap-1.5">
               <Lock className="h-3.5 w-3.5 text-leaf-500" /> PayTR güvenli ödeme · 3D Secure
@@ -61,7 +61,7 @@ export function PaytrFrame() {
         </p>
       </div>
       <aside className="lg:col-span-4">
-        <div className="sticky top-28 rounded-3xl border border-espresso-900/10 bg-cream-100 p-6">
+        <div className="sticky top-28 rounded-2xl border border-espresso-900/10 bg-cream-100 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Sipariş özeti</h2>
           <ul className="mt-4 space-y-2 text-sm">
             {order.lines.map((l) => (

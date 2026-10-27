@@ -22,7 +22,7 @@ export function AddToCartPanel({ product }: { product: Product }) {
   };
 
   return (
-    <div className="rounded-3xl border border-espresso-900/10 bg-cream-50 p-5 shadow-card sm:p-6">
+    <div className="rounded-2xl border border-espresso-900/10 bg-cream-50 p-5 sm:p-6">
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-espresso-600">Fiyat (KDV dahil)</p>
@@ -104,7 +104,7 @@ export function AddToCartPanel({ product }: { product: Product }) {
           disabled={!variant.inStock}
           className={cn(
             "inline-flex h-13 flex-1 items-center justify-center gap-2 rounded-full text-base font-bold transition-all active:scale-[0.98] disabled:opacity-50",
-            added ? "bg-leaf-500 text-cream-50" : "bg-caramel-500 text-espresso-950 hover:bg-caramel-400",
+            added ? "bg-leaf-500 text-cream-50" : "bg-espresso-900 text-cream-50 hover:bg-espresso-800",
           )}
         >
           {added ? (

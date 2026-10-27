@@ -165,11 +165,11 @@ export function CheckoutForm() {
     router.push(`/siparis-alindi?no=${encodeURIComponent(order.orderNo)}`);
   };
 
-  if (!hydrated) return <div className="h-64 animate-pulse rounded-3xl bg-cream-200" aria-busy="true" />;
+  if (!hydrated) return <div className="h-64 animate-pulse rounded-2xl bg-cream-200" aria-busy="true" />;
 
   if (lines.length === 0) {
     return (
-      <div className="mx-auto max-w-lg rounded-[2rem] border border-dashed border-espresso-900/15 p-10 text-center">
+      <div className="mx-auto max-w-lg rounded-[1.5rem] border border-dashed border-espresso-900/15 p-10 text-center">
         <h2 className="font-display text-2xl font-semibold text-espresso-900">Sepetiniz boş</h2>
         <p className="mt-2 text-sm text-espresso-600">Ödeme için önce sepetinize ürün ekleyin.</p>
         <Link href="/urunler" className="mt-6 inline-flex h-12 items-center rounded-full bg-espresso-900 px-7 text-sm font-semibold text-cream-50">
@@ -180,10 +180,10 @@ export function CheckoutForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-8 lg:grid-cols-12">
+    <form onSubmit={onSubmit} noValidate className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-12">
       <div className="space-y-8 lg:col-span-7">
         {/* İletişim */}
-        <section className="rounded-3xl border border-espresso-900/10 bg-cream-50 p-6">
+        <section className="rounded-2xl border border-espresso-900/10 bg-cream-50 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">1. İletişim bilgileri</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <Field errors={errors} name="fullName" label="Ad Soyad" className="sm:col-span-2">
@@ -199,7 +199,7 @@ export function CheckoutForm() {
         </section>
 
         {/* Teslimat */}
-        <section className="rounded-3xl border border-espresso-900/10 bg-cream-50 p-6">
+        <section className="rounded-2xl border border-espresso-900/10 bg-cream-50 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">2. Teslimat adresi</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <Field errors={errors} name="address" label="Adres" className="sm:col-span-2">
@@ -228,7 +228,7 @@ export function CheckoutForm() {
         </section>
 
         {/* Fatura */}
-        <section className="rounded-3xl border border-espresso-900/10 bg-cream-50 p-6">
+        <section className="rounded-2xl border border-espresso-900/10 bg-cream-50 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">3. Fatura bilgileri</h2>
           <div className="mt-4 flex gap-2">
             {(["bireysel", "kurumsal"] as const).map((t) => (
@@ -262,7 +262,7 @@ export function CheckoutForm() {
         </section>
 
         {/* Ödeme */}
-        <section className="rounded-3xl border border-espresso-900/10 bg-cream-50 p-6" id="f-paymentMethod">
+        <section className="rounded-2xl border border-espresso-900/10 bg-cream-50 p-6" id="f-paymentMethod">
           <h2 className="font-display text-xl font-semibold text-espresso-900">4. Ödeme yöntemi</h2>
           <div className="mt-5 space-y-3">
             {PAYMENTS.map((p) => (
@@ -335,7 +335,7 @@ export function CheckoutForm() {
 
       {/* Özet */}
       <aside className="lg:col-span-5">
-        <div className="sticky top-28 rounded-3xl border border-espresso-900/10 bg-cream-100 p-6">
+        <div className="sticky top-28 rounded-2xl border border-espresso-900/10 bg-cream-100 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Sipariş özeti</h2>
           <ul className="mt-4 max-h-80 space-y-3 overflow-y-auto pr-1">
             {lines.map((l) => (
@@ -379,7 +379,7 @@ export function CheckoutForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-5 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-caramel-500 text-base font-bold text-espresso-950 transition-colors hover:bg-caramel-400 disabled:opacity-60"
+            className="mt-5 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-espresso-900 text-base font-bold text-cream-50 transition-colors hover:bg-espresso-800 disabled:opacity-60"
           >
             {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Lock className="h-4 w-4" />}
             {submitting ? (form.paymentMethod === "kart" ? "Ödeme sayfası açılıyor…" : "Sipariş oluşturuluyor…") : form.paymentMethod === "kart" ? "Güvenli ödemeye geç" : "Siparişi tamamla"}

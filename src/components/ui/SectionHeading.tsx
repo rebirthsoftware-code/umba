@@ -29,7 +29,7 @@ export function SectionHeading({
       )}
       <h2
         className={cn(
-          "font-display text-3xl font-semibold leading-[1.1] tracking-tight text-balance sm:text-4xl lg:text-[2.75rem]",
+          "font-display text-[2rem] font-semibold leading-[1.08] text-balance sm:text-4xl lg:text-[2.9rem]",
           tone === "dark" ? "text-espresso-900" : "text-cream-50",
         )}
       >

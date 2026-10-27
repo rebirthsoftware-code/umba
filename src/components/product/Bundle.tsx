@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Plus, ShoppingBag, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
 import { ProductArt } from "./ProductArt";
 import { formatPrice, cn } from "@/lib/format";
 
-/** "Birlikte daha iyi" paketi: iki ürünü tek tıkla sepete ekler. */
+/** "Birlikte daha iyi": iki ürünü tek tıkla sepete ekler. */
 export function Bundle({ product, partner, reason }: { product: Product; partner: Product; reason: string }) {
   const { add, open } = useCart();
   const [done, setDone] = useState(false);
@@ -25,43 +25,42 @@ export function Bundle({ product, partner, reason }: { product: Product; partner
   };
 
   const tile = (p: Product) => (
-    <Link href={`/urun/${p.slug}`} className="group flex min-w-0 flex-1 flex-col items-center rounded-2xl bg-cream-50 p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-card">
-      <span className="flex h-28 w-full items-center justify-center rounded-xl" style={{ background: `radial-gradient(120% 90% at 50% 100%, ${p.color}33 0%, transparent 60%), #f3ebdf` }}>
-        <ProductArt product={p} className="h-[88%] w-auto drop-shadow transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105" />
+    <Link href={`/urun/${p.slug}`} className="group flex min-w-0 flex-1 items-center gap-3">
+      <span className="flex h-16 w-14 shrink-0 items-center justify-center rounded-xl bg-cream-100">
+        <ProductArt product={p} className="h-[84%] w-auto transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105" />
       </span>
-      <span className="mt-3 line-clamp-2 text-sm font-bold text-espresso-900">{p.name}</span>
-      <span className="mt-1 text-xs text-espresso-600">
-        {p.variants[0].label} · {formatPrice(p.variants[0].price)}
+      <span className="min-w-0">
+        <span className="block truncate text-sm font-semibold text-espresso-900">{p.name}</span>
+        <span className="block text-xs text-espresso-600">
+          {p.variants[0].label} · {formatPrice(p.variants[0].price)}
+        </span>
       </span>
     </Link>
   );
 
   return (
-    <section className="rounded-[2rem] border border-espresso-900/10 bg-cream-100 p-5 sm:p-6">
-      <p className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-caramel-700">Birlikte daha iyi</p>
-      <h2 className="mt-1 font-display text-2xl font-semibold text-espresso-900">{reason}</h2>
-      <div className="mt-5 flex items-center gap-3">
+    <section className="rounded-2xl border border-espresso-900/10 p-5">
+      <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-caramel-700">Birlikte daha iyi</p>
+      <p className="mt-1 text-sm text-espresso-700">{reason}</p>
+      <div className="mt-4 flex items-center gap-3">
         {tile(product)}
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-espresso-900 text-cream-50">
-          <Plus className="h-4 w-4" />
-        </span>
+        <Plus className="h-4 w-4 shrink-0 text-espresso-600" />
         {tile(partner)}
       </div>
-      <div className="mt-5 flex flex-col gap-3 border-t border-espresso-900/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-xs text-espresso-600">İkisi birlikte</p>
-          <p className="font-display text-2xl font-semibold text-espresso-900">{formatPrice(total)}</p>
-        </div>
+      <div className="mt-4 flex items-center justify-between gap-3 border-t border-espresso-900/10 pt-4">
+        <p className="text-sm text-espresso-700">
+          İkisi birlikte <span className="font-semibold text-espresso-900">{formatPrice(total)}</span>
+        </p>
         <button
           type="button"
           onClick={addBoth}
           className={cn(
-            "inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition-all active:scale-[0.98]",
-            done ? "bg-leaf-500 text-cream-50" : "bg-espresso-900 text-cream-50 hover:bg-espresso-800",
+            "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors",
+            done ? "bg-leaf-500 text-cream-50" : "border border-espresso-900/20 text-espresso-900 hover:border-espresso-900 hover:bg-espresso-900 hover:text-cream-50",
           )}
         >
-          {done ? <Check className="h-4 w-4" /> : <ShoppingBag className="h-4 w-4" />}
-          {done ? "Eklendi" : "İkisini sepete ekle"}
+          {done ? <Check className="h-4 w-4" /> : null}
+          {done ? "Eklendi" : "İkisini ekle"}
         </button>
       </div>
     </section>

@@ -66,7 +66,7 @@ export function PaymentResult({ status }: { status: "success" | "failed" }) {
       </div>
 
       {order && (
-        <div className="mt-8 rounded-3xl border border-espresso-900/10 bg-cream-50 p-6">
+        <div className="mt-8 rounded-2xl border border-espresso-900/10 bg-cream-50 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Sipariş detayı</h2>
           <ul className="mt-4 divide-y divide-espresso-900/10">
             {order.lines.map((l) => (

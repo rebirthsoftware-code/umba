@@ -84,7 +84,7 @@ export default function FaqPage() {
           {groups.map((g) => (
             <div key={g.title} id={g.title.toLowerCase().replace(/\s+/g, "-")} className="scroll-mt-28">
               <h2 className="font-display text-2xl font-semibold text-espresso-900">{g.title}</h2>
-              <div className="mt-4 divide-y divide-espresso-900/10 rounded-3xl border border-espresso-900/10 bg-cream-50">
+              <div className="mt-4 divide-y divide-espresso-900/10 rounded-2xl border border-espresso-900/10 bg-cream-50">
                 {g.items.map((i) => (
                   <details key={i.q} className="group px-5 py-4">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-espresso-900">

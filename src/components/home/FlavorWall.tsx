@@ -9,7 +9,7 @@ import { Spotlight } from "@/components/ui/Spotlight";
 export function FlavorWall() {
   const syrups = getProductsByCategory("suruplar");
   return (
-    <Spotlight as="section" className="grain relative overflow-hidden bg-espresso-950 py-16 text-cream-50 sm:py-24">
+    <Spotlight as="section" className="grain relative overflow-hidden bg-espresso-950 py-20 text-cream-50 sm:py-28">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-40"
@@ -44,7 +44,7 @@ export function FlavorWall() {
                 title={p.name}
               >
                 <span
-                  className="block aspect-square w-full rounded-2xl ring-1 ring-cream-50/10 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105"
+                  className="block aspect-square w-full rounded-2xl ring-1 ring-cream-50/10 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105"
                   style={{
                     background: `radial-gradient(circle at 30% 30%, #ffffff55 0%, ${p.color} 35%, ${p.color2 ?? p.color} 100%)`,
                     boxShadow: `0 12px 24px -12px ${p.color}`,

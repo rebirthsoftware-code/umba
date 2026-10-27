@@ -34,7 +34,7 @@ export default function ContactPage() {
               { icon: MapPin, title: "Adres", text: site.contact.address },
               { icon: Clock, title: "Çalışma saatleri", text: site.contact.workingHours },
             ].map(({ icon: Icon, title, text, href }) => (
-              <li key={title} className="flex items-start gap-4 rounded-3xl border border-espresso-900/10 bg-cream-50 p-5">
+              <li key={title} className="flex items-start gap-4 rounded-2xl border border-espresso-900/10 bg-cream-50 p-5">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-caramel-500/15 text-caramel-700">
                   <Icon className="h-5 w-5" />
                 </span>
@@ -52,7 +52,7 @@ export default function ContactPage() {
             ))}
           </ul>
         </div>
-        <div className="rounded-[2rem] border border-espresso-900/10 bg-cream-100 p-6 sm:p-8 lg:col-span-7">
+        <div className="rounded-[1.5rem] border border-espresso-900/10 bg-cream-100 p-6 sm:p-8 lg:col-span-7">
           <h2 className="font-display text-2xl font-semibold text-espresso-900">Mesaj gönderin</h2>
           <p className="mt-1 text-sm text-espresso-700">Genellikle aynı iş günü içinde yanıtlıyoruz.</p>
           <div className="mt-6">

@@ -26,9 +26,9 @@
   --font-display: var(--font-fraunces), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --shadow-soft: 0 14px 40px -18px rgb(43 27 18 / 0.28);
-  --shadow-card: 0 1px 2px rgb(43 27 18 / 0.05), 0 10px 30px -16px rgb(43 27 18 / 0.25);
-  --shadow-lift: 0 20px 50px -20px rgb(43 27 18 / 0.35);
+  --shadow-soft: 0 10px 30px -20px rgb(43 27 18 / 0.2);
+  --shadow-card: 0 1px 0 rgb(43 27 18 / 0.04);
+  --shadow-lift: 0 24px 48px -28px rgb(43 27 18 / 0.28);
 
   --radius-4xl: 2rem;
   --radius-5xl: 2.5rem;
@@ -81,6 +81,16 @@ body {
   font-family: var(--font-sans);
   font-feature-settings: "ss01", "cv11";
   text-rendering: optimizeLegibility;
+  font-size: 15px;
+}
+
+/* Başlık tipografisi: optik boyut ve sıkı izleme */
+h1,
+h2,
+h3,
+.font-display {
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  letter-spacing: -0.015em;
 }
 
 ::selection {
@@ -438,7 +448,6 @@ mark.hit {
 }
 .group:hover .price-roll {
   color: var(--color-caramel-700);
-  transform: scale(1.08);
 }
 .group:hover .digit-strip {
   animation: digit-roll 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;

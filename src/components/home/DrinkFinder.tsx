@@ -96,7 +96,7 @@ export function DrinkFinder() {
   };
 
   return (
-    <section className="container-x py-16 sm:py-24" id="icecek-bul">
+    <section className="container-x py-20 sm:py-28" id="icecek-bul">
       <SectionHeading
         eyebrow="İçeceğinizi seçin"
         title="Ne yapmak istiyorsunuz? Ürünleri biz bulalım."
@@ -115,8 +115,8 @@ export function DrinkFinder() {
             className={cn(
               "shrink-0 rounded-full border px-4 py-2.5 text-sm font-semibold transition-all",
               d.id === activeId
-                ? "border-espresso-900 bg-espresso-900 text-cream-50 shadow-card"
-                : "border-espresso-900/15 bg-cream-50 text-espresso-800 hover:border-espresso-900 hover:-translate-y-0.5",
+                ? "border-espresso-900 bg-espresso-900 text-cream-50"
+                : "border-espresso-900/15 bg-cream-50 text-espresso-800 hover:border-espresso-900",
             )}
           >
             {d.label}
@@ -128,10 +128,9 @@ export function DrinkFinder() {
         {/* İçecek paneli */}
         <div
           key={drink.id}
-          className="grain relative flex min-h-[26rem] min-w-0 animate-pop-in flex-col justify-between overflow-hidden rounded-[2.5rem] p-7 text-cream-50 shadow-lift lg:col-span-5 lg:p-9"
-          style={{ background: `linear-gradient(160deg, ${hero.color} 0%, ${hero.color2 ?? hero.color} 70%, #2b1b12 140%)` }}
+          className="grain relative flex min-h-[26rem] min-w-0 animate-pop-in flex-col justify-between overflow-hidden rounded-[1.75rem] bg-espresso-950 p-7 text-cream-50 lg:col-span-5 lg:p-9"
         >
-          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/25 blur-3xl" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3" style={{ background: `linear-gradient(180deg, transparent, ${hero.color}40)` }} />
           <div className="relative">
             <p className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-cream-50/80">Seçiminiz</p>
             <h3 className="mt-2 font-display text-3xl font-semibold leading-tight sm:text-4xl">{drink.label}</h3>
@@ -151,7 +150,7 @@ export function DrinkFinder() {
         </div>
 
         {/* Ürünler */}
-        <div className="flex min-w-0 flex-col rounded-[2.5rem] border border-espresso-900/5 bg-cream-100 p-5 lg:col-span-7 lg:p-7">
+        <div className="flex min-w-0 flex-col rounded-[1.75rem] border border-espresso-900/10 bg-cream-50 p-5 lg:col-span-7 lg:p-7">
           <div className="flex items-center justify-between">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-espresso-600">Gerekenler · {items.length} ürün</p>
             <Link href="/urunler" className="text-sm font-bold text-espresso-900 hover:underline">
@@ -175,7 +174,7 @@ export function DrinkFinder() {
               onClick={addSet}
               className={cn(
                 "inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition-all active:scale-[0.98]",
-                added ? "bg-leaf-500 text-cream-50" : "bg-caramel-500 text-espresso-950 hover:bg-caramel-400",
+                added ? "bg-leaf-500 text-cream-50" : "bg-espresso-900 text-cream-50 hover:bg-espresso-800",
               )}
             >
               {added ? <Check className="h-4 w-4" /> : <ShoppingBag className="h-4 w-4" />}
@@ -193,7 +192,7 @@ function ProductMini({ product }: { product: ReturnType<typeof getProduct> & obj
   const [done, setDone] = useState(false);
   const p = product;
   return (
-    <div className="group relative flex min-w-0 items-center gap-3 rounded-2xl border border-espresso-900/5 bg-cream-50 p-3 transition-all hover:-translate-y-0.5 hover:shadow-card">
+    <div className="group relative flex min-w-0 items-center gap-3 rounded-xl border border-espresso-900/10 bg-cream-50 p-3 transition-colors hover:bg-cream-100">
       <span className="flex h-16 w-14 shrink-0 items-center justify-center rounded-xl" style={{ background: `radial-gradient(120% 90% at 50% 100%, ${p.color}33 0%, transparent 60%), #f3ebdf` }}>
         <ProductArt product={p} className="h-[84%] w-auto drop-shadow transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
       </span>

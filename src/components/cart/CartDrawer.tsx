@@ -198,7 +198,7 @@ export function CartDrawer() {
                 <Link
                   href="/odeme"
                   onClick={close}
-                  className="inline-flex h-12 items-center justify-center rounded-full bg-caramel-500 text-sm font-bold text-espresso-950 hover:bg-caramel-400"
+                  className="inline-flex h-12 items-center justify-center rounded-full bg-espresso-900 text-sm font-bold text-cream-50 hover:bg-espresso-800"
                 >
                   Ödemeye geç
                 </Link>

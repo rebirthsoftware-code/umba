@@ -41,8 +41,8 @@ const slides: Slide[] = [
     badge: { label: "Çok satan", product: "karamel-surubu" },
     caption: "Umba Coffee · 2026 koleksiyonu",
     tone: "dark",
-    bg: "linear-gradient(135deg, #fdfaf5 0%, #f8f1e7 55%, #f1e2cb 100%)",
-    stage: { panel: "linear-gradient(135deg, #3d2a1e 0%, #2b1b12 55%, #160d08 100%)", glow: "rgba(226,168,75,0.45)" },
+    bg: "#f6f0e6",
+    stage: { panel: "#2b1b12", glow: "rgba(226,168,75,0.35)" },
     accent: "#d08f2e",
   },
   {
@@ -57,8 +57,8 @@ const slides: Slide[] = [
     badge: { label: "Yeni", product: "toffee-nut-surubu" },
     caption: "Şurup koleksiyonu · 16 aroma",
     tone: "light",
-    bg: "linear-gradient(135deg, #2b1b12 0%, #4a2d18 50%, #8e5c16 100%)",
-    stage: { panel: "linear-gradient(135deg, #f0c57a 0%, #d08f2e 50%, #8e5c16 100%)", glow: "rgba(255,255,255,0.5)", captionColor: "rgba(43,27,18,0.75)" },
+    bg: "#2b1b12",
+    stage: { panel: "#d08f2e", glow: "rgba(255,255,255,0.4)", captionColor: "rgba(43,27,18,0.7)" },
     accent: "#f0c57a",
   },
   {
@@ -73,8 +73,8 @@ const slides: Slide[] = [
     badge: { label: "Çok satan", product: "mango-puresi" },
     caption: "Meyve püreleri · 8 çeşit",
     tone: "dark",
-    bg: "linear-gradient(135deg, #fde6e7 0%, #fce4d0 50%, #fdf3dc 100%)",
-    stage: { panel: "linear-gradient(135deg, #d9484f 0%, #e8702f 55%, #f4a622 100%)", glow: "rgba(255,255,255,0.45)" },
+    bg: "#fbe9e3",
+    stage: { panel: "#d9484f", glow: "rgba(255,255,255,0.35)" },
     accent: "#d9484f",
   },
   {
@@ -89,8 +89,8 @@ const slides: Slide[] = [
     badge: { label: "Sezon favorisi", product: "klasik-sicak-cikolata" },
     caption: "Kış koleksiyonu · 2026",
     tone: "light",
-    bg: "linear-gradient(135deg, #160d08 0%, #2b1b12 55%, #4a2318 100%)",
-    stage: { panel: "linear-gradient(135deg, #8b6a52 0%, #553b2a 50%, #2b1b12 100%)", glow: "rgba(226,168,75,0.45)" },
+    bg: "#160d08",
+    stage: { panel: "#553b2a", glow: "rgba(226,168,75,0.35)" },
     accent: "#e2a84b",
   },
 ];
@@ -176,25 +176,19 @@ export function HeroSlider() {
               aria-roledescription="slide"
               aria-label={`${i + 1} / ${n}: ${s.tab}`}
               className={cn(
-                "grain-light relative [grid-area:1/1] transition-[opacity,visibility] duration-700",
+                "relative [grid-area:1/1] transition-[opacity,visibility] duration-700",
                 active ? "visible z-10 opacity-100" : "invisible z-0 opacity-0",
               )}
               style={{ background: s.bg }}
             >
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full blur-3xl transition-transform duration-1000"
-                style={{ background: `${s.accent}33`, transform: active ? "scale(1)" : "scale(0.6)" }}
-              />
-              <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 -left-32 h-[26rem] w-[26rem] rounded-full bg-berry-500/10 blur-3xl" />
 
               <div className="container-x grid items-center gap-10 py-12 lg:grid-cols-12 lg:py-20">
                 <div className="lg:col-span-6">
                   <p
                     className={cn(
                       reveal,
-                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold backdrop-blur",
-                      light ? "border-cream-50/20 bg-cream-50/10 text-cream-100" : "border-espresso-900/10 bg-cream-50/80 text-espresso-700",
+                      "inline-flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-[0.22em]",
+                      light ? "text-caramel-300" : "text-caramel-700",
                     )}
                     style={stagger(0)}
                   >
@@ -204,7 +198,7 @@ export function HeroSlider() {
                   <h1
                     className={cn(
                       reveal,
-                      "mt-5 font-display text-[2.6rem] font-semibold leading-[1.02] tracking-tight text-balance sm:text-6xl lg:text-7xl",
+                      "mt-6 font-display text-[2.75rem] font-semibold leading-[1.0] text-balance sm:text-6xl lg:text-[4.75rem]",
                       light ? "text-cream-50" : "text-espresso-900",
                     )}
                     style={stagger(1)}
@@ -242,7 +236,7 @@ export function HeroSlider() {
                   </p>
                   <div className={cn(reveal, "mt-8 flex flex-wrap items-center gap-3")} style={stagger(3)}>
                     <Magnetic>
-                      <Button href={s.primary.href} size="lg" className="group/btn">
+                      <Button href={s.primary.href} size="lg" variant={light ? "accent" : "primary"} className="group/btn">
                         {s.primary.label} <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                       </Button>
                     </Magnetic>

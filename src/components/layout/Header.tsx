@@ -169,7 +169,7 @@ export function Header() {
                       onFocus={openMega}
                       onBlur={closeMega}
                     >
-                      <div className="rounded-3xl border border-espresso-900/10 bg-cream-50 p-4 shadow-lift">
+                      <div className="rounded-2xl border border-espresso-900/10 bg-cream-50 p-4 shadow-lift">
                         <div className="grid grid-cols-3 gap-2">
                           {categories.map((c, i) => {
                             const sample = getProductsByCategory(c.slug)[0];

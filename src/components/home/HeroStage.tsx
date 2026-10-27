@@ -59,7 +59,7 @@ export function HeroStage({
     <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave} className="relative mx-auto aspect-[5/4] w-full max-w-xl [perspective:1400px]">
       <div
         aria-hidden="true"
-        className="absolute inset-x-8 bottom-6 top-10 rounded-[3rem] shadow-lift"
+        className="absolute inset-x-8 bottom-6 top-10 rounded-[1.5rem] shadow-lift"
         style={{
           background: theme.panel,
           transform: `rotateX(calc(var(--my, 0) * -7deg)) rotateY(calc(var(--mx, 0) * 9deg)) ${active ? "scale(1)" : "scale(0.92)"}`,
@@ -69,13 +69,13 @@ export function HeroStage({
         }}
       >
         <div
-          className="absolute inset-0 rounded-[3rem] opacity-80"
+          className="absolute inset-0 rounded-[1.5rem] opacity-80"
           style={{
             background: `radial-gradient(60% 50% at calc(70% + var(--mx, 0) * 20%) calc(20% + var(--my, 0) * 20%), ${theme.glow} 0%, transparent 60%)`,
           }}
         />
         <div
-          className="absolute inset-0 rounded-[3rem] opacity-30"
+          className="absolute inset-0 rounded-[1.5rem] opacity-30"
           style={{
             backgroundImage: "radial-gradient(rgba(253,250,245,0.35) 1px, transparent 1px)",
             backgroundSize: "22px 22px",
@@ -85,7 +85,6 @@ export function HeroStage({
         <p className="absolute left-6 top-6 font-display text-sm italic" style={{ color: theme.captionColor ?? "rgba(253,250,245,0.7)" }}>
           {caption}
         </p>
-        <span aria-hidden="true" className="absolute right-6 top-6 h-20 w-20 animate-spin-slow rounded-full border border-dashed border-cream-50/25" />
       </div>
 
       {products.slice(0, 4).map((p, i) => (

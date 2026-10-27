@@ -19,7 +19,7 @@ export function CartToast() {
       key={toast.id}
       role="status"
       aria-live="polite"
-      className="fixed bottom-5 left-1/2 z-[70] w-[min(26rem,calc(100vw-2rem))] -translate-x-1/2 animate-pop-in overflow-hidden rounded-3xl border border-espresso-900/10 bg-cream-50/95 shadow-lift backdrop-blur-xl sm:left-5 sm:translate-x-0"
+      className="fixed bottom-5 left-1/2 z-[70] w-[min(26rem,calc(100vw-2rem))] -translate-x-1/2 animate-pop-in overflow-hidden rounded-2xl border border-espresso-900/10 bg-cream-50/95 shadow-lift backdrop-blur-xl sm:left-5 sm:translate-x-0"
     >
       <div className="flex items-center gap-3 p-3 pr-2">
         <ProductImage product={product} sizeLabel={variant.label} className="h-16 w-14 shrink-0 rounded-2xl" />

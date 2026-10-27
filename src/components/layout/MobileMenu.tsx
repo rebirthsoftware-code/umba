@@ -49,10 +49,6 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
         {/* Işıltılar */}
         <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-caramel-500/25 blur-3xl" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-berry-500/20 blur-3xl" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-6 top-24 h-40 w-40 animate-spin-slow rounded-full border border-dashed border-cream-50/15"
-        />
 
         <div className="relative flex min-h-full flex-col px-5 pb-8 pt-4">
           {/* Üst çubuk */}
