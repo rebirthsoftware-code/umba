@@ -4,6 +4,7 @@ export const categories: Category[] = [
   {
     slug: "suruplar",
     name: "Şuruplar",
+    image: "/categories/suruplar.webp",
     tagline: "Latte, soda ve kokteyller için aroma şurupları",
     description:
       "Vanilyadan karaduta 37 aroma; sıcak ve soğuk içeceklerde dengeli tat veren premium bar şurupları. 750 ml şişede.",
