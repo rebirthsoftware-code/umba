@@ -72,15 +72,17 @@ export interface OrderRecord {
     itemCount: number;
   };
   paymentMethod: PaymentMethod;
-  status: "beklemede";
+  status: "beklemede" | "odeme-bekliyor" | "odendi" | "odeme-basarisiz";
   /** Form servisi üzerinden mağazaya otomatik iletildi mi? */
   delivered: boolean;
+  /** PayTR kart ödemesi bilgileri */
+  paytr?: { token: string; merchantOid: string };
 }
 
 export const paymentLabels: Record<PaymentMethod, string> = {
   havale: "Havale / EFT",
   kapida: "Kapıda ödeme",
-  kart: "Kredi kartı",
+  kart: "Kredi / banka kartı (PayTR)",
 };
 
 export function generateOrderNo(date = new Date()): string {
@@ -99,7 +101,7 @@ export function createOrder(data: CheckoutInput, items: CartItem[]): OrderRecord
   const outOfStock = lines.find((l) => !l.variant.inStock);
   if (outOfStock) return { error: `${outOfStock.product.name} şu anda stokta değil` };
   if (data.paymentMethod === "kart" && !site.commerce.cardPaymentsEnabled) {
-    return { error: "Kredi kartı ile ödeme henüz aktif değil. Lütfen Havale/EFT veya Kapıda Ödeme seçin." };
+    return { error: "Kart ile ödeme henüz aktif değil. Lütfen Havale/EFT veya Kapıda Ödeme seçin." };
   }
   const totals = computeTotals(lines, data.paymentMethod);
   const { items: _items, acceptTerms: _t, acceptKvkk: _k, ...customer } = data;
@@ -128,7 +130,7 @@ export function createOrder(data: CheckoutInput, items: CartItem[]): OrderRecord
       itemCount: totals.itemCount,
     },
     paymentMethod: data.paymentMethod,
-    status: "beklemede",
+    status: data.paymentMethod === "kart" ? "odeme-bekliyor" : "beklemede",
     delivered: false,
   };
 }

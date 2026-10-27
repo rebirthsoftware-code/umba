@@ -8,6 +8,8 @@ import { useCart } from "@/components/cart/CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
 import { checkoutSchema, cities, createOrder, orderToFormPayload, type CheckoutInput } from "@/lib/order";
 import { submitForm, formsEnabled } from "@/lib/forms";
+import { saveLastOrder } from "@/lib/last-order";
+import { paytrEnabled, requestPaytrToken } from "@/lib/paytr";
 import { computeTotals, type PaymentMethod } from "@/lib/cart";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
@@ -93,9 +95,10 @@ const PAYMENTS: { id: PaymentMethod; title: string; text: string; icon: React.El
   {
     id: "kart",
     title: "Kredi / Banka kartı",
-    text: site.commerce.cardPaymentsEnabled ? "3D Secure ile güvenli ödeme." : "Çok yakında.",
+    text: paytrEnabled() ? "PayTR güvencesiyle 3D Secure ödeme. Tüm kartlar ve taksit seçenekleri." : "Çok yakında.",
     icon: CreditCard,
-    disabled: !site.commerce.cardPaymentsEnabled,
+    disabled: !paytrEnabled(),
+    extra: paytrEnabled() ? "PayTR" : undefined,
   },
 ];
 
@@ -137,16 +140,29 @@ export function CheckoutForm() {
       setSubmitting(false);
       return;
     }
-    // Form servisi tanımlıysa siparişi mağazaya otomatik ilet; değilse müşteri WhatsApp/e-posta ile iletir.
-    const delivered = await submitForm(orderToFormPayload(order));
-    const record = { ...order, delivered };
-    try {
-      window.sessionStorage.setItem("umba:lastOrder", JSON.stringify(record));
-    } catch {
-      /* yoksay */
+
+    // Kart: PayTR token al, güvenli ödeme sayfasına geç (sepet ödeme başarılı olana kadar korunur)
+    if (order.paymentMethod === "kart") {
+      const res = await requestPaytrToken(order);
+      if (res.status !== "success" || !res.token) {
+        setServerError(res.reason ?? "Kart ödemesi başlatılamadı. Lütfen tekrar deneyin veya başka bir yöntem seçin.");
+        setSubmitting(false);
+        return;
+      }
+      saveLastOrder({
+        ...order,
+        totals: res.total ? { ...order.totals, total: res.total } : order.totals,
+        paytr: { token: res.token, merchantOid: res.merchant_oid ?? order.orderNo.replace(/-/g, "") },
+      });
+      router.push("/odeme/kart");
+      return;
     }
+
+    // Havale / kapıda: form servisi tanımlıysa siparişi mağazaya otomatik ilet; değilse müşteri WhatsApp/e-posta ile iletir.
+    const delivered = await submitForm(orderToFormPayload(order));
+    saveLastOrder({ ...order, delivered });
     clear();
-    router.push(`/siparis-alindi?no=${encodeURIComponent(record.orderNo)}`);
+    router.push(`/siparis-alindi?no=${encodeURIComponent(order.orderNo)}`);
   };
 
   if (!hydrated) return <div className="h-64 animate-pulse rounded-3xl bg-cream-200" aria-busy="true" />;
@@ -366,7 +382,7 @@ export function CheckoutForm() {
             className="mt-5 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-caramel-500 text-base font-bold text-espresso-950 transition-colors hover:bg-caramel-400 disabled:opacity-60"
           >
             {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Lock className="h-4 w-4" />}
-            {submitting ? "Sipariş oluşturuluyor…" : "Siparişi tamamla"}
+            {submitting ? (form.paymentMethod === "kart" ? "Ödeme sayfası açılıyor…" : "Sipariş oluşturuluyor…") : form.paymentMethod === "kart" ? "Güvenli ödemeye geç" : "Siparişi tamamla"}
           </button>
           <p className="mt-3 text-center text-xs text-espresso-600">
             Siparişi tamamlayarak ödeme yükümlülüğü altına girdiğinizi kabul edersiniz.

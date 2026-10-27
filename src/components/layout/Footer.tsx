@@ -141,6 +141,9 @@ export function Footer() {
             © <CopyrightYear /> {site.legal.companyName}. Tüm hakları saklıdır.
           </p>
           <div className="flex items-center gap-2">
+            {site.commerce.cardPaymentsEnabled && (
+              <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">Kredi Kartı · PayTR</span>
+            )}
             <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">Havale / EFT</span>
             <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">Kapıda Ödeme</span>
             <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">256-bit SSL</span>

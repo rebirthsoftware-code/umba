@@ -34,7 +34,7 @@ const recipes = [
 
 export function Recipes() {
   return (
-    <section className="bg-cream-100 py-16 sm:py-24">
+    <section id="tarifler" className="scroll-mt-24 bg-cream-100 py-16 sm:py-24">
       <div className="container-x">
         <Reveal>
         <SectionHeading

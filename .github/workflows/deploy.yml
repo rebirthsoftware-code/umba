@@ -54,6 +54,7 @@ jobs:
           NEXT_PUBLIC_IBAN: ${{ vars.NEXT_PUBLIC_IBAN }}
           NEXT_PUBLIC_FORM_ENDPOINT: ${{ vars.NEXT_PUBLIC_FORM_ENDPOINT }}
           NEXT_PUBLIC_FORM_ACCESS_KEY: ${{ vars.NEXT_PUBLIC_FORM_ACCESS_KEY }}
+          NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT: ${{ vars.NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT }}
 
       - name: Çıktıyı yükle
         uses: actions/upload-pages-artifact@v3

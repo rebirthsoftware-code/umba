@@ -42,3 +42,6 @@ next-env.d.ts
 
 # örnek env dosyası depoda kalsın
 !.env.example
+
+# derleme sırasında üretilir
+/public/catalog.json

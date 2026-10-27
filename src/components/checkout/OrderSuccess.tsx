@@ -1,36 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
+import { useLastOrder } from "@/lib/last-order";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, Copy, Mail, MessageCircle, Printer, Send } from "lucide-react";
-import type { OrderRecord } from "@/lib/order";
 import { paymentLabels, orderToText } from "@/lib/order";
 import { formatPrice, formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
 import { whatsappUrl, mailtoUrl } from "@/lib/forms";
 
-const noopSubscribe = () => () => {};
-let cachedRaw: string | null | undefined;
-let cachedOrder: OrderRecord | null = null;
-
-function readLastOrder(): OrderRecord | null {
-  try {
-    const raw = window.sessionStorage.getItem("umba:lastOrder");
-    if (raw !== cachedRaw) {
-      cachedRaw = raw;
-      cachedOrder = raw ? (JSON.parse(raw) as OrderRecord) : null;
-    }
-  } catch {
-    cachedOrder = null;
-  }
-  return cachedOrder;
-}
-
 export function OrderSuccess() {
   const params = useSearchParams();
   const no = params.get("no");
-  const stored = useSyncExternalStore(noopSubscribe, readLastOrder, () => null);
+  const stored = useLastOrder();
   const order = stored && (!no || stored.orderNo === no) ? stored : null;
   const [copied, setCopied] = useState(false);
 

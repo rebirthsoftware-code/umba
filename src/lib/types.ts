@@ -52,6 +52,8 @@ export interface Product {
   art?: ArtKind;
   /** /public altında gerçek bir fotoğraf varsa buraya yolu yazın: "/products/vanilya.jpg" */
   image?: string;
+  /** Kartta hover'da gösterilecek ikinci fotoğraf (yoksa bardak çizimi kullanılır) */
+  imageHover?: string;
   short: string;
   description: string;
   highlights: string[];

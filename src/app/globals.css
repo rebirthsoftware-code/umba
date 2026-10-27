@@ -403,3 +403,93 @@ mark.hit {
     transition: none !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Fiyat yuvarlanması (ürün kartı)                                    */
+/* ------------------------------------------------------------------ */
+.price-roll {
+  display: inline-flex;
+  align-items: flex-end;
+  line-height: 1;
+  transition:
+    color 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: left bottom;
+}
+.price-roll > span {
+  display: inline-flex;
+  height: 1em;
+  align-items: flex-end;
+  line-height: 1;
+}
+.digit-col {
+  overflow: hidden;
+  align-items: flex-start !important;
+}
+.digit-strip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--d, 0) * -1em));
+}
+.digit-strip > span {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+.group:hover .price-roll {
+  color: var(--color-caramel-700);
+  transform: scale(1.08);
+}
+.group:hover .digit-strip {
+  animation: digit-roll 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes digit-roll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(var(--d, 0) * -1em));
+  }
+}
+
+/* Slider ilerleme çubuğu */
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.slide-progress {
+  transform-origin: left center;
+  animation: progress-fill var(--duration, 6500ms) linear both;
+}
+.slide-progress[data-paused="true"] {
+  animation-play-state: paused;
+}
+
+/* Buhar */
+@keyframes steam {
+  0% {
+    transform: translateY(0) scaleX(1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-14px) scaleX(1.15);
+    opacity: 0;
+  }
+}
+.steam path {
+  animation: steam 2.4s ease-in-out infinite;
+}
+.steam path:nth-child(2) {
+  animation-delay: 0.6s;
+}
+.steam path:nth-child(3) {
+  animation-delay: 1.2s;
+}

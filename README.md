@@ -11,6 +11,8 @@ Next.js 16 ile geliştirilmiş, Türkçe, mobil uyumlu e-ticaret sitesi.
 - **Sepet:** tarayıcıda saklanır (localStorage), sekmeler arası senkron, ücretsiz kargo çubuğu
 - **Ödeme:** teslimat + fatura (bireysel/kurumsal) formu, Havale/EFT ve Kapıda Ödeme, zod ile doğrulama, fiyatlar katalogdan hesaplanır
 - **Sipariş iletimi:** sipariş özeti hazır mesaj olarak **WhatsApp** veya **e-posta** ile mağazaya gönderilir; isteğe bağlı form servisi (Formspree / Web3Forms) tanımlanırsa otomatik iletilir
+- **Kart ile ödeme:** PayTR iFrame API (3D Secure); token üretimi için `paytr-worker/` altında Cloudflare Worker
+- **Ana sayfa:** otomatik akan, kaydırılabilir temalı hero slider; ürün kartlarında hover'da "bardakta görünüm" ve yuvarlanan fiyat
 - **İçerik sayfaları:** Hakkımızda, Kurumsal & Bayilik (teklif formu), İletişim, SSS (FAQ JSON-LD)
 - **Yasal sayfalar:** KVKK, Gizlilik & Çerez, Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu, İptal & İade, Teslimat & Kargo
 - **SEO:** sitemap.xml, robots.txt, Open Graph görseli, manifest, canonical adresler
@@ -36,7 +38,7 @@ npm run build
 npx serve out                # veya herhangi bir statik sunucu
 ```
 
-Kontroller: `npm run lint` ve `npm run typecheck`.
+Kontroller: `npm run lint`, `npm run typecheck`, `npm run test:worker`.
 
 ## Yayın: GitHub Pages (otomatik)
 
@@ -60,7 +62,7 @@ Telefon, IBAN gibi bilgileri koda yazmadan vermek için **Settings → Secrets a
 | `NEXT_PUBLIC_COMPANY_NAME`, `NEXT_PUBLIC_MERSIS` | Yasal sayfalarda görünen şirket bilgileri |
 | `NEXT_PUBLIC_BANK_NAME`, `NEXT_PUBLIC_BANK_HOLDER`, `NEXT_PUBLIC_IBAN` | Havale/EFT bilgileri |
 | `NEXT_PUBLIC_FORM_ENDPOINT`, `NEXT_PUBLIC_FORM_ACCESS_KEY` | İsteğe bağlı form servisi (aşağıya bakın) |
-| `NEXT_PUBLIC_CARD_PAYMENTS` | `true` yapılınca kart ile ödeme seçeneği açılır (entegrasyon gerekir) |
+| `NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT` | PayTR Worker adresi (`.../token`); tanımlanınca kart ile ödeme açılır |
 
 Kargo eşiği, kargo ücreti, kapıda ödeme bedeli ve teslimat süresi `src/lib/site.ts` → `commerce` altında.
 
@@ -77,9 +79,13 @@ Site statik olduğu için sunucu tarafı yoktur; sipariş müşterinin tarayıc�
 
 İletişim ve teklif formları da aynı mantıkla çalışır (form servisi varsa otomatik, yoksa e-posta/WhatsApp).
 
-## Kart ile ödeme
+## Kart ile ödeme (PayTR)
 
-Kart ödemesi için iyzico, PayTR veya Shopier gibi bir sağlayıcının **barındırılan ödeme sayfası / ödeme linki** çözümü kullanılabilir (statik sitede sunucu olmadığından API tabanlı entegrasyon için ayrıca bir backend gerekir). Entegrasyon sonrası `NEXT_PUBLIC_CARD_PAYMENTS=true` yapın ve `CheckoutForm` içinde `kart` seçeneğinde müşteriyi ödeme sayfasına yönlendirin.
+Kart ödemesi **PayTR iFrame API** ile çalışır. Site statik olduğu için merchant anahtarları tarayıcıya verilemez; token üretimi ve ödeme bildirimi `paytr-worker/` klasöründeki küçük Cloudflare Worker (ücretsiz) tarafından yapılır.
+
+Akış: müşteri "Güvenli ödemeye geç" der → site Worker'dan token ister (Worker sepeti `catalog.json` fiyatlarıyla yeniden hesaplar) → `/odeme/kart/` sayfasında PayTR ödeme penceresi açılır → sonuç `/odeme/basarili/` veya `/odeme/basarisiz/` sayfasına döner; PayTR ayrıca Worker'ın `/callback` adresine imzalı bildirim gönderir.
+
+Kurulum adımları `paytr-worker/README.md` dosyasında. Özetle: `npx wrangler deploy`, PayTR paneline bildirim URL'si, GitHub Variables'a `NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT`. Endpoint tanımlı değilken ödeme adımında kart seçeneği "Çok yakında" olarak kapalı görünür.
 
 ## Ürünleri düzenleme
 
@@ -102,6 +108,8 @@ Kart ödemesi için iyzico, PayTR veya Shopier gibi bir sağlayıcının **barı
 
 ```
 .github/workflows/  GitHub Pages yayın akışı
+paytr-worker/       PayTR token/bildirim Worker'ı (Cloudflare)
+scripts/            derleme öncesi katalog dışa aktarımı
 src/
   app/            sayfalar
   components/     layout, ürün, sepet, ödeme, form bileşenleri

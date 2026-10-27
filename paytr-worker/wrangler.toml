@@ -1,0 +1,20 @@
+name = "umba-paytr"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+[vars]
+SITE_URL = "https://rebirthsoftware-code.github.io/umba"
+ALLOWED_ORIGIN = "https://rebirthsoftware-code.github.io"
+TEST_MODE = "1"
+# NOTIFY_WEBHOOK = "https://formspree.io/f/xxxxxxxx"
+
+# Gizli değerler (terminalden):
+#   npx wrangler secret put PAYTR_MERCHANT_ID
+#   npx wrangler secret put PAYTR_MERCHANT_KEY
+#   npx wrangler secret put PAYTR_MERCHANT_SALT
+
+# İsteğe bağlı sipariş kaydı (KV):
+#   npx wrangler kv namespace create ORDERS   → çıkan id'yi aşağıya yazın
+# [[kv_namespaces]]
+# binding = "ORDERS"
+# id = "..."
