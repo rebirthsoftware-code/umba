@@ -25,10 +25,10 @@ const drinks: Drink[] = [
     id: "latte",
     label: "Aromalı Latte",
     kind: "mug",
-    hero: "tuzlu-karamel-surubu",
-    tagline: "Her kafenin en çok satan ikilisi: tuzlu karamel ve fındık latte.",
+    hero: "vanilya-surubu",
+    tagline: "Her kafenin en çok satan ikilisi: vanilya ve karamel latte.",
     steps: ["20–30 ml şurup bardağa", "1 shot Signature espresso", "180 ml buharlanmış süt, üstüne sos"],
-    products: ["tuzlu-karamel-surubu", "findik-surubu", "umba-signature-espresso", "karamel-sosu"],
+    products: ["vanilya-surubu", "karamel-surubu", "umba-signature-espresso", "karamel-sosu"],
   },
   {
     id: "iced",
@@ -55,7 +55,7 @@ const drinks: Drink[] = [
     hero: "cilek-surubu",
     tagline: "Renkli, ferah, fotoğraf çektiren içecekler.",
     steps: ["30–40 ml şurup", "Soda ve bol buz", "Nane ya da meyve dilimi"],
-    products: ["cilek-surubu", "mojito-surubu", "blue-curacao-surubu", "limonata-konsantresi"],
+    products: ["cilek-surubu", "cool-lime-surubu", "yesil-elma-surubu", "limonata-konsantresi"],
   },
   {
     id: "hot",

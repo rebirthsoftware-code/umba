@@ -1,4 +1,4 @@
-const items = ["Türkiye'de üretim", "Kafe standardı", "1–3 iş günü teslimat", "Doğal aroma", "HoReCa'ya özel fiyat", "Barista desteği", "17 aroma şurup", "Taze kavrulmuş kahve"];
+const items = ["Türkiye'de üretim", "Kafe standardı", "1–3 iş günü teslimat", "Doğal aroma", "HoReCa'ya özel fiyat", "Barista desteği", "29 aroma şurup", "Taze kavrulmuş kahve"];
 
 /** İnce, kesintisiz kayan şerit. */
 export function Ticker() {

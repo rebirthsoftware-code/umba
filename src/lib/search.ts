@@ -66,7 +66,7 @@ export function highlight(text: string, query: string): { text: string; hit: boo
   ].filter((p) => p.text);
 }
 
-export const popularSearches = ["Tuzlu karamel", "Çilek", "Mango", "Espresso", "Sıcak çikolata", "Mojito", "Chai latte", "Frappe"];
+export const popularSearches = ["Karamel", "Vanilya", "Cool lime", "Espresso", "Sıcak çikolata", "Mojito", "Chai latte", "Frappe"];
 
 export const searchPlaceholders = [
   "karamel şurubu",
