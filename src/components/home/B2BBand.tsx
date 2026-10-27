@@ -8,7 +8,7 @@ export function B2BBand() {
     <section className="container-x pb-24 pt-4 sm:pb-32">
       <Reveal direction="scale">
         <Spotlight className="grain relative overflow-hidden rounded-[1.75rem] bg-espresso-950 px-6 py-14 text-cream-50 sm:px-12 lg:px-16 lg:py-20">
-          <div className="relative grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="relative grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
               <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-caramel-300">Kurumsal satış & bayilik</p>
               <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.05] text-balance sm:text-5xl lg:text-6xl">

@@ -30,7 +30,7 @@ export function Bundle({ product, partner, reason }: { product: Product; partner
         <ProductArt product={p} className="h-[84%] w-auto transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105" />
       </span>
       <span className="min-w-0">
-        <span className="block truncate text-sm font-semibold text-espresso-900">{p.name}</span>
+        <span className="line-clamp-2 text-sm font-semibold leading-snug text-espresso-900">{p.name}</span>
         <span className="block text-xs text-espresso-600">
           {p.variants[0].label} · {formatPrice(p.variants[0].price)}
         </span>

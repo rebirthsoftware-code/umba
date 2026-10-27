@@ -182,7 +182,7 @@ export function HeroSlider() {
               style={{ background: s.bg }}
             >
 
-              <div className="container-x grid items-center gap-10 py-12 lg:grid-cols-12 lg:py-20">
+              <div className="container-x grid grid-cols-[minmax(0,1fr)] items-center gap-10 py-12 lg:grid-cols-12 lg:py-20">
                 <div className="lg:col-span-6">
                   <p
                     className={cn(

@@ -13,7 +13,7 @@ const values = [
 export function Values() {
   return (
     <section className="border-y border-espresso-900/10 bg-cream-50">
-      <div className="container-x grid gap-12 py-20 lg:grid-cols-12 lg:py-28">
+      <div className="container-x grid grid-cols-[minmax(0,1fr)] gap-12 py-20 lg:grid-cols-12 lg:py-28">
         <div className="lg:col-span-5">
           <Reveal>
             <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-caramel-700">Neden Umba?</p>

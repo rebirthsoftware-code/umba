@@ -124,7 +124,7 @@ export function DrinkFinder() {
         ))}
       </div>
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-12">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-12">
         {/* İçecek paneli */}
         <div
           key={drink.id}

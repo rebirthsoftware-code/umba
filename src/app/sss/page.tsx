@@ -68,7 +68,7 @@ export default function FaqPage() {
         description="Aradığınızı bulamazsanız bize yazın; aynı iş günü dönüş yapıyoruz."
         crumbs={[{ label: "SSS" }]}
       />
-      <section className="container-x grid gap-10 py-12 lg:grid-cols-12">
+      <section className="container-x grid grid-cols-[minmax(0,1fr)] gap-10 py-12 lg:grid-cols-12">
         <nav className="lg:col-span-3" aria-label="Konular">
           <ul className="sticky top-28 space-y-1 text-sm">
             {groups.map((g) => (

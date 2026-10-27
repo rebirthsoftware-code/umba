@@ -83,7 +83,7 @@ export default async function ProductPage({ params }: PageProps<"/urun/[slug]">)
         <Breadcrumbs items={[{ label: "Ürünler", href: "/urunler" }, { label: category.name, href: `/kategori/${category.slug}` }, { label: product.name }]} />
       </div>
 
-      <section className="container-x grid gap-10 py-8 lg:grid-cols-12 lg:gap-16 lg:py-12">
+      <section className="container-x grid grid-cols-[minmax(0,1fr)] gap-10 py-8 lg:grid-cols-12 lg:gap-16 lg:py-12">
         {/* Görsel */}
         <div className="lg:col-span-6">
           <div className="lg:sticky lg:top-28">

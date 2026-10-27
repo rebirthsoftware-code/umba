@@ -74,7 +74,7 @@ export function ProcessStory() {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-12">
+        <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-12">
           {/* Sabit panel */}
           <div className="lg:col-span-5">
             <div

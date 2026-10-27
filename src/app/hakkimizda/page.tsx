@@ -33,7 +33,7 @@ export default function AboutPage() {
         crumbs={[{ label: "Hakkımızda" }]}
       />
 
-      <section className="container-x grid gap-12 py-16 lg:grid-cols-12 lg:items-center">
+      <section className="container-x grid grid-cols-[minmax(0,1fr)] gap-12 py-16 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-6">
           <SectionHeading eyebrow="Hikâyemiz" title="Önce bir kafe, sonra bir üretici." />
           <div className="mt-6 space-y-4 leading-relaxed text-espresso-700">

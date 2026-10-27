@@ -40,7 +40,7 @@ export default async function CategoryPage({ params }: PageProps<"/kategori/[slu
         className="relative overflow-hidden border-b border-espresso-900/5"
         style={{ background: `linear-gradient(135deg, ${category.colorSoft} 0%, #fdfaf5 60%)` }}
       >
-        <div className="container-x grid items-center gap-8 py-10 sm:py-14 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-[minmax(0,1fr)] items-center gap-8 py-10 sm:py-14 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <Breadcrumbs items={[{ label: "Ürünler", href: "/urunler" }, { label: category.name }]} />
             <p className="mt-5 text-xs font-bold uppercase tracking-[0.22em]" style={{ color: category.color }}>

@@ -53,7 +53,7 @@ export default function B2BPage() {
       </section>
 
       <section className="bg-espresso-950 py-14 text-cream-50">
-        <div className="container-x grid gap-10 lg:grid-cols-12 lg:items-center">
+        <div className="container-x grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-5">
             <SectionHeading tone="light" eyebrow="Nasıl çalışır?" title="Dört adımda kurumsal müşteri olun." />
           </div>
@@ -70,7 +70,7 @@ export default function B2BPage() {
         </div>
       </section>
 
-      <section className="container-x grid gap-10 py-14 lg:grid-cols-12">
+      <section className="container-x grid grid-cols-[minmax(0,1fr)] gap-10 py-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <SectionHeading
             eyebrow="Teklif formu"

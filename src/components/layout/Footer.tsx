@@ -39,7 +39,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-12">
+      <div className="container-x grid grid-cols-[minmax(0,1fr)] gap-10 py-14 md:grid-cols-2 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Logo tone="light" />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-cream-200/80">{site.description}</p>

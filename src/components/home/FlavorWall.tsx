@@ -18,7 +18,7 @@ export function FlavorWall() {
             "radial-gradient(40% 50% at 10% 10%, rgba(226,168,75,0.35) 0%, transparent 60%), radial-gradient(40% 50% at 90% 90%, rgba(217,72,79,0.25) 0%, transparent 60%)",
         }}
       />
-      <div className="container-x relative grid gap-12 lg:grid-cols-12 lg:items-center">
+      <div className="container-x relative grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-12 lg:items-center">
         <Reveal direction="left" className="lg:col-span-5">
           <SectionHeading
             tone="light"

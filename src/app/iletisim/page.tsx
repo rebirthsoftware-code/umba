@@ -19,7 +19,7 @@ export default function ContactPage() {
         description="Sipariş, ürün, bayilik veya menü danışmanlığı; hangi konu olursa olsun bir telefon ya da mesaj uzağınızdayız."
         crumbs={[{ label: "İletişim" }]}
       />
-      <section className="container-x grid gap-10 py-12 lg:grid-cols-12">
+      <section className="container-x grid grid-cols-[minmax(0,1fr)] gap-10 py-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <ul className="space-y-4">
             {[
