@@ -1,12 +1,13 @@
 import { ArrowRight, Building2, Coffee, Hotel, Store } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { Spotlight } from "@/components/ui/Spotlight";
 
 export function B2BBand() {
   return (
     <section className="container-x py-16 sm:py-24">
       <Reveal direction="scale">
-      <div className="relative overflow-hidden rounded-[2.5rem] bg-espresso-900 px-6 py-12 text-cream-50 shadow-lift sm:px-12 lg:px-16 lg:py-16">
+      <Spotlight className="grain relative overflow-hidden rounded-[2.5rem] bg-espresso-900 px-6 py-12 text-cream-50 shadow-lift sm:px-12 lg:px-16 lg:py-16">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-caramel-500/30 blur-3xl"
@@ -44,7 +45,7 @@ export function B2BBand() {
             ))}
           </ul>
         </div>
-      </div>
+      </Spotlight>
       </Reveal>
     </section>
   );

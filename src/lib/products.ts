@@ -818,3 +818,37 @@ export function minPrice(p: Product): number {
 export function getVariant(p: Product, variantId: string) {
   return p.variants.find((x) => x.id === variantId) ?? p.variants[0];
 }
+
+/** "Birlikte daha iyi" eşleştirmesi: ürüne en çok yakışan tamamlayıcı ürün ve gerekçesi. */
+export function getBundlePartner(product: Product): { partner: Product; reason: string } | null {
+  const pick = (slug: string) => (slug !== product.slug ? getProduct(slug) : undefined);
+  let partner: Product | undefined;
+  let reason = "";
+  switch (product.category) {
+    case "suruplar":
+      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cikolata") ? "cikolata-sosu" : "umba-signature-espresso");
+      reason = partner?.category === "soslar" ? "Şurup içeride, sos üstte: tam kafe sunumu." : "Latte için şurup ve dengeli bir espresso harmanı.";
+      break;
+    case "soslar":
+      partner = pick(product.slug.includes("cikolata") ? "klasik-sicak-cikolata" : "vanilya-surubu");
+      reason = "Topping sos ile yanına yakışan içecek bazı.";
+      break;
+    case "pureler":
+      partner = pick("limonata-konsantresi");
+      reason = "Meyveli limonata ve frozen için püre + limonata konsantresi.";
+      break;
+    case "kahve":
+      partner = pick("vanilya-surubu");
+      reason = "Espresso'nun yanına en çok satan aroma: vanilya.";
+      break;
+    case "sicak-cikolata":
+      partner = pick("findik-surubu");
+      reason = "Fındıklı sıcak çikolata için klasik ikili.";
+      break;
+    case "bar-urunleri":
+      partner = pick(product.slug.includes("frappe") ? "karamel-sosu" : product.slug.includes("konsantre") ? "cilek-puresi" : "vanilya-frappe-tozu");
+      reason = "Bar ürününüzü çeşitlendirecek tamamlayıcı.";
+      break;
+  }
+  return partner ? { partner, reason } : null;
+}

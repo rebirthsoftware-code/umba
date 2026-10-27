@@ -4,11 +4,12 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { artLabel } from "@/components/product/ProductArt";
 import { Reveal } from "@/components/ui/Reveal";
+import { Spotlight } from "@/components/ui/Spotlight";
 
 export function FlavorWall() {
   const syrups = getProductsByCategory("suruplar");
   return (
-    <section className="relative overflow-hidden bg-espresso-950 py-16 text-cream-50 sm:py-24">
+    <Spotlight as="section" className="grain relative overflow-hidden bg-espresso-950 py-16 text-cream-50 sm:py-24">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-40"
@@ -57,6 +58,6 @@ export function FlavorWall() {
           ))}
         </ul>
       </div>
-    </section>
+    </Spotlight>
   );
 }

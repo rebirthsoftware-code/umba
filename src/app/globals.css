@@ -493,3 +493,158 @@ mark.hit {
 .steam path:nth-child(3) {
   animation-delay: 1.2s;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Premium dokunuşlar                                                 */
+/* ------------------------------------------------------------------ */
+/* Tanecikli doku */
+@utility grain {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    border-radius: inherit;
+    z-index: 3;
+  }
+}
+@utility grain-light {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    border-radius: inherit;
+    z-index: 3;
+  }
+}
+
+/* İmleci izleyen ışık (Spotlight bileşeni) */
+.spotlight {
+  position: relative;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--spot-opacity, 0);
+  transition: opacity 0.5s ease;
+  background: radial-gradient(520px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgb(226 168 75 / 0.22), transparent 60%);
+  z-index: 2;
+}
+
+/* Kaydırma çubuğu */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-cream-400);
+  border-radius: 999px;
+  border: 2px solid var(--color-cream-100);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-caramel-500);
+}
+
+/* Yatay ray */
+@utility snap-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  & > * {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+}
+
+/* Sepet bildirimi ilerleme çubuğu */
+@keyframes toast-bar {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+.toast-bar {
+  transform-origin: left center;
+  animation: toast-bar var(--toast-ms, 3200ms) linear both;
+}
+
+/* Büyük italik vurgu */
+@utility accent-italic {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+}
+
+/* Yakınlaştırmalı görsel */
+.zoomable {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: var(--zx, 50%) var(--zy, 50%);
+}
+.zoom-active .zoomable {
+  transform: scale(1.8);
+}
+
+/* Detay akordeonu */
+details.acc > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details.acc > summary::-webkit-details-marker {
+  display: none;
+}
+details.acc[open] .acc-icon {
+  transform: rotate(45deg);
+}
+
+/* Teslimat kartındaki kamyon */
+@keyframes marquee-truck {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    left: 96%;
+    opacity: 0;
+  }
+}
+.animate-marquee-truck {
+  animation: marquee-truck 6s ease-in-out infinite;
+}
+
+/* Sabit satın alma çubuğu varken WhatsApp düğmesini yukarı al */
+body.has-buybar .wa-btn {
+  transform: translateY(-4.75rem);
+}

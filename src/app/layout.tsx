@@ -4,6 +4,7 @@ import "./globals.css";
 import { site } from "@/lib/site";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { CartToast } from "@/components/cart/CartToast";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
           <CartDrawer />
+          <CartToast />
           <WhatsAppButton />
         </CartProvider>
         <script

@@ -1,6 +1,7 @@
 import type { Product } from "@/lib/types";
 
-type Kind = "glass" | "mug" | "espresso" | "frappe";
+export type DrinkKind = "glass" | "mug" | "espresso" | "frappe";
+type Kind = DrinkKind;
 
 function kindFor(p: Pick<Product, "category" | "art" | "slug">): Kind {
   switch (p.category) {
@@ -29,8 +30,8 @@ function lighten(hex: string, amt: number): string {
  * Ürünün bardaktaki hâlini gösteren vektörel çizim (ürün kartı hover'ı).
  * Kategoriye göre buzlu bardak, kupa, espresso fincanı veya frappe bardağı.
  */
-export function DrinkArt({ product, className }: { product: Product; className?: string }) {
-  const kind = kindFor(product);
+export function DrinkArt({ product, className, kind: kindProp }: { product: Product; className?: string; kind?: Kind }) {
+  const kind = kindProp ?? kindFor(product);
   const c1 = product.color;
   const c2 = product.color2 ?? product.color;
   const id = `d-${product.slug}`;

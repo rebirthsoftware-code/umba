@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type PointerEvent, type KeyboardEvent } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { getProduct, products } from "@/lib/products";
 import { site } from "@/lib/site";
 import { cn, formatPrice } from "@/lib/format";
@@ -175,7 +176,7 @@ export function HeroSlider() {
               aria-roledescription="slide"
               aria-label={`${i + 1} / ${n}: ${s.tab}`}
               className={cn(
-                "relative [grid-area:1/1] transition-[opacity,visibility] duration-700",
+                "grain-light relative [grid-area:1/1] transition-[opacity,visibility] duration-700",
                 active ? "visible z-10 opacity-100" : "invisible z-0 opacity-0",
               )}
               style={{ background: s.bg }}
@@ -240,9 +241,11 @@ export function HeroSlider() {
                     {s.text}
                   </p>
                   <div className={cn(reveal, "mt-8 flex flex-wrap items-center gap-3")} style={stagger(3)}>
-                    <Button href={s.primary.href} size="lg" className="group/btn">
-                      {s.primary.label} <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                    </Button>
+                    <Magnetic>
+                      <Button href={s.primary.href} size="lg" className="group/btn">
+                        {s.primary.label} <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                      </Button>
+                    </Magnetic>
                     {s.secondary && (
                       <Button href={s.secondary.href} size="lg" variant={light ? "light" : "outline"}>
                         {s.secondary.label}

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Minus, Plus, ShoppingBag, Check, Truck, ShieldCheck, RotateCcw } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
-import { formatPrice, cn } from "@/lib/format";
+import { formatPrice, cn, unitPrice } from "@/lib/format";
+import { DeliveryEstimate } from "./DeliveryEstimate";
 import { site } from "@/lib/site";
 
 export function AddToCartPanel({ product }: { product: Product }) {
@@ -26,6 +27,9 @@ export function AddToCartPanel({ product }: { product: Product }) {
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-espresso-600">Fiyat (KDV dahil)</p>
           <p className="mt-1 font-display text-4xl font-semibold tabular-nums text-espresso-900">{formatPrice(variant.price)}</p>
+          {unitPrice(variant.label, variant.price) && (
+            <p className="mt-1 text-xs text-espresso-600">{unitPrice(variant.label, variant.price)}</p>
+          )}
         </div>
         {variant.compareAtPrice && (
           <p className="text-sm text-espresso-600 line-through">{formatPrice(variant.compareAtPrice)}</p>
@@ -115,14 +119,17 @@ export function AddToCartPanel({ product }: { product: Product }) {
         </button>
       </div>
 
-      <p className="mt-3 text-xs text-espresso-600">
-        Stok kodu: <span className="font-mono">{variant.sku}</span> ·{" "}
-        {variant.inStock ? <span className="font-semibold text-leaf-500">Stokta</span> : "Tükendi"}
-      </p>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-espresso-600">
+          Stok kodu: <span className="font-mono">{variant.sku}</span> ·{" "}
+          {variant.inStock ? <span className="font-semibold text-leaf-500">Stokta</span> : "Tükendi"}
+        </p>
+        <DeliveryEstimate />
+      </div>
 
       <ul className="mt-5 grid gap-2 border-t border-espresso-900/10 pt-4 text-xs text-espresso-700 sm:grid-cols-3">
         <li className="flex items-center gap-2">
-          <Truck className="h-4 w-4 text-caramel-600" /> {site.commerce.deliveryEstimate} teslimat
+          <Truck className="h-4 w-4 text-caramel-600" /> {formatPrice(site.commerce.freeShippingThreshold)}+ kargo bedava
         </li>
         <li className="flex items-center gap-2">
           <ShieldCheck className="h-4 w-4 text-caramel-600" /> Güvenli ödeme

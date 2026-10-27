@@ -135,6 +135,12 @@ export function Footer() {
         </div>
       </div>
 
+      <div aria-hidden="true" className="container-x select-none overflow-hidden">
+        <p className="-mb-[0.18em] translate-y-[0.08em] font-display text-[clamp(5rem,21vw,20rem)] font-semibold leading-none tracking-tight text-cream-50/[0.06]">
+          umba
+        </p>
+      </div>
+
       <div className="border-t border-cream-50/10">
         <div className="container-x flex flex-col items-start gap-4 py-6 text-xs text-cream-200/60 sm:flex-row sm:items-center sm:justify-between">
           <p>

@@ -7,9 +7,13 @@ import { useCart } from "./CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
+import { getFeaturedProducts } from "@/lib/products";
+import { ProductArt } from "@/components/product/ProductArt";
 
 export function CartDrawer() {
-  const { isOpen, close, lines, totals, setQuantity, remove } = useCart();
+  const { isOpen, close, lines, totals, setQuantity, remove, add } = useCart();
+  const inCart = new Set(lines.map((l) => l.product.slug));
+  const suggestions = getFeaturedProducts(12).filter((p) => !inCart.has(p.slug)).slice(0, 3);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -140,6 +144,33 @@ export function CartDrawer() {
                 </li>
               ))}
             </ul>
+
+            {suggestions.length > 0 && (
+              <div className="border-t border-espresso-900/10 px-5 py-3">
+                <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-espresso-600">Bunlarla iyi gider</p>
+                <ul className="scrollbar-none -mx-5 mt-2 flex gap-2 overflow-x-auto px-5">
+                  {suggestions.map((p) => (
+                    <li key={p.slug} className="flex w-44 shrink-0 items-center gap-2 rounded-2xl border border-espresso-900/10 bg-cream-50 p-2">
+                      <span className="flex h-12 w-10 shrink-0 items-center justify-center rounded-lg bg-cream-100">
+                        <ProductArt product={p} className="h-[84%] w-auto" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-xs font-bold text-espresso-900">{p.name}</span>
+                        <span className="block text-[0.7rem] text-espresso-600">{formatPrice(p.variants[0].price)}</span>
+                      </span>
+                      <button
+                        type="button"
+                        aria-label={`${p.name} sepete ekle`}
+                        onClick={() => add({ productSlug: p.slug, variantId: p.variants[0].id, quantity: 1 }, { silent: true })}
+                        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-espresso-900/15 hover:border-espresso-900 hover:bg-espresso-900 hover:text-cream-50"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="border-t border-espresso-900/10 bg-cream-100 px-5 py-4">
               <div className="flex items-center justify-between text-sm">
