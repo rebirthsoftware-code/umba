@@ -592,6 +592,94 @@ export const products: Product[] = [
     description: "Kavun aromalı altın sarısı şurup. Kavunlu soda, limonata ve frozen içeceklerde yazın hafif tatlısı.",
     tags: [],
   }),
+  syrup({
+    slug: "nane-surubu",
+    name: "Nane Şurubu",
+    color: "#1f8a5b",
+    color2: "#0f5236",
+    image: "/products/nane-surubu.webp",
+    imageFit: "cover",
+    short: "Ferah nane; mojito ve soda bazı.",
+    description: "Nane aromalı yeşil şurup. Virgin mojito, naneli limonata ve soda için; sıcak çikolatada mint mocha dokunuşu.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "beyaz-cikolata-surubu",
+    name: "Beyaz Çikolata Şurubu",
+    color: "#efe3c2",
+    color2: "#c9b07a",
+    image: "/products/beyaz-cikolata-surubu.webp",
+    imageFit: "cover",
+    short: "Kremamsı beyaz çikolata; latte ve mocha.",
+    description: "Beyaz çikolata aromalı şurup. White mocha, frappe ve milkshake için; meyveli şuruplarla yumuşak kombinasyonlar.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "berry-hibiscus-surubu",
+    name: "Berry Hibiscus Şurubu",
+    color: "#a0133f",
+    color2: "#5c0822",
+    image: "/products/berry-hibiscus-surubu.webp",
+    imageFit: "cover",
+    short: "Orman meyveleri ve hibiskus; çiçeksi ekşi.",
+    description: "Orman meyveleri ve hibiskus aromalı şurup. Buzlu çay, soda ve limonatada çiçeksi, ekşi tatlı derinlik.",
+    tags: ["yeni"],
+  }),
+  syrup({
+    slug: "cikolata-surubu",
+    name: "Çikolata Şurubu",
+    color: "#3b1f12",
+    color2: "#1d0e08",
+    image: "/products/cikolata-surubu.webp",
+    imageFit: "cover",
+    short: "Yoğun kakao; mocha ve milkshake.",
+    description: "Çikolata aromalı koyu şurup. Mocha, çikolatalı frappe ve milkshake için; sıcak çikolatayı derinleştirir.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "seker-surubu",
+    name: "Şeker Şurubu",
+    color: "#efe6c3",
+    color2: "#c6b784",
+    image: "/products/seker-surubu.webp",
+    imageFit: "cover",
+    short: "Sade şeker şurubu; her içeceğin tatlandırıcısı.",
+    description: "Nötr şeker şurubu. Soğuk kahve, buzlu çay, limonata ve kokteyllerde anında çözünen tatlandırıcı; aroma katmaz.",
+    tags: [],
+  }),
+  syrup({
+    slug: "limon-surubu",
+    name: "Limon Şurubu",
+    color: "#f2d733",
+    color2: "#bfa30c",
+    image: "/products/limon-surubu.webp",
+    imageFit: "cover",
+    short: "Taze sıkılmış limon; limonata bazı.",
+    description: "Limon aromalı sarı şurup. Limonata, soda ve buzlu çayın ekşi dengesi; mojito ve lemon iced tea için.",
+    tags: ["cok-satan"],
+  }),
+  syrup({
+    slug: "hibiskus-surubu",
+    name: "Hibiskus Şurubu",
+    color: "#a8123c",
+    color2: "#5e0820",
+    image: "/products/hibiskus-surubu.webp",
+    imageFit: "cover",
+    short: "Çiçeksi ve ekşi hibiskus; buzlu çay favorisi.",
+    description: "Hibiskus aromalı koyu kırmızı şurup. Hibiskuslu buzlu çay, soda ve limonatada parlak renk ve ferah ekşilik.",
+    tags: [],
+  }),
+  syrup({
+    slug: "karadut-surubu",
+    name: "Karadut Şurubu",
+    color: "#4b1a5e",
+    color2: "#2a0d36",
+    image: "/products/karadut-surubu.webp",
+    imageFit: "cover",
+    short: "Koyu mor karadut; soda ve limonata.",
+    description: "Karadut aromalı mor şurup. Karadutlu soda, limonata ve kokteyllerde yoğun renk ve ekşi tatlı tat.",
+    tags: ["yeni"],
+  }),
   /* ----------------------------------- Soslar ---------------------------------- */
   sauce({
     slug: "cikolata-sosu",
@@ -1122,7 +1210,7 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
   let reason = "";
   switch (product.category) {
     case "suruplar":
-      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cookies") ? "cikolata-sosu" : "umba-signature-espresso");
+      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cikolata") || product.slug.includes("cookies") ? "cikolata-sosu" : "umba-signature-espresso");
       reason = partner?.category === "soslar" ? "Şurup içeride, sos üstte: tam kafe sunumu." : "Latte için şurup ve dengeli bir espresso harmanı.";
       break;
     case "soslar":
