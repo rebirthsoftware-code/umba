@@ -28,7 +28,8 @@ const SCHEMA = [
     tracking_no TEXT,
     tracking_url TEXT,
     admin_note TEXT,
-    test_mode INTEGER NOT NULL DEFAULT 0
+    test_mode INTEGER NOT NULL DEFAULT 0,
+    discount REAL NOT NULL DEFAULT 0
   )`,
   `CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at DESC)`,
   `CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)`,
@@ -59,6 +60,8 @@ export async function db(): Promise<Client> {
     const client = createClient({ url, authToken: process.env.TURSO_AUTH_TOKEN });
     const ready = (async () => {
       for (const sql of SCHEMA) await client.execute(sql);
+      // Eski tablolara sonradan eklenen sütunlar
+      await client.execute("ALTER TABLE orders ADD COLUMN discount REAL NOT NULL DEFAULT 0").catch(() => {});
     })();
     globalThis.__umbaDb = { client, ready };
   }

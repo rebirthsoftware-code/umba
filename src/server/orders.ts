@@ -3,6 +3,7 @@ import { db } from "./db";
 import { getPaytrToken, paymentDemoMode, paytrTestMode } from "./paytr";
 import { products } from "@/lib/products";
 import { site } from "@/lib/site";
+import { computeDiscount } from "@/lib/discount";
 import { orderStatuses, type ApiOrder, type OrderEvent, type OrderStatus } from "@/lib/api";
 import type { OrderLine, PaymentMethod } from "@/lib/order";
 
@@ -34,6 +35,7 @@ export interface ComputedOrder {
   subtotal: number;
   shipping: number;
   codFee: number;
+  discount: number;
   total: number;
 }
 
@@ -62,8 +64,9 @@ export function computeOrder(items: { productSlug: string; variantId: string; qu
   const cod = 0;
   void paymentMethod;
   void codFee;
-  const total = Math.round((subtotal + shipping + cod) * 100) / 100;
-  return { lines, subtotal, shipping, codFee: cod, total };
+  const discount = computeDiscount(subtotal).amount;
+  const total = Math.round((subtotal - discount + shipping + cod) * 100) / 100;
+  return { lines, subtotal, shipping, codFee: cod, discount, total };
 }
 
 /* -------------------------------- Satırlar -------------------------------- */
@@ -82,7 +85,7 @@ function rowToOrder(row: Row, events: OrderEvent[] = []): ApiOrder {
     paymentMethod: row.payment_method as PaymentMethod,
     paymentStatus: row.payment_status as ApiOrder["paymentStatus"],
     paidAmount: row.paid_amount === null ? null : Number(row.paid_amount),
-    totals: { subtotal: Number(row.subtotal), shipping: Number(row.shipping), codFee: Number(row.cod_fee), total: Number(row.total) },
+    totals: { subtotal: Number(row.subtotal), shipping: Number(row.shipping), codFee: Number(row.cod_fee), discount: Number(row.discount ?? 0), total: Number(row.total) },
     customer: JSON.parse(String(row.customer_json)),
     lines: JSON.parse(String(row.lines_json)),
     carrier: carrierKey,
@@ -161,10 +164,10 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
 
   const client = await db();
   await client.execute({
-    sql: `INSERT INTO orders (order_no, merchant_oid, created_at, updated_at, status, payment_method, payment_status, total, subtotal, shipping, cod_fee,
+    sql: `INSERT INTO orders (order_no, merchant_oid, created_at, updated_at, status, payment_method, payment_status, total, subtotal, shipping, cod_fee, discount,
             customer_json, lines_json, phone_digits, email, test_mode)
-          VALUES (?1, ?2, ?3, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)`,
-    args: [orderNo, merchantOid, ts, status, paymentMethod, paymentStatus, order.total, order.subtotal, order.shipping, order.codFee, JSON.stringify(customer), JSON.stringify(order.lines), phone, email, testMode],
+          VALUES (?1, ?2, ?3, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)`,
+    args: [orderNo, merchantOid, ts, status, paymentMethod, paymentStatus, order.total, order.subtotal, order.shipping, order.codFee, order.discount, JSON.stringify(customer), JSON.stringify(order.lines), phone, email, testMode],
   });
   await addEvent(orderNo, "created", { status, message: `Sipariş oluşturuldu · ${paymentMethod}`, actor: "customer" });
 
@@ -173,7 +176,7 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
     await addEvent(orderNo, "payment", { message: "Demo kart ödemesi başlatıldı (PayTR yapılandırılmadı)", actor: "system" });
   } else if (paymentMethod === "kart") {
     try {
-      token = await getPaytrToken({ orderNo, merchantOid, userIp, customer, lines: order.lines, shipping: order.shipping, total: order.total });
+      token = await getPaytrToken({ orderNo, merchantOid, userIp, customer, lines: order.lines, shipping: order.shipping, discount: order.discount, total: order.total });
     } catch (err) {
       const reason = err instanceof Error ? err.message : "PayTR hatası";
       await addEvent(orderNo, "payment", { status: "odeme-basarisiz", message: `PayTR token hatası: ${reason}`, actor: "paytr" });

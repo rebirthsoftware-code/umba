@@ -174,7 +174,7 @@ export function OrderTracking() {
               </ul>
               <dl className="mt-3 space-y-1 border-t border-espresso-900/10 pt-3 text-sm">
                 <div className="flex justify-between"><dt>Kargo</dt><dd>{order.totals.shipping ? formatPrice(order.totals.shipping) : "Ücretsiz"}</dd></div>
-                {order.totals.codFee > 0 && <div className="flex justify-between"><dt>Kapıda ödeme</dt><dd>{formatPrice(order.totals.codFee)}</dd></div>}
+                {order.totals.discount > 0 && <div className="flex justify-between text-leaf-500"><dt>Sepet indirimi</dt><dd>-{formatPrice(order.totals.discount)}</dd></div>}
                 <div className="flex justify-between text-base font-bold"><dt>Toplam</dt><dd>{formatPrice(order.totals.total)}</dd></div>
               </dl>
             </div>

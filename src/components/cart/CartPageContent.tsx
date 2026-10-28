@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Truck } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Truck, BadgePercent } from "lucide-react";
 import { useCart } from "./CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatPrice } from "@/lib/format";
 import { site } from "@/lib/site";
+import { discountMessage, computeDiscount, formatPct } from "@/lib/discount";
 import { getFeaturedProducts } from "@/lib/products";
 import { ProductCard } from "@/components/product/ProductCard";
 
@@ -126,12 +127,24 @@ export function CartPageContent() {
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-cream-300">
               <div className="h-full rounded-full bg-caramel-500 transition-all" style={{ width: `${progress}%` }} />
             </div>
+            {discountMessage(totals.subtotal) && (
+              <p className="mt-3 flex items-start gap-2 rounded-xl bg-leaf-100 px-3 py-2 text-xs font-semibold text-leaf-500">
+                <BadgePercent className="mt-0.5 h-4 w-4 shrink-0" />
+                {discountMessage(totals.subtotal)}
+              </p>
+            )}
           </div>
           <dl className="mt-5 space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-espresso-700">Ara toplam</dt>
               <dd className="font-semibold tabular-nums">{formatPrice(totals.subtotal)}</dd>
             </div>
+            {totals.discount > 0 && (
+              <div className="flex justify-between text-leaf-500">
+                <dt>Sepet indirimi ({formatPct(computeDiscount(totals.subtotal).pct)})</dt>
+                <dd className="font-semibold tabular-nums">-{formatPrice(totals.discount)}</dd>
+              </div>
+            )}
             <div className="flex justify-between">
               <dt className="text-espresso-700">Kargo</dt>
               <dd className="font-semibold tabular-nums">{totals.shipping === 0 ? "Ücretsiz" : formatPrice(totals.shipping)}</dd>

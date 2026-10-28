@@ -1,6 +1,7 @@
 import type { CartItem, CartLine } from "./types";
 import { getProduct, getVariant } from "./products";
 import { site } from "./site";
+import { computeDiscount } from "./discount";
 
 export const CART_STORAGE_KEY = "umba:cart:v1";
 
@@ -48,12 +49,13 @@ export function computeTotals(
   const cod = 0;
   void paymentMethod;
   void codFee;
-  const total = round2(subtotal + shipping + cod);
+  const discount = computeDiscount(subtotal).amount;
+  const total = round2(subtotal - discount + shipping + cod);
   return {
     subtotal,
     shipping,
     codFee: cod,
-    discount: 0,
+    discount,
     total,
     itemCount,
     freeShippingRemaining: Math.max(0, round2(freeShippingThreshold - subtotal)),

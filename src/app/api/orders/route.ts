@@ -9,6 +9,6 @@ export async function POST(req: Request) {
     if (!body || !Array.isArray(body.items) || !body.customer) return fail("Geçersiz istek");
     const res = await createOrder(body, clientIp(req));
     if (!res.ok) return json({ status: "failed", reason: res.reason, orderNo: res.orderNo }, res.status);
-    return json({ status: "success", orderNo: res.orderNo, merchantOid: res.merchantOid, total: res.totals.total, totals: { subtotal: res.totals.subtotal, shipping: res.totals.shipping, codFee: res.totals.codFee, total: res.totals.total }, lines: res.totals.lines, token: res.token, demo: res.demo, orderStatus: res.orderStatus });
+    return json({ status: "success", orderNo: res.orderNo, merchantOid: res.merchantOid, total: res.totals.total, totals: { subtotal: res.totals.subtotal, shipping: res.totals.shipping, codFee: res.totals.codFee, discount: res.totals.discount, total: res.totals.total }, lines: res.totals.lines, token: res.token, demo: res.demo, orderStatus: res.orderStatus });
   });
 }

@@ -33,6 +33,7 @@ export interface PaytrTokenInput {
   customer: { fullName: string; email: string; phone: string; address: string; district: string; city: string };
   lines: { name: string; unitPrice: number; quantity: number }[];
   shipping: number;
+  discount: number;
   total: number;
 }
 
@@ -42,9 +43,12 @@ export async function getPaytrToken(input: PaytrTokenInput): Promise<string> {
   const merchantKey = process.env.PAYTR_MERCHANT_KEY!;
   const merchantSalt = process.env.PAYTR_MERCHANT_SALT!;
   const paymentAmount = String(Math.round(input.total * 100)); // kuruş
+  // Sepet satırları bilgilendirme amaçlıdır; indirim varsa satır fiyatları orantılı düşürülür ki toplam tutsun.
+  const subtotal = input.lines.reduce((s, l) => s + l.unitPrice * l.quantity, 0);
+  const factor = subtotal > 0 ? (subtotal - input.discount) / subtotal : 1;
   const basket = b64utf8(
     JSON.stringify([
-      ...input.lines.map((l) => [l.name, l.unitPrice.toFixed(2), l.quantity]),
+      ...input.lines.map((l) => [input.discount > 0 ? `${l.name} (indirimli)` : l.name, (l.unitPrice * factor).toFixed(2), l.quantity]),
       ...(input.shipping > 0 ? [["Kargo", input.shipping.toFixed(2), 1]] : []),
     ]),
   );

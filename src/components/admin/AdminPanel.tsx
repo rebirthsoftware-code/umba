@@ -420,7 +420,7 @@ function OrderDrawer({ token, orderNo, onClose, onChanged }: { token: string; or
                 </ul>
                 <dl className="mt-2 border-t border-espresso-900/10 pt-2 text-xs">
                   <div className="flex justify-between"><dt>Kargo</dt><dd>{formatPrice(order.totals.shipping)}</dd></div>
-                  {order.totals.codFee > 0 && <div className="flex justify-between"><dt>Kapıda ödeme</dt><dd>{formatPrice(order.totals.codFee)}</dd></div>}
+                  {order.totals.discount > 0 && <div className="flex justify-between text-leaf-500"><dt>Sepet indirimi</dt><dd>-{formatPrice(order.totals.discount)}</dd></div>}
                   <div className="flex justify-between text-sm font-bold"><dt>Toplam</dt><dd>{formatPrice(order.totals.total)}</dd></div>
                 </dl>
               </div>

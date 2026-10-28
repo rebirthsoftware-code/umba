@@ -138,10 +138,10 @@ export function OrderSuccess() {
               <dt className="text-espresso-700">Kargo</dt>
               <dd className="tabular-nums">{order.totals.shipping ? formatPrice(order.totals.shipping) : "Ücretsiz"}</dd>
             </div>
-            {order.totals.codFee > 0 && (
-              <div className="flex justify-between">
-                <dt className="text-espresso-700">Kapıda ödeme bedeli</dt>
-                <dd className="tabular-nums">{formatPrice(order.totals.codFee)}</dd>
+            {order.totals.discount > 0 && (
+              <div className="flex justify-between text-leaf-500">
+                <dt>Sepet indirimi</dt>
+                <dd className="tabular-nums">-{formatPrice(order.totals.discount)}</dd>
               </div>
             )}
             <div className="flex justify-between text-base font-bold">

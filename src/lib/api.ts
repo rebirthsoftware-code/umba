@@ -67,7 +67,7 @@ export interface ApiOrder {
   paymentMethod: PaymentMethod;
   paymentStatus: "bekliyor" | "odendi" | "basarisiz" | "kapida";
   paidAmount: number | null;
-  totals: { subtotal: number; shipping: number; codFee: number; total: number };
+  totals: { subtotal: number; shipping: number; codFee: number; discount: number; total: number };
   customer: OrderRecord["customer"];
   lines: OrderRecord["lines"];
   carrier: string | null;

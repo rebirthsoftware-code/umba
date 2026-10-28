@@ -68,6 +68,7 @@ export interface OrderRecord {
     subtotal: number;
     shipping: number;
     codFee: number;
+    discount: number;
     total: number;
     itemCount: number;
   };
@@ -125,6 +126,7 @@ export function createOrder(data: CheckoutInput, items: CartItem[]): OrderRecord
       subtotal: totals.subtotal,
       shipping: totals.shipping,
       codFee: totals.codFee,
+      discount: totals.discount,
       total: totals.total,
       itemCount: totals.itemCount,
     },
@@ -145,6 +147,7 @@ export function orderToText(order: OrderRecord): string {
     "",
     `Ara toplam: ${formatPrice(order.totals.subtotal)}`,
     `Kargo: ${order.totals.shipping ? formatPrice(order.totals.shipping) : "Ücretsiz"}`,
+    order.totals.discount ? `İndirim: -${formatPrice(order.totals.discount)}` : null,
     order.totals.codFee ? `Kapıda ödeme bedeli: ${formatPrice(order.totals.codFee)}` : null,
     `TOPLAM: ${formatPrice(order.totals.total)}`,
     `Ödeme: ${paymentLabels[order.paymentMethod]}`,

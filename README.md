@@ -49,6 +49,24 @@ BASE=http://localhost:3000 npm run test:api
 5. **PayTR bildirim adresi:** PayTR paneli → Ayarlar → Bildirim URL: `https://umbagida.com/api/paytr/callback`
 6. Değişkenleri girdikten sonra Deployments → Redeploy. Kontrol: `https://umbagida.com/api/health` → `{"ok":true,"db":true,"paytr":true,...}`
 
+## Sepet indirimi
+
+Ara toplama göre kademeli indirim (`src/lib/discount.ts`, hem sepet hem sunucu aynı tabloyu kullanır):
+
+| Ara toplam | İndirim |
+|---|---|
+| 2.000 ₺ | 50 ₺ |
+| 2.400 ₺ | 70 ₺ |
+| 2.900 ₺ | 140 ₺ |
+| 3.500 ₺ | 200 ₺ |
+| 4.100 ₺ | %6 |
+| 4.700 ₺ | %7 |
+| 5.300 ₺ | %8 |
+| 5.900 ₺ | %9 |
+| 6.500 ₺ ve üzeri | %10 (tavan) |
+
+Sepet, mevcut indirimi TL ve yüzde olarak gösterir; bir sonraki basamak için kaç TL eklenmesi gerektiğini yazar. Basamakları değiştirmek için `discountTiers` dizisini düzenleyin.
+
 ## Sipariş akışı
 
 | Ödeme | Sipariş oluşunca | Sonra |

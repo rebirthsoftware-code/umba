@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { X, ShoppingBag, Minus, Plus, Trash2, Truck } from "lucide-react";
+import { X, ShoppingBag, Minus, Plus, Trash2, Truck, BadgePercent } from "lucide-react";
 import { useCart } from "./CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
+import { discountMessage, computeDiscount, formatPct } from "@/lib/discount";
 import { getFeaturedProducts } from "@/lib/products";
 import { ProductVisual } from "@/components/product/ProductVisual";
 
@@ -89,6 +90,12 @@ export function CartDrawer() {
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-cream-200">
                 <div className="h-full rounded-full bg-caramel-500 transition-all duration-500" style={{ width: `${progress}%` }} />
               </div>
+              {discountMessage(totals.subtotal) && (
+                <p className="mt-2 flex items-start gap-2 text-xs font-semibold text-leaf-500">
+                  <BadgePercent className="mt-0.5 h-4 w-4 shrink-0" />
+                  {discountMessage(totals.subtotal)}
+                </p>
+              )}
             </div>
 
             <ul className="flex-1 divide-y divide-espresso-900/10 overflow-y-auto px-5">
@@ -177,6 +184,12 @@ export function CartDrawer() {
                 <span className="text-espresso-700">Ara toplam</span>
                 <span className="font-bold tabular-nums text-espresso-900">{formatPrice(totals.subtotal)}</span>
               </div>
+              {totals.discount > 0 && (
+                <div className="mt-1 flex items-center justify-between text-sm">
+                  <span className="text-leaf-500">Sepet indirimi ({formatPct(computeDiscount(totals.subtotal).pct)})</span>
+                  <span className="font-semibold tabular-nums text-leaf-500">-{formatPrice(totals.discount)}</span>
+                </div>
+              )}
               <div className="mt-1 flex items-center justify-between text-sm">
                 <span className="text-espresso-700">Kargo</span>
                 <span className="font-semibold tabular-nums text-espresso-900">

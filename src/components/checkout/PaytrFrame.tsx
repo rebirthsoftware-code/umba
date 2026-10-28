@@ -82,6 +82,12 @@ export function PaytrFrame() {
             ))}
           </ul>
           <dl className="mt-4 space-y-1.5 border-t border-espresso-900/10 pt-3 text-sm">
+            {order.totals.discount > 0 && (
+              <div className="flex justify-between text-leaf-500">
+                <dt>Sepet indirimi</dt>
+                <dd className="tabular-nums">-{formatPrice(order.totals.discount)}</dd>
+              </div>
+            )}
             <div className="flex justify-between">
               <dt className="text-espresso-700">Kargo</dt>
               <dd className="tabular-nums">{order.totals.shipping ? formatPrice(order.totals.shipping) : "Ücretsiz"}</dd>
