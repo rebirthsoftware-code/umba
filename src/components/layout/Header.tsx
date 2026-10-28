@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronDown, Phone, Search, ShoppingBag, Truck } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
@@ -10,7 +10,7 @@ import { getProductsByCategory } from "@/lib/products";
 import { site } from "@/lib/site";
 import { cn, formatPrice } from "@/lib/format";
 import { useCart } from "@/components/cart/CartProvider";
-import { CategoryVisual } from "@/components/product/CategoryVisual";
+import { CategoryTile } from "@/components/product/CategoryTile";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
 import { SearchTrigger } from "@/components/search/SearchTrigger";
 import { MobileMenu } from "./MobileMenu";
@@ -24,6 +24,7 @@ const nav = [
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const { totals, open: openCart, hydrated } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -85,6 +86,26 @@ export function Header() {
   const closeMega = () => {
     megaTimer.current = window.setTimeout(() => setMegaOpen(false), 120);
   };
+  const lastPointer = useRef<string>("");
+  /* Fare: hover açar, tıklama tüm ürünlere gider. Dokunmatik/klavye: dokunma açar-kapatır. */
+  const onMegaClick = () => {
+    if (lastPointer.current === "mouse") {
+      router.push("/urunler");
+      return;
+    }
+    if (megaTimer.current) window.clearTimeout(megaTimer.current);
+    setMegaOpen((o) => !o);
+  };
+  const megaRef = useRef<HTMLDivElement>(null);
+  // Dışarı tıklayınca açılır menüyü kapat (dokunmatik ekranlarda hover yok)
+  useEffect(() => {
+    if (!megaOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (megaRef.current && !megaRef.current.contains(e.target as Node)) setMegaOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [megaOpen]);
 
   const isActive = (href: string) =>
     href === "/urunler"
@@ -147,21 +168,35 @@ export function Header() {
             <nav className="ml-6 hidden items-center gap-1 lg:flex" aria-label="Ana menü">
               {nav.map((item) =>
                 item.mega ? (
-                  <div key={item.href} className="relative" onMouseEnter={openMega} onMouseLeave={closeMega}>
-                    <Link
-                      href={item.href}
+                  <div
+                    key={item.href}
+                    ref={megaRef}
+                    className="relative"
+                    onPointerEnter={(e) => e.pointerType === "mouse" && openMega()}
+                    onPointerLeave={(e) => e.pointerType === "mouse" && closeMega()}
+                  >
+                    <button
+                      type="button"
+                      onPointerDown={(e) => {
+                        lastPointer.current = e.pointerType;
+                      }}
+                      onKeyDown={() => {
+                        lastPointer.current = "keyboard";
+                      }}
+                      onClick={onMegaClick}
                       className={cn(
                         "inline-flex h-10 items-center gap-1 rounded-full px-4 text-sm font-semibold transition-colors",
-                        isActive(item.href) ? "bg-cream-200 text-espresso-900" : "text-espresso-800 hover:bg-cream-200",
+                        isActive(item.href) || megaOpen ? "bg-cream-200 text-espresso-900" : "text-espresso-800 hover:bg-cream-200",
                       )}
-                      aria-haspopup="true"
+                      aria-haspopup="menu"
                       aria-expanded={megaOpen}
-                      onFocus={openMega}
+                      aria-controls="mega-urunler"
                     >
                       {item.label}
                       <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", megaOpen && "rotate-180")} />
-                    </Link>
+                    </button>
                     <div
+                      id="mega-urunler"
                       className={cn(
                         "absolute left-0 top-full z-50 w-[48rem] pt-3 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                         megaOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
@@ -179,22 +214,20 @@ export function Header() {
                                 href={`/kategori/${c.slug}`}
                                 style={{ transitionDelay: megaOpen ? `${i * 40}ms` : "0ms" }}
                                 className={cn(
-                                  "group/item relative flex h-24 items-center overflow-hidden rounded-2xl border border-transparent pl-4 pr-16 transition-all duration-300 hover:border-espresso-900/10 hover:bg-cream-100",
+                                  "group/item flex items-center gap-3 rounded-2xl border border-transparent p-2.5 pr-4 transition-all duration-300 hover:border-espresso-900/10 hover:bg-cream-100",
                                   megaOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
                                 )}
                               >
-                                <span>
-                                  <span className="block text-sm font-bold text-espresso-900 group-hover/item:text-caramel-700">{c.name}</span>
-                                  <span className="mt-0.5 block text-xs leading-snug text-espresso-600">{c.tagline}</span>
-                                </span>
-                                <CategoryVisual
+                                <CategoryTile
                                   category={c}
                                   sample={sample}
-                                  className={cn(
-                                    "absolute drop-shadow-md transition-transform duration-500 group-hover/item:scale-110",
-                                    c.imageLandscape ? "-right-1 top-1/2 h-auto w-[44%] -translate-y-1/2" : "-right-1 bottom-0 h-[92%] w-auto group-hover/item:-rotate-6",
-                                  )}
+                                  className="h-[4.5rem] w-[4.5rem] shrink-0 rounded-xl bg-cream-100 transition-colors group-hover/item:bg-cream-50"
+                                  imgClassName="p-1.5 transition-transform duration-500 group-hover/item:scale-110"
                                 />
+                                <span className="min-w-0">
+                                  <span className="block text-sm font-bold text-espresso-900 group-hover/item:text-caramel-700">{c.name}</span>
+                                  <span className="mt-0.5 line-clamp-2 block text-xs leading-snug text-espresso-600">{c.tagline}</span>
+                                </span>
                               </Link>
                             );
                           })}

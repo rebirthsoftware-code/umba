@@ -6,7 +6,7 @@ import { ArrowUpRight, Phone, Search, X, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { InstagramIcon, FacebookIcon } from "@/components/ui/SocialIcons";
 import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
-import { CategoryVisual } from "@/components/product/CategoryVisual";
+import { CategoryTile } from "@/components/product/CategoryTile";
 import { categories } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
 import { site } from "@/lib/site";
@@ -91,28 +91,27 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
             <ArrowUpRight className="mb-1 h-6 w-6 text-caramel-300" />
           </Link>
 
-          <ul className="mt-4 grid grid-cols-2 gap-2.5">
+          <ul className="mt-4 overflow-hidden rounded-2xl border border-cream-50/10 bg-cream-50/[0.04] divide-y divide-cream-50/10">
             {categories.map((c) => {
               const list = getProductsByCategory(c.slug);
               return (
                 <li key={c.slug} className="menu-item" style={item()}>
-                  <Link
-                    href={`/kategori/${c.slug}`}
-                    className="group relative flex h-24 items-end overflow-hidden rounded-2xl border border-cream-50/10 p-3 transition-transform active:scale-[0.98]"
-                    style={{ background: `linear-gradient(135deg, ${c.color}cc 0%, ${c.color}55 100%)` }}
-                  >
-                    <span className="relative z-10">
-                      <span className="block text-sm font-bold leading-tight">{c.name}</span>
-                      <span className="block text-[0.7rem] text-cream-50/80">{list.length} ürün</span>
-                    </span>
-                    <CategoryVisual
+                  <Link href={`/kategori/${c.slug}`} className="group flex items-center gap-3.5 px-3 py-2.5 transition-colors active:bg-cream-50/10">
+                    <CategoryTile
                       category={c}
                       sample={list[0]}
-                      className={cn(
-                        "absolute -top-1 w-auto opacity-90 drop-shadow-lg transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105",
-                        c.imageLandscape ? "-right-4 h-[80%] max-w-[62%] object-contain object-right" : "-right-2 h-[115%]",
-                      )}
+                      className="h-16 w-16 shrink-0 rounded-xl"
+                      imgClassName="p-1.5 transition-transform duration-500 group-hover:scale-105"
+                      style={{ background: `linear-gradient(135deg, ${c.color}aa 0%, ${c.color}55 100%)` }}
                     />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[15px] font-bold leading-tight">{c.name}</span>
+                      <span className="mt-0.5 block truncate text-xs text-cream-50/70">{c.tagline}</span>
+                    </span>
+                    <span className="flex shrink-0 items-center gap-2 text-xs text-cream-50/60">
+                      {list.length}
+                      <ArrowUpRight className="h-4 w-4 text-caramel-300" />
+                    </span>
                   </Link>
                 </li>
               );
