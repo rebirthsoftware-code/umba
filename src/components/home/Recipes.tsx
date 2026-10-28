@@ -7,7 +7,7 @@ import { DrinkArt, type DrinkKind } from "@/components/product/DrinkArt";
 
 const recipes: { title: string; time: string; product: string; topping: string; kind: DrinkKind; steps: string[] }[] = [
   { title: "Salted Caramel Macchiato", time: "3 dk", product: "tuzlu-karamel-surubu", topping: "karamel-sosu", kind: "mug", steps: ["30 ml Tuzlu Karamel Şurubu bardağa", "180 ml buharlanmış süt", "1 shot espresso üstten", "Karamel Sosu ile çizgiler"] },
-  { title: "Çilekli Frozen", time: "2 dk", product: "cilek-puresi", topping: "limonata-konsantresi", kind: "glass", steps: ["80 g Çilek Püresi", "40 ml Limonata Konsantresi", "200 g buz", "Blender'da 30 sn"] },
+  { title: "Çilekli Frozen", time: "2 dk", product: "cilek-puresi", topping: "limonata-konsantresi", kind: "glass", steps: ["80 ml Çilek Püresi", "40 ml Limonata Konsantresi", "200 g buz", "Blender'da 30 sn"] },
   { title: "Fındıklı Sıcak Çikolata", time: "4 dk", product: "klasik-sicak-cikolata", topping: "findik-surubu", kind: "mug", steps: ["30 g Sıcak Çikolata tozu", "180 ml sıcak süt", "15 ml Fındık Şurubu", "Krem şanti ve kakao"] },
 ];
 

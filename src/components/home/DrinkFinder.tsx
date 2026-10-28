@@ -45,7 +45,7 @@ const drinks: Drink[] = [
     kind: "glass",
     hero: "mango-puresi",
     tagline: "Gerçek meyveli, buz gibi; yazın en çok dönen içecekleri.",
-    steps: ["80 g püre + 200 g buz", "40 ml limonata konsantresi", "Blender'da 30 saniye"],
+    steps: ["80 ml püre + 200 g buz", "40 ml limonata konsantresi", "Blender'da 30 saniye"],
     products: ["mango-puresi", "cilek-puresi", "karpuz-puresi", "limonata-konsantresi"],
   },
   {

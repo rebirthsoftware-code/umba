@@ -29,7 +29,7 @@ export const categories: Category[] = [
     name: "Püreler",
     tagline: "Gerçek meyve ile smoothie ve frozen bazları",
     description:
-      "Yüksek meyve oranlı, katkısız kıvamlı püreler. Smoothie, frozen, limonata ve kokteyllerde gerçek meyve lezzeti.",
+      "18 çeşit gerçek meyveli püre; 1 L pompalı şişede. Smoothie, frozen, limonata ve kokteyllerde gerçek meyve lezzeti.",
     color: "#d9484f",
     colorSoft: "#fde6e7",
     art: "pouch",
