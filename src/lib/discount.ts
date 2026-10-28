@@ -72,10 +72,7 @@ export function formatPct(pct: number): string {
 /** Sepet için teşvik / bilgi cümlesi. */
 export function discountMessage(subtotal: number): string {
   const d = computeDiscount(subtotal);
-  if (d.amount > 0 && d.next) {
-    return `${formatPrice(d.amount)} (${formatPct(d.pct)}) indirim kazandınız. ${formatPrice(d.next.missing)} daha ekleyin, indirim ${formatPrice(d.next.amount)} (${formatPct(d.next.pct)}) olsun.`;
-  }
-  if (d.amount > 0) return `Tebrikler! ${formatPrice(d.amount)} (${formatPct(d.pct)}) indirim kazandınız.`;
-  if (d.next) return `${formatPrice(d.next.missing)} daha ekleyin, ${formatPrice(d.next.amount)} (${formatPct(d.next.pct)}) indirim kazanın.`;
+  if (d.next) return `${formatPrice(d.next.missing)} daha ekleyin, ${formatPrice(d.next.amount)} indirim kazanın.`;
+  if (d.amount > 0) return `Tebrikler! En yüksek indirimi kazandınız: ${formatPrice(d.amount)}.`;
   return "";
 }

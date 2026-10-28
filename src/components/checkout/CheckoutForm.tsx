@@ -14,7 +14,6 @@ import { apiEnabled, createRemoteOrder } from "@/lib/api";
 import { computeTotals, type PaymentMethod } from "@/lib/cart";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
-import { computeDiscount, formatPct } from "@/lib/discount";
 
 type FormState = Omit<CheckoutInput, "items" | "acceptTerms" | "acceptKvkk"> & {
   acceptTerms: boolean;
@@ -369,7 +368,7 @@ export function CheckoutForm() {
             </div>
             {totals.discount > 0 && (
               <div className="flex justify-between text-leaf-500">
-                <dt>Sepet indirimi ({formatPct(computeDiscount(totals.subtotal).pct)})</dt>
+                <dt>Sepet indirimi</dt>
                 <dd className="font-semibold tabular-nums">-{formatPrice(totals.discount)}</dd>
               </div>
             )}

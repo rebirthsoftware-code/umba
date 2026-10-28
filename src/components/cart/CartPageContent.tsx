@@ -6,7 +6,7 @@ import { useCart } from "./CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatPrice } from "@/lib/format";
 import { site } from "@/lib/site";
-import { discountMessage, computeDiscount, formatPct } from "@/lib/discount";
+import { discountMessage } from "@/lib/discount";
 import { getFeaturedProducts } from "@/lib/products";
 import { ProductCard } from "@/components/product/ProductCard";
 
@@ -141,7 +141,7 @@ export function CartPageContent() {
             </div>
             {totals.discount > 0 && (
               <div className="flex justify-between text-leaf-500">
-                <dt>Sepet indirimi ({formatPct(computeDiscount(totals.subtotal).pct)})</dt>
+                <dt>Sepet indirimi</dt>
                 <dd className="font-semibold tabular-nums">-{formatPrice(totals.discount)}</dd>
               </div>
             )}

@@ -66,7 +66,7 @@ Ara toplama göre kademeli indirim (`src/lib/discount.ts`, hem sepet hem sunucu 
 | 6.500 ₺ | 650 ₺ |
 | sonra her 600 ₺ | +60 ₺ (20.000 ₺'de 2.000 ₺ ile sabitlenir) |
 
-Sepet, mevcut indirimi TL ve yüzde olarak gösterir; bir sonraki basamak için kaç TL eklenmesi gerektiğini yazar. Basamakları değiştirmek için `discountTiers` dizisini düzenleyin.
+Sepet, uygulanan indirimi TL olarak gösterir ve bir sonraki basamak için kaç TL eklenmesi gerektiğini yazar. Basamakları değiştirmek için `discountTiers` dizisini düzenleyin.
 
 ## Sipariş akışı
 
