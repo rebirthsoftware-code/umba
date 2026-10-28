@@ -40,9 +40,11 @@ export const categories: Category[] = [
   {
     slug: "kahve",
     name: "Kahve",
-    tagline: "Taze kavrulmuş çekirdek ve öğütülmüş kahveler",
+    image: "/categories/kahve.webp",
+    imageLandscape: true,
+    tagline: "Espresso Daily, Colombian ve Reserve; 1 kg çekirdek",
     description:
-      "Seçilmiş çekirdeklerden küçük partiler hâlinde kavrulan espresso harmanları, single origin kahveler ve Türk kahvesi.",
+      "Üç espresso: günlük kullanım için Daily, meyvemsi Colombian ve çikolata-fındık notalı Reserve. %100 Arabica seçenekleri, 1 kg valfli poşette çekirdek.",
     color: "#3d2a1e",
     colorSoft: "#efe6dd",
     art: "bag",

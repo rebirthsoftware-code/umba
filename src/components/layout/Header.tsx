@@ -190,7 +190,10 @@ export function Header() {
                                 <CategoryVisual
                                   category={c}
                                   sample={sample}
-                                  className="absolute -right-1 bottom-0 h-[92%] w-auto drop-shadow-md transition-transform duration-500 group-hover/item:-rotate-6 group-hover/item:scale-110"
+                                  className={cn(
+                                    "absolute drop-shadow-md transition-transform duration-500 group-hover/item:scale-110",
+                                    c.imageLandscape ? "right-2 top-1/2 h-auto w-[34%] -translate-y-1/2 rounded-lg" : "-right-1 bottom-0 h-[92%] w-auto group-hover/item:-rotate-6",
+                                  )}
                                 />
                               </Link>
                             );

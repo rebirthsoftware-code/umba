@@ -20,7 +20,7 @@ interface Slide {
   primary: { label: string; href: string };
   secondary?: { label: string; href: string };
   products: string[];
-  image?: { src: string; alt: string };
+  image?: { src: string; alt: string; fit?: "contain" | "cover" };
   badge?: { label: string; product: string };
   caption: string;
   tone: "dark" | "light";
@@ -38,8 +38,9 @@ const slides: Slide[] = [
     text: `Şurup, sos, püre, kahve, sıcak çikolata ve bar ürünleri; tek adresten, kafe standardında. Türkiye'nin her yerine ${site.commerce.deliveryEstimate} içinde teslim.`,
     primary: { label: "Ürünleri keşfet", href: "/urunler" },
     secondary: { label: "Kurumsal fiyat al", href: "/kurumsal" },
-    products: ["tuzlu-karamel-surubu", "cilek-puresi", "klasik-sicak-cikolata", "espresso-reserve"],
-    badge: { label: "Çok satan", product: "tuzlu-karamel-surubu" },
+    products: [],
+    image: { src: "/hero/kahve.webp", alt: "Umba espresso koleksiyonu: Daily, Colombian, Reserve", fit: "cover" },
+    badge: { label: "Yeni", product: "espresso-reserve" },
     caption: "Umba Coffee · 2026 koleksiyonu",
     tone: "dark",
     bg: "#f6f0e6",

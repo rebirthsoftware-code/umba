@@ -24,7 +24,7 @@ export function HeroStage({
 }: {
   products: Product[];
   /** Ürün yığını yerine tek büyük görsel (şeffaf PNG/WebP). */
-  image?: { src: string; alt: string };
+  image?: { src: string; alt: string; fit?: "contain" | "cover" };
   theme: StageTheme;
   caption: string;
   badge?: { label: string; product: Product };
@@ -92,7 +92,12 @@ export function HeroStage({
         </p>
       </div>
 
-      {image && (
+      {image?.fit === "cover" && (
+        <div className="absolute inset-x-8 bottom-6 top-10 z-10 overflow-hidden rounded-[1.5rem]" style={layer(-10, 140)}>
+          <Image src={assetUrl(image.src)} alt={image.alt} fill priority={active} sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+        </div>
+      )}
+      {image && image.fit !== "cover" && (
         <div className="absolute inset-x-[2%] -top-2 bottom-4 z-10" style={layer(-26, 140)}>
           <div className="animate-float relative h-full w-full" style={{ animationDelay: "-1s" }}>
             <Image
@@ -117,7 +122,7 @@ export function HeroStage({
 
       {badge && (
         <div
-          className="absolute -bottom-2 right-4 rounded-2xl border border-espresso-900/10 bg-cream-50/95 px-4 py-3 shadow-card backdrop-blur sm:right-10"
+          className="absolute -bottom-2 right-4 z-20 rounded-2xl border border-espresso-900/10 bg-cream-50/95 px-4 py-3 shadow-card backdrop-blur sm:right-10"
           style={layer(12, 520)}
         >
           <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-caramel-700">{badge.label}</p>
