@@ -91,7 +91,7 @@ PayTR anahtarları girilmemişken (veya `PAYMENT_DEMO=1` ile) kart ödemesi **de
 - **Mağaza uygulaması:** site ana ekrana / masaüstüne "Umba" olarak eklenebilir (`/manifest.webmanifest`); Android/Chrome'da alt köşede "Uygulama olarak ekle" şeridi çıkar, iOS'ta Paylaş → Ana Ekrana Ekle yönergesi gösterilir. Çevrimdışıyken `/offline` sayfası ve önbellekteki görseller sunulur (`public/sw.js`).
 - **Yönetim uygulaması:** `/yonetim` ayrı bir uygulama olarak kurulur ("Umba Yönetim", kendi ikonu, mağaza üst/alt çerçevesi gizli).
 - **Anlık bildirim:** Yönetim panelindeki **Bildirimleri aç** düğmesi cihazı kaydeder; her yeni sipariş (havale) ve her alınan kart ödemesinde kayıtlı tüm cihazlara bildirim gider, dokununca ilgili sipariş açılır. iOS'ta bildirim için panelin ana ekrana eklenmiş olması gerekir (iOS 16.4+).
-  Anahtarlar: `npx web-push generate-vapid-keys` → `NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY`, `WEB_PUSH_PRIVATE_KEY`, `WEB_PUSH_SUBJECT` (Vercel ortam değişkenleri).
+  Anahtar: `npx web-push generate-vapid-keys` → yalnızca `WEB_PUSH_PRIVATE_KEY` (public key otomatik türetilir) ve `WEB_PUSH_SUBJECT` (Vercel ortam değişkenleri).
 
 ## API uç noktaları
 

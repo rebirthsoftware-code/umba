@@ -1,4 +1,5 @@
 import webpush, { type PushSubscription } from "web-push";
+import { createECDH } from "node:crypto";
 import { db } from "./db";
 
 /**
@@ -6,12 +7,25 @@ import { db } from "./db";
  * Ortam değişkenleri: NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY, WEB_PUSH_PRIVATE_KEY, WEB_PUSH_SUBJECT (mailto:…)
  * Anahtar üretmek için: npx web-push generate-vapid-keys
  */
+/** Public key, private key'den türetilir (P-256); ayrıca girilmesi gerekmez. */
+export function pushPublicKey(): string {
+  const priv = (process.env.WEB_PUSH_PRIVATE_KEY ?? "").trim();
+  if (!priv) return "";
+  try {
+    const ecdh = createECDH("prime256v1");
+    ecdh.setPrivateKey(Buffer.from(priv, "base64url"));
+    return ecdh.getPublicKey().toString("base64url");
+  } catch {
+    return "";
+  }
+}
+
 export function pushConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY && process.env.WEB_PUSH_PRIVATE_KEY);
+  return Boolean(pushPublicKey());
 }
 
 function configure() {
-  webpush.setVapidDetails(process.env.WEB_PUSH_SUBJECT || "mailto:info@umbagida.com", process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY!, process.env.WEB_PUSH_PRIVATE_KEY!);
+  webpush.setVapidDetails(process.env.WEB_PUSH_SUBJECT || "mailto:info@umbagida.com", pushPublicKey(), (process.env.WEB_PUSH_PRIVATE_KEY ?? "").trim());
 }
 
 export async function saveSubscription(sub: PushSubscription, label?: string) {

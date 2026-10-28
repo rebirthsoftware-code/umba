@@ -5,7 +5,6 @@ import { Bell, BellOff, BellRing, Loader2 } from "lucide-react";
 import { cn } from "@/lib/format";
 import { site } from "@/lib/site";
 
-const PUBLIC_KEY = process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY ?? "";
 
 function urlBase64ToUint8Array(base64: string): Uint8Array<ArrayBuffer> {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
@@ -15,11 +14,19 @@ function urlBase64ToUint8Array(base64: string): Uint8Array<ArrayBuffer> {
   return out;
 }
 
-type State = "unsupported" | "denied" | "off" | "on";
+type State = "unsupported" | "disabled" | "denied" | "off" | "on";
 const listeners = new Set<() => void>();
 let cached: State | null = null;
+let publicKey = "";
 async function detect(): Promise<State> {
   if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) return "unsupported";
+  try {
+    const r = await fetch(`${site.api.url}/push-key`).then((r) => r.json());
+    publicKey = typeof r.key === "string" ? r.key : "";
+  } catch {
+    publicKey = "";
+  }
+  if (!publicKey) return "disabled";
   if (Notification.permission === "denied") return "denied";
   const reg = await navigator.serviceWorker.getRegistration();
   const sub = await reg?.pushManager.getSubscription();
@@ -52,8 +59,8 @@ export function PushToggle({ token }: { token: string }) {
   const standalone = typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone);
   const isIos = typeof navigator !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent);
 
-  if (!PUBLIC_KEY) return null;
   if (state === null) return null;
+  if (state === "disabled") return <p className="text-xs text-espresso-600">Bildirim kapalı: Vercel&rsquo;de WEB_PUSH_PRIVATE_KEY tanımlı değil.</p>;
   if (state === "unsupported") {
     return isIos && !standalone ? <p className="text-xs text-espresso-600">Bildirim için paneli önce ana ekrana ekleyin (Paylaş → Ana Ekrana Ekle).</p> : null;
   }
@@ -74,7 +81,7 @@ export function PushToggle({ token }: { token: string }) {
       }
       const reg = (await navigator.serviceWorker.getRegistration()) ?? (await navigator.serviceWorker.register("/sw.js"));
       await navigator.serviceWorker.ready;
-      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(PUBLIC_KEY) });
+      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(publicKey) });
       const res = await api("POST", { subscription: sub.toJSON(), label: navigator.userAgent.slice(0, 120) });
       if (res.status !== "success") throw new Error(res.reason ?? "Kayıt başarısız");
       cached = "on";
