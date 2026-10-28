@@ -76,7 +76,14 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: site.name,
   url: site.url,
-  logo: `${site.url}/icon.svg`,
+  logo: `${site.url}/icons/icon-512.png`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Karıt Sanayi Sitesi, 12. Sokak No: 45",
+    addressLocality: "Safranbolu",
+    addressRegion: "Karabük",
+    addressCountry: "TR",
+  },
   contactPoint: [
     {
       "@type": "ContactPoint",

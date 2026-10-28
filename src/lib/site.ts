@@ -28,7 +28,7 @@ export const site = {
     whatsapp: whatsappNumbers[0] ?? "",
     whatsappNumbers,
     email: pick(process.env.NEXT_PUBLIC_EMAIL, "info@umbagida.com"),
-    address: pick(process.env.NEXT_PUBLIC_ADDRESS, "Organize Sanayi Bölgesi, 1. Cadde No: 1, İstanbul / Türkiye"),
+    address: pick(process.env.NEXT_PUBLIC_ADDRESS, "Karıt Sanayi Sitesi, 12. Sokak No: 45, Safranbolu / Karabük"),
     workingHours: "Hafta içi 09:00 – 18:00",
   },
   social: {
