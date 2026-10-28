@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const perks = [
   { icon: BadgePercent, title: "Kademeli fiyatlandırma", text: "Aylık tüketiminize göre liste fiyatının %15–35 altında kurumsal fiyatlar." },
-  { icon: Package, title: "HoReCa ambalajları", text: "3 kg sos ve toz ambalajları, 750 ml şurup ve koli bazlı sipariş seçenekleri." },
+  { icon: Package, title: "HoReCa ambalajları", text: "3 kg toz ambalajları, 1 L püre, 750 ml şurup ve koli bazlı sipariş seçenekleri." },
   { icon: Truck, title: "Düzenli teslimat", text: "Haftalık veya aylık planlı teslimat; İstanbul içi kendi araçlarımızla." },
   { icon: GraduationCap, title: "Barista eğitimi", text: "Yeni menü için personel eğitimi, dozaj tabloları ve tarif kartları." },
   { icon: FileText, title: "Vadeli ödeme", text: "Onaylı kurumsal müşterilere 30 güne kadar vade ve e-fatura." },

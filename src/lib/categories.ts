@@ -16,9 +16,9 @@ export const categories: Category[] = [
   {
     slug: "soslar",
     name: "Soslar",
-    tagline: "Yoğun kıvamlı topping ve içecek sosları",
+    tagline: "Bardak süsleme ve topping için dekor soslar",
     description:
-      "Kahve, waffle, pankek ve tatlılarda kullanılan yoğun çikolata, karamel ve fındık sosları. Kolay akışkan şişe ile pratik kullanım.",
+      "10 aroma dekor sos; ince uçlu sıkma şişede. Mocha, frappe, milkshake ve tatlılarda bardak içi ve üstü süsleme.",
     color: "#6b3e26",
     colorSoft: "#f1e5dc",
     art: "sauce",
