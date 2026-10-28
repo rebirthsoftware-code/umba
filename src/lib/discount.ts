@@ -1,23 +1,28 @@
 import { formatPrice } from "./format";
 
 /**
- * Sepet tutarına göre kademeli indirim.
- * İlk basamaklar sabit TL; 4.100 ₺'den itibaren her 600 ₺'de %1 artarak %10'da sabitlenir.
+ * Sepet tutarına göre kademeli indirim; tüm basamaklar sabit TL.
+ * 2.000→50, 2.400→70, 2.900→140, 3.500→200, 4.100→246, 4.700→329, 5.300→424, 5.900→531, 6.500→650 ₺;
+ * 6.500 ₺'den sonra her 600 ₺'de 60 ₺ artar (20.000 ₺'ye kadar, sonra sabit).
  * Hem istemci (sepet) hem sunucu (sipariş) aynı tabloyu kullanır.
  */
 export type DiscountTier = { min: number; amount: number } | { min: number; pct: number };
 
-export const discountTiers: DiscountTier[] = [
+const baseTiers: DiscountTier[] = [
   { min: 2000, amount: 50 },
   { min: 2400, amount: 70 },
   { min: 2900, amount: 140 },
   { min: 3500, amount: 200 },
-  { min: 4100, pct: 6 },
-  { min: 4700, pct: 7 },
-  { min: 5300, pct: 8 },
-  { min: 5900, pct: 9 },
-  { min: 6500, pct: 10 },
+  { min: 4100, amount: 246 },
+  { min: 4700, amount: 329 },
+  { min: 5300, amount: 424 },
+  { min: 5900, amount: 531 },
+  { min: 6500, amount: 650 },
 ];
+const extraTiers: DiscountTier[] = [];
+for (let min = 7100, amount = 710; min <= 20000; min += 600, amount += 60) extraTiers.push({ min, amount });
+
+export const discountTiers: DiscountTier[] = [...baseTiers, ...extraTiers];
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
@@ -70,7 +75,7 @@ export function discountMessage(subtotal: number): string {
   if (d.amount > 0 && d.next) {
     return `${formatPrice(d.amount)} (${formatPct(d.pct)}) indirim kazandınız. ${formatPrice(d.next.missing)} daha ekleyin, indirim ${formatPrice(d.next.amount)} (${formatPct(d.next.pct)}) olsun.`;
   }
-  if (d.amount > 0) return `Tebrikler! En yüksek indirim: ${formatPrice(d.amount)} (${formatPct(d.pct)}).`;
+  if (d.amount > 0) return `Tebrikler! ${formatPrice(d.amount)} (${formatPct(d.pct)}) indirim kazandınız.`;
   if (d.next) return `${formatPrice(d.next.missing)} daha ekleyin, ${formatPrice(d.next.amount)} (${formatPct(d.next.pct)}) indirim kazanın.`;
   return "";
 }

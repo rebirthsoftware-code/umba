@@ -59,11 +59,12 @@ Ara toplama göre kademeli indirim (`src/lib/discount.ts`, hem sepet hem sunucu 
 | 2.400 ₺ | 70 ₺ |
 | 2.900 ₺ | 140 ₺ |
 | 3.500 ₺ | 200 ₺ |
-| 4.100 ₺ | %6 |
-| 4.700 ₺ | %7 |
-| 5.300 ₺ | %8 |
-| 5.900 ₺ | %9 |
-| 6.500 ₺ ve üzeri | %10 (tavan) |
+| 4.100 ₺ | 246 ₺ |
+| 4.700 ₺ | 329 ₺ |
+| 5.300 ₺ | 424 ₺ |
+| 5.900 ₺ | 531 ₺ |
+| 6.500 ₺ | 650 ₺ |
+| sonra her 600 ₺ | +60 ₺ (20.000 ₺'de 2.000 ₺ ile sabitlenir) |
 
 Sepet, mevcut indirimi TL ve yüzde olarak gösterir; bir sonraki basamak için kaç TL eklenmesi gerektiğini yazar. Basamakları değiştirmek için `discountTiers` dizisini düzenleyin.
 
