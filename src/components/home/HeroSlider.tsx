@@ -38,7 +38,7 @@ const slides: Slide[] = [
     text: `Şurup, sos, püre, kahve, sıcak çikolata ve bar ürünleri; tek adresten, kafe standardında. Türkiye'nin her yerine ${site.commerce.deliveryEstimate} içinde teslim.`,
     primary: { label: "Ürünleri keşfet", href: "/urunler" },
     secondary: { label: "Kurumsal fiyat al", href: "/kurumsal" },
-    products: ["tuzlu-karamel-surubu", "cilek-puresi", "klasik-sicak-cikolata", "umba-signature-espresso"],
+    products: ["tuzlu-karamel-surubu", "cilek-puresi", "klasik-sicak-cikolata", "espresso-reserve"],
     badge: { label: "Çok satan", product: "tuzlu-karamel-surubu" },
     caption: "Umba Coffee · 2026 koleksiyonu",
     tone: "dark",

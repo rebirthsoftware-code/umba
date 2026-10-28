@@ -20,7 +20,7 @@ const values = [
 ];
 
 export default function AboutPage() {
-  const a = getProduct("umba-signature-espresso")!;
+  const a = getProduct("espresso-reserve")!;
   const b = getProduct("tuzlu-karamel-surubu")!;
   const c = getProduct("mango-puresi")!;
 

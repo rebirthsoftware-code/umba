@@ -119,44 +119,31 @@ function puree(b: Base): Product {
   };
 }
 
-function coffee(
-  b: Base & { notes: string; roast: string; origin: string },
-  opts: { turkish?: boolean } = {},
-): Product {
+function coffee(b: Base & { notes: string; roast: string; origin: string }): Product {
   const { notes, roast, origin, ...rest } = b;
   const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
-  const turkish = opts.turkish ?? false;
   return {
     category: "kahve",
     art: "bag",
     highlights: [
       `Tat notaları: ${notes}`,
       `Kavurma: ${roast}`,
-      "Sipariş sonrası taze kavrulur, tek yönlü valfli poşet",
-      turkish ? "Geleneksel ince öğütüm" : "Çekirdek veya istenilen öğütümde",
+      "Çekirdek kahve, tek yönlü valfli 1 kg poşet",
+      "Espresso makinesi, moka pot ve filtre için uygun",
     ],
-    usage: turkish
-      ? ["Cezve: 7 g kahve + 60 ml su, kısık ateşte", "Türk kahvesi makinesi: 1 ölçek"]
-      : [
-          "Espresso: 18 g kahve → 36 g espresso, 25–30 sn",
-          "Filtre / V60: 15 g kahve → 250 ml su",
-          "French press: 30 g kahve → 500 ml su, 4 dk",
-        ],
+    usage: [
+      "Espresso: 18 g kahve → 36 g espresso, 25–30 sn",
+      "Filtre / V60: 15 g kahve → 250 ml su",
+      "French press: 30 g kahve → 500 ml su, 4 dk",
+    ],
     specs: [
       { label: "Menşei", value: origin },
       { label: "Kavurma", value: roast },
-      { label: "Ambalaj", value: turkish ? "100 g / 500 g valfli poşet" : "250 g / 1 kg valfli poşet" },
+      { label: "Form", value: "Çekirdek (Whole Bean)" },
+      { label: "Ambalaj", value: "1 kg (35.2 oz) valfli poşet" },
       { label: "Raf ömrü", value: "12 ay (en iyi tüketim: kavurmadan sonra 2 ay)" },
     ],
-    variants: turkish
-      ? [
-          v("100g", "100 g", 129.9, `KHV-${code}-100`),
-          v("500g", "500 g", 499.9, `KHV-${code}-500`),
-        ]
-      : [
-          v("250g", "250 g", 349.9, `KHV-${code}-250`),
-          v("1kg", "1 kg", 1149.9, `KHV-${code}-1000`),
-        ],
+    variants: [v("1kg", "1 kg", 1149.9, `KHV-${code}-1000`)],
     tags: rest.tags ?? [],
     ...rest,
   };
@@ -968,97 +955,47 @@ export const products: Product[] = [
 
   /* ------------------------------------ Kahve ---------------------------------- */
   coffee({
-    slug: "umba-signature-espresso",
-    name: "Umba Signature Espresso Harmanı",
-    color: "#3d2a1e",
-    color2: "#1c110a",
-    notes: "Bitter çikolata, karamel, fındık",
-    roast: "Orta-koyu",
-    origin: "Brezilya, Kolombiya, Etiyopya harmanı",
-    short: "Dengeli gövde, kremamsı crema; kafe espresso'su.",
-    description:
-      "Umba'nın imza harmanı. Sütlü içeceklerde kaybolmayan gövde, espresso'da çikolata ve karamel notaları. Kafelerin günlük iş atı.",
+    slug: "espresso-daily",
+    name: "Espresso Daily",
+    color: "#1e3a8a",
+    color2: "#0f1f4d",
+    image: "/products/espresso-daily.webp",
+    imageFit: "cover",
+    short: "Yumuşak, çiçeksi ve baharatlı; günlük espresso harmanı.",
+    description: "Her gün içilecek dengeli espresso harmanı. Yumuşak gövde, çiçeksi ve hafif baharatlı notalar; sütlü kahvelerde de karakterini korur. Çekirdek, 1 kg.",
+    notes: "Yumuşak, çiçeksi, baharatlı",
+    roast: "Orta",
+    origin: "Harman",
     tags: ["cok-satan"],
   }),
   coffee({
-    slug: "brezilya-santos",
-    name: "Brezilya Santos",
-    color: "#6b4a30",
-    color2: "#3a2616",
-    notes: "Fındık, sütlü çikolata, düşük asidite",
+    slug: "espresso-colombian",
+    name: "Espresso Colombian",
+    color: "#8b1a1a",
+    color2: "#4d0d0d",
+    image: "/products/espresso-colombian.webp",
+    imageFit: "cover",
+    short: "%100 Arabica; meyvemsi, tatlı ve narenciye notalı.",
+    description: "Kolombiya yüksek rakım %100 Arabica. Meyvemsi, tatlı ve narenciye notalı, parlak asiditeli espresso; filtre ve V60'ta da öne çıkar. Çekirdek, 1 kg.",
+    notes: "Meyvemsi, tatlı, narenciye",
     roast: "Orta",
-    origin: "Brezilya – Minas Gerais",
-    short: "Yumuşak, düşük asiditeli günlük kahve.",
-    description:
-      "Minas Gerais bölgesinden doğal işlenmiş Santos çekirdekleri. Yumuşak gövde ve fındık notalarıyla filtre ve espresso için uyumlu.",
+    origin: "Kolombiya · %100 Arabica",
     tags: ["single-origin"],
   }),
   coffee({
-    slug: "kolombiya-supremo",
-    name: "Kolombiya Supremo",
-    color: "#7d3f2a",
-    color2: "#45200f",
-    notes: "Kırmızı meyve, karamel, parlak asidite",
-    roast: "Orta",
-    origin: "Kolombiya – Huila",
-    short: "Parlak, meyvemsi; filtre kahvede öne çıkar.",
-    description:
-      "Huila bölgesinin yüksek rakımlı Supremo çekirdekleri. Kırmızı meyve ve karamel notaları, canlı asidite. V60 ve Chemex için ideal.",
-    tags: ["single-origin"],
-  }),
-  coffee({
-    slug: "etiyopya-yirgacheffe",
-    name: "Etiyopya Yirgacheffe",
-    color: "#9a5f3b",
-    color2: "#5c3518",
-    notes: "Yasemin, bergamot, limon",
-    roast: "Açık-orta",
-    origin: "Etiyopya – Yirgacheffe",
-    short: "Çiçeksi ve narenciyeli; üçüncü dalga favorisi.",
-    description:
-      "Yıkanmış Yirgacheffe; çiçeksi aroması ve çay benzeri gövdesiyle demleme kahve severlerin favorisi.",
-    tags: ["single-origin", "yeni"],
-  }),
-  coffee({
-    slug: "filtre-kahve-harmani",
-    name: "Filtre Kahve Harmanı",
-    color: "#5a3b26",
-    color2: "#2e1c10",
-    notes: "Kakao, kuru meyve, dengeli",
-    roast: "Orta",
-    origin: "Latin Amerika harmanı",
-    short: "Tüm gün içilebilir, dengeli filtre harmanı.",
-    description:
-      "Filtre kahve makineleri ve toplu demleme için geliştirilen dengeli harman. Sabahtan akşama tutarlı tat.",
-  }),
-  coffee({
-    slug: "decaf-espresso",
-    name: "Kafeinsiz Espresso",
-    color: "#8a6b55",
-    color2: "#54402f",
-    notes: "Sütlü çikolata, badem",
+    slug: "espresso-reserve",
+    name: "Espresso Reserve",
+    color: "#2f5e2a",
+    color2: "#1a3a17",
+    image: "/products/espresso-reserve.webp",
+    imageFit: "cover",
+    short: "%100 Arabica; çikolata, fındık ve karamel.",
+    description: "Reserve seçkisi %100 Arabica: çikolata, fındık ve karamel notalı, yoğun ve uzun bitişli espresso. Kalın krema, sütlü içeceklerde dolgun gövde. Çekirdek, 1 kg.",
+    notes: "Çikolata, fındık, karamel",
     roast: "Orta-koyu",
-    origin: "Kolombiya – Swiss Water kafeinsizleştirme",
-    short: "Swiss Water yöntemiyle, tadından ödün vermeden.",
-    description:
-      "Kimyasal kullanılmadan Swiss Water yöntemiyle kafeinsizleştirilmiş Kolombiya çekirdekleri. Geç saat kahveleri için.",
+    origin: "%100 Arabica",
+    tags: ["yeni"],
   }),
-  coffee(
-    {
-      slug: "turk-kahvesi",
-      name: "Umba Türk Kahvesi",
-      color: "#4a2f1f",
-      color2: "#22130b",
-      notes: "Yoğun, bol köpüklü, hafif kakaolu",
-      roast: "Orta-koyu, geleneksel",
-      origin: "Brezilya – Orta Amerika harmanı",
-      short: "Bol köpüklü, geleneksel ince öğütüm.",
-      description:
-        "Taş değirmende ince öğütülmüş, geleneksel kavrumlu Türk kahvesi. Bol köpüğü ve yoğun gövdesiyle her fincanda ikram standardı.",
-      tags: ["cok-satan"],
-    },
-    { turkish: true },
-  ),
 
   /* -------------------------------- Sıcak Çikolata ------------------------------ */
   hotChocolate({
@@ -1348,7 +1285,7 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
   let reason = "";
   switch (product.category) {
     case "suruplar":
-      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cikolata") || product.slug.includes("cookies") ? "cikolata-sosu" : "umba-signature-espresso");
+      partner = pick(product.slug.includes("karamel") ? "karamel-sosu" : product.slug.includes("cikolata") || product.slug.includes("cookies") ? "cikolata-sosu" : "espresso-daily");
       reason = partner?.category === "soslar" ? "Şurup içeride, sos üstte: tam kafe sunumu." : "Latte için şurup ve dengeli bir espresso harmanı.";
       break;
     case "soslar":
