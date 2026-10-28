@@ -8,6 +8,10 @@ import { paymentLabels } from "@/lib/order";
 import { formatPrice, formatDate, cn } from "@/lib/format";
 import { OrderTimeline } from "@/components/order/OrderTracking";
 import { site } from "@/lib/site";
+import Link from "next/link";
+import { LogoImage } from "@/components/ui/Logo";
+import { InstallButton } from "@/components/pwa/InstallButton";
+import { PushToggle } from "@/components/pwa/PushToggle";
 
 /* ------------------------------ Oturum deposu ------------------------------ */
 const KEY = "umba:admin";
@@ -104,7 +108,7 @@ function Login() {
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-espresso-900 text-cream-50">
           <Lock className="h-5 w-5" />
         </span>
-        <h1 className="mt-5 font-display text-2xl font-semibold text-espresso-900">Yönetim paneli</h1>
+        <h1 className="mt-5 font-display text-2xl font-semibold text-espresso-900">Umba Yönetim</h1>
         <p className="mt-1 text-sm text-espresso-600">{site.name} · siparişler</p>
         <label className="mt-6 block">
           <span className="text-xs font-bold uppercase tracking-[0.18em] text-espresso-600">Şifre</span>
@@ -114,6 +118,9 @@ function Login() {
         <button type="submit" disabled={loading} className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-espresso-900 text-sm font-bold text-cream-50 disabled:opacity-60">
           {loading && <Loader2 className="h-4 w-4 animate-spin" />} Giriş yap
         </button>
+        <div className="mt-4 flex justify-center">
+          <InstallButton label="Paneli uygulama olarak yükle" className="h-9 text-xs" />
+        </div>
       </form>
     </section>
   );
@@ -150,20 +157,14 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
   const count = (s: OrderStatus) => stats?.byStatus.find((b) => b.status === s)?.n ?? 0;
 
   return (
-    <section className="container-x py-8 sm:py-10">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <section className="container-x py-6 sm:py-8">
+      <AdminBar token={token} onRefresh={() => void load()} loading={loading} />
+      <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-espresso-600">Yönetim</p>
           <h1 className="font-display text-3xl font-semibold text-espresso-900">Siparişler</h1>
         </div>
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={() => void load()} className="inline-flex h-10 items-center gap-2 rounded-full border border-espresso-900/15 px-4 text-sm font-semibold hover:bg-cream-200">
-            <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} /> Yenile
-          </button>
-          <button type="button" onClick={() => session.write("")} className="inline-flex h-10 items-center gap-2 rounded-full border border-espresso-900/15 px-4 text-sm font-semibold hover:bg-cream-200">
-            <LogOut className="h-4 w-4" /> Çıkış
-          </button>
-        </div>
+        <PushToggle token={token} />
       </div>
 
       {/* Özet kartları */}
@@ -282,6 +283,33 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
         />
       )}
     </section>
+  );
+}
+
+/* ------------------------------ Üst çubuk ---------------------------------- */
+function AdminBar({ token, onRefresh, loading }: { token: string; onRefresh: () => void; loading: boolean }) {
+  void token;
+  return (
+    <div className="sticky top-0 z-20 -mx-4 flex items-center justify-between gap-3 border-b border-espresso-900/10 bg-cream-50/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+      <div className="flex items-center gap-3">
+        <Link href="/yonetim" className="inline-flex items-center gap-2">
+          <LogoImage tone="dark" className="h-7 w-auto" />
+          <span className="rounded-full bg-espresso-900 px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-cream-50">Yönetim</span>
+        </Link>
+      </div>
+      <div className="flex items-center gap-2">
+        <InstallButton label="Uygulama olarak yükle" className="hidden sm:inline-flex" />
+        <button type="button" onClick={onRefresh} className="inline-flex h-10 items-center gap-2 rounded-full border border-espresso-900/15 px-3 text-sm font-semibold hover:bg-cream-200 sm:px-4">
+          <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} /> <span className="hidden sm:inline">Yenile</span>
+        </button>
+        <Link href="/" className="hidden h-10 items-center rounded-full border border-espresso-900/15 px-4 text-sm font-semibold hover:bg-cream-200 lg:inline-flex">
+          Mağaza
+        </Link>
+        <button type="button" onClick={() => session.write("")} className="inline-flex h-10 items-center gap-2 rounded-full border border-espresso-900/15 px-3 text-sm font-semibold hover:bg-cream-200 sm:px-4">
+          <LogOut className="h-4 w-4" /> <span className="hidden sm:inline">Çıkış</span>
+        </button>
+      </div>
+    </div>
   );
 }
 

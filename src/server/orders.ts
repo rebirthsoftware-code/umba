@@ -4,6 +4,8 @@ import { getPaytrToken, paymentDemoMode, paytrTestMode } from "./paytr";
 import { products } from "@/lib/products";
 import { site } from "@/lib/site";
 import { computeDiscount } from "@/lib/discount";
+import { sendPushToAdmins } from "./push";
+import { formatPrice } from "@/lib/format";
 import { orderStatuses, type ApiOrder, type OrderEvent, type OrderStatus } from "@/lib/api";
 import type { OrderLine, PaymentMethod } from "@/lib/order";
 
@@ -185,6 +187,7 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
     }
   } else {
     await notify(`Yeni sipariş ${orderNo} · ${order.total.toFixed(2)} TL · ${paymentMethod}`, `${customer.fullName} · ${customer.phone}\n${site.url}/yonetim?no=${orderNo}`);
+    await sendPushToAdmins({ title: `Yeni sipariş · ${formatPrice(order.total)}`, body: `${orderNo} · ${customer.fullName} · Havale/EFT bekleniyor`, url: `/yonetim?no=${orderNo}`, tag: orderNo });
   }
   return { ok: true, orderNo, merchantOid, totals: order, token, demo: demo || undefined, orderStatus: status };
 }
@@ -203,6 +206,8 @@ export async function applyPaymentCallback(merchantOid: string, status: string, 
     await client.execute({ sql: "UPDATE orders SET status = 'onaylandi', payment_status = 'odendi', paid_amount = ?2, updated_at = ?3 WHERE order_no = ?1", args: [orderNo, paid, now()] });
     await addEvent(orderNo, "payment", { status: "onaylandi", message: `Kart ödemesi alındı · ${paid.toFixed(2)} TL${extra.testMode ? " (test)" : ""}`, actor: "paytr" });
     await notify(`Ödeme alındı · ${orderNo} · ${paid.toFixed(2)} TL`, `${site.url}/yonetim?no=${orderNo}`);
+    const cust = JSON.parse(String((await client.execute({ sql: "SELECT customer_json FROM orders WHERE order_no = ?1", args: [orderNo] })).rows[0]?.customer_json ?? "{}")) as { fullName?: string };
+    await sendPushToAdmins({ title: `Yeni sipariş · ${formatPrice(paid)}`, body: `${orderNo} · ${cust.fullName ?? ""} · Kart ödemesi alındı${extra.testMode ? " (test)" : ""}`, url: `/yonetim?no=${orderNo}`, tag: orderNo });
   } else {
     await client.execute({ sql: "UPDATE orders SET status = 'odeme-basarisiz', payment_status = 'basarisiz', updated_at = ?2 WHERE order_no = ?1", args: [orderNo, now()] });
     await addEvent(orderNo, "payment", { status: "odeme-basarisiz", message: `Ödeme başarısız: ${extra.failedReason ?? "Ödeme reddedildi"}`, actor: "paytr" });

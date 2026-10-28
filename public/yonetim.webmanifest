@@ -1,0 +1,18 @@
+{
+  "id": "/yonetim",
+  "name": "Umba Yönetim",
+  "short_name": "Umba Yönetim",
+  "description": "Umba Coffee sipariş yönetim paneli",
+  "start_url": "/yonetim?source=pwa",
+  "scope": "/yonetim",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdfaf5",
+  "theme_color": "#141414",
+  "lang": "tr",
+  "icons": [
+    { "src": "/icons/admin-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/admin-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/admin-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

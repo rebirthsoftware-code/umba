@@ -43,6 +43,12 @@ const SCHEMA = [
     actor TEXT NOT NULL DEFAULT 'system'
   )`,
   `CREATE INDEX IF NOT EXISTS idx_events_order ON order_events(order_no, id)`,
+  `CREATE TABLE IF NOT EXISTS push_subscriptions (
+    endpoint TEXT PRIMARY KEY,
+    subscription_json TEXT NOT NULL,
+    label TEXT,
+    created_at TEXT NOT NULL
+  )`,
 ];
 
 declare global {

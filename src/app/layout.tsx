@@ -8,6 +8,9 @@ import { CartToast } from "@/components/cart/CartToast";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { StoreChrome } from "@/components/layout/Chrome";
+import { PwaRegister } from "@/components/pwa/PwaRegister";
+import { InstallBanner } from "@/components/pwa/InstallBanner";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -57,6 +60,9 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: site.shortName, statusBarStyle: "default" },
+  applicationName: site.name,
 };
 
 export const viewport: Viewport = {
@@ -95,14 +101,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           İçeriğe atla
         </a>
         <CartProvider>
-          <Header />
+          <StoreChrome>
+            <Header />
+          </StoreChrome>
           <main id="icerik" className="flex-1">
             {children}
           </main>
-          <Footer />
-          <CartDrawer />
-          <CartToast />
-          <WhatsAppButton />
+          <StoreChrome>
+            <Footer />
+            <CartDrawer />
+            <CartToast />
+            <WhatsAppButton />
+            <InstallBanner />
+          </StoreChrome>
+          <PwaRegister />
         </CartProvider>
         <script
           type="application/ld+json"

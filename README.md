@@ -86,6 +86,13 @@ PayTR anahtarları girilmemişken (veya `PAYMENT_DEMO=1` ile) kart ödemesi **de
 
 `PAYTR_TEST_MODE=1` iken kart ödemeleri PayTR test modunda yapılır: gerçek tahsilat olmaz, sipariş yine düşer ve panelde **TEST** etiketiyle görünür. Test kart numaraları PayTR mağaza panelindeki **Test Kart Bilgileri** sayfasındadır. Canlıya geçerken `0` yapıp yeniden yayınlayın.
 
+## Uygulama (PWA) ve bildirimler
+
+- **Mağaza uygulaması:** site ana ekrana / masaüstüne "Umba" olarak eklenebilir (`/manifest.webmanifest`); Android/Chrome'da alt köşede "Uygulama olarak ekle" şeridi çıkar, iOS'ta Paylaş → Ana Ekrana Ekle yönergesi gösterilir. Çevrimdışıyken `/offline` sayfası ve önbellekteki görseller sunulur (`public/sw.js`).
+- **Yönetim uygulaması:** `/yonetim` ayrı bir uygulama olarak kurulur ("Umba Yönetim", kendi ikonu, mağaza üst/alt çerçevesi gizli).
+- **Anlık bildirim:** Yönetim panelindeki **Bildirimleri aç** düğmesi cihazı kaydeder; her yeni sipariş (havale) ve her alınan kart ödemesinde kayıtlı tüm cihazlara bildirim gider, dokununca ilgili sipariş açılır. iOS'ta bildirim için panelin ana ekrana eklenmiş olması gerekir (iOS 16.4+).
+  Anahtarlar: `npx web-push generate-vapid-keys` → `NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY`, `WEB_PUSH_PRIVATE_KEY`, `WEB_PUSH_SUBJECT` (Vercel ortam değişkenleri).
+
 ## API uç noktaları
 
 | Uç nokta | Açıklama |
