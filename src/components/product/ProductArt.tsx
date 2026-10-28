@@ -71,13 +71,13 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
           <stop offset="1" stopColor="#000" stopOpacity="0.22" />
         </linearGradient>
         <linearGradient id={`${id}-dark`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#3d2a1e" />
-          <stop offset="0.5" stopColor="#2b1b12" />
-          <stop offset="1" stopColor="#160d08" />
+          <stop offset="0" stopColor="#1f1f1f" />
+          <stop offset="0.5" stopColor="#141414" />
+          <stop offset="1" stopColor="#0a0a0a" />
         </linearGradient>
         <linearGradient id={`${id}-kraft`} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#3a2719" />
-          <stop offset="0.5" stopColor="#2b1b12" />
+          <stop offset="0.5" stopColor="#141414" />
           <stop offset="1" stopColor="#1b100a" />
         </linearGradient>
         <radialGradient id={`${id}-fruit`} cx="0.35" cy="0.3" r="0.8">
@@ -88,7 +88,7 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
       </defs>
 
       {/* gölge */}
-      <ellipse cx="120" cy="289" rx="58" ry="6" fill="#2b1b12" opacity="0.14" />
+      <ellipse cx="120" cy="289" rx="58" ry="6" fill="#141414" opacity="0.14" />
 
       {kind === "bottle" && (
         <g>
@@ -135,7 +135,7 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
             fill={`url(#${id}-shine)`}
           />
           <path d="M64 36 H176 L177 54 H63 Z" fill="#fff" opacity="0.28" />
-          <path d="M66 60 H174" stroke="#2b1b12" strokeOpacity="0.25" strokeWidth="2" strokeDasharray="3 3" />
+          <path d="M66 60 H174" stroke="#141414" strokeOpacity="0.25" strokeWidth="2" strokeDasharray="3 3" />
           <path d="M76 78 Q86 170 80 262" stroke="#000" strokeOpacity="0.1" strokeWidth="10" strokeLinecap="round" />
           <path d="M164 78 Q154 170 160 262" stroke="#000" strokeOpacity="0.1" strokeWidth="10" strokeLinecap="round" />
           <circle cx="120" cy="108" r="26" fill={`url(#${id}-fruit)`} />
@@ -151,7 +151,7 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
           <rect x="60" y="38" width="120" height="26" rx="12" fill="#0f0805" opacity="0.55" />
           <path d="M70 64 H170" stroke="#fff" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="4 4" />
           <circle cx="156" cy="88" r="7" fill="#0f0805" />
-          <circle cx="156" cy="88" r="2.5" fill="#e2a84b" />
+          <circle cx="156" cy="88" r="2.5" fill="#d9c7a3" />
           <rect x="60" y="246" width="120" height="36" rx="12" fill="#0f0805" opacity="0.35" />
           <Label x={78} y={112} w={84} h={116} lines={lines} color={c1} vol={vol} light={light} id={id} dark />
         </g>
@@ -161,9 +161,9 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
         <g>
           <rect x="62" y="56" width="116" height="214" rx="8" fill={`url(#${id}-liq)`} />
           <rect x="62" y="56" width="116" height="214" rx="8" fill={`url(#${id}-shine)`} />
-          <ellipse cx="120" cy="270" rx="58" ry="12" fill="#160d08" opacity="0.5" />
+          <ellipse cx="120" cy="270" rx="58" ry="12" fill="#0a0a0a" opacity="0.5" />
           <rect x="58" y="40" width="124" height="22" rx="11" fill={`url(#${id}-dark)`} />
-          <ellipse cx="120" cy="40" rx="62" ry="12" fill="#3d2a1e" />
+          <ellipse cx="120" cy="40" rx="62" ry="12" fill="#1f1f1f" />
           <ellipse cx="120" cy="40" rx="50" ry="8" fill="#4e3627" />
           <path d="M76 86 V236" stroke="#fff" strokeOpacity="0.4" strokeWidth="6" strokeLinecap="round" />
           <Label x={62} y={122} w={116} h={98} lines={lines} color={c1} vol={vol} light={light} id={id} full />
@@ -186,11 +186,11 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
             fontWeight="700"
             fontSize="22"
             letterSpacing="2"
-            fill="#2b1b12"
+            fill="#141414"
           >
             UMBA
           </text>
-          <line x1="80" y1="128" x2="148" y2="128" stroke="#d08f2e" strokeWidth="2" />
+          <line x1="80" y1="128" x2="148" y2="128" stroke="#c9b48a" strokeWidth="2" />
           {lines.map((l, i) => (
             <text
               key={l}
@@ -200,7 +200,7 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
               fontFamily="var(--font-manrope), system-ui, sans-serif"
               fontWeight="700"
               fontSize="13"
-              fill="#2b1b12"
+              fill="#141414"
             >
               {l}
             </text>
@@ -212,7 +212,7 @@ export function ProductArt({ product, className, sizeLabel }: ArtProps) {
             fontFamily="var(--font-manrope), system-ui, sans-serif"
             fontWeight="700"
             fontSize="12"
-            fill={light ? "#2b1b12" : "#fdfaf5"}
+            fill={light ? "#141414" : "#fdfaf5"}
           >
             {vol}
           </text>
@@ -262,11 +262,11 @@ function Label({
         fontWeight="700"
         fontSize={w >= 100 ? 19 : 16}
         letterSpacing="1.5"
-        fill="#2b1b12"
+        fill="#141414"
       >
         UMBA
       </text>
-      <line x1={cx - w * 0.3} y1={y + 32} x2={cx + w * 0.3} y2={y + 32} stroke="#d08f2e" strokeWidth="1.5" />
+      <line x1={cx - w * 0.3} y1={y + 32} x2={cx + w * 0.3} y2={y + 32} stroke="#c9b48a" strokeWidth="1.5" />
       {lines.map((l, i) => (
         <text
           key={l}
@@ -276,7 +276,7 @@ function Label({
           fontFamily="var(--font-manrope), system-ui, sans-serif"
           fontWeight="700"
           fontSize={fontSize}
-          fill="#2b1b12"
+          fill="#141414"
         >
           {l}
         </text>
@@ -291,7 +291,7 @@ function Label({
         fontFamily="var(--font-manrope), system-ui, sans-serif"
         fontWeight="700"
         fontSize="10.5"
-        fill={light ? "#2b1b12" : "#fdfaf5"}
+        fill={light ? "#141414" : "#fdfaf5"}
       >
         {vol}
       </text>

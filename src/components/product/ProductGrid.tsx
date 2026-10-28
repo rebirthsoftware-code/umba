@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontal, X, Search } from "lucide-react";
+import { SlidersHorizontal, X, Search, Sparkles } from "lucide-react";
 import type { Product, ProductTag, CategorySlug } from "@/lib/types";
 import { categories } from "@/lib/categories";
 import { minPrice } from "@/lib/products";
+import { popularSearches } from "@/lib/search";
 import { normalizeTr, trCollator, cn } from "@/lib/format";
 import { ProductCard } from "./ProductCard";
 
@@ -50,6 +51,7 @@ export function ProductGrid({
     setPrevQ(q);
     setSearch(q);
   }
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const update = useCallback(
     (patch: Record<string, string | null>) => {
@@ -64,8 +66,15 @@ export function ProductGrid({
     [params, pathname, router],
   );
 
+  // Yazarken anında filtrele; URL'yi kısa bir gecikmeyle güncelle (geri tuşu ve paylaşım için).
+  useEffect(() => {
+    if (search === q) return;
+    const t = window.setTimeout(() => update({ q: search.trim() }), 350);
+    return () => window.clearTimeout(t);
+  }, [search, q, update]);
+
   const filtered = useMemo(() => {
-    const nq = normalizeTr(q.trim());
+    const nq = normalizeTr(search.trim());
     let list = products;
     if (cat && !lockedCategory) list = list.filter((p) => p.category === cat);
     if (tag) list = list.filter((p) => p.tags.includes(tag));
@@ -90,36 +99,13 @@ export function ProductGrid({
         sorted.sort((a, b) => Number(b.tags.includes("cok-satan")) - Number(a.tags.includes("cok-satan")));
     }
     return sorted;
-  }, [products, q, cat, tag, sort, lockedCategory]);
+  }, [products, search, cat, tag, sort, lockedCategory]);
 
-  const activeCount = [q, cat && !lockedCategory ? cat : null, tag].filter(Boolean).length;
+  const activeCount = [search.trim(), cat && !lockedCategory ? cat : null, tag].filter(Boolean).length;
+  const suggestions = popularSearches.filter((s) => normalizeTr(s) !== normalizeTr(search.trim())).slice(0, 6);
 
   const Filters = (
     <div className="space-y-7">
-      <div>
-        <label htmlFor="grid-search" className="text-xs font-bold uppercase tracking-[0.18em] text-espresso-600">
-          Ara
-        </label>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            update({ q: search });
-          }}
-          className="relative mt-2"
-        >
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-espresso-600" />
-          <input
-            id="grid-search"
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onBlur={() => search !== q && update({ q: search })}
-            placeholder="Ürün adı, aroma…"
-            className="h-11 w-full rounded-full border border-espresso-900/10 bg-cream-50 pl-10 pr-4 text-sm focus:border-caramel-500 focus:outline-none"
-          />
-        </form>
-      </div>
-
       {!lockedCategory && (
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-espresso-600">Kategori</p>
@@ -205,13 +191,76 @@ export function ProductGrid({
       </aside>
 
       <div className="lg:col-span-9">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        {/* Arama çubuğu */}
+        <form
+          role="search"
+          onSubmit={(e) => {
+            e.preventDefault();
+            update({ q: search.trim() });
+            inputRef.current?.blur();
+          }}
+          className="relative"
+        >
+          <label htmlFor="grid-search" className="sr-only">
+            Ürün ara
+          </label>
+          <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-espresso-600" />
+          <input
+            ref={inputRef}
+            id="grid-search"
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setSearch("");
+            }}
+            placeholder={lockedCategory ? "Bu kategoride ara: aroma, ürün adı…" : "Ürün, aroma veya kategori ara…"}
+            autoComplete="off"
+            enterKeyHint="search"
+            className="h-14 w-full rounded-full border border-espresso-900/10 bg-cream-50 pl-14 pr-28 [&::-webkit-search-cancel-button]:hidden text-base shadow-card transition-[border-color,box-shadow] focus:border-espresso-900 focus:shadow-lift focus:outline-none sm:text-lg"
+          />
+          <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1.5">
+            {search && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch("");
+                  inputRef.current?.focus();
+                }}
+                aria-label="Aramayı temizle"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full text-espresso-600 hover:bg-cream-200"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+            <span className="hidden rounded-full bg-espresso-900 px-3 py-1.5 text-xs font-bold text-cream-50 sm:inline-flex" aria-live="polite">
+              {filtered.length} sonuç
+            </span>
+          </div>
+        </form>
+        <div className="mt-3 flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
+          <span className="inline-flex shrink-0 items-center gap-1 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-espresso-600">
+            <Sparkles className="h-3.5 w-3.5" /> Popüler
+          </span>
+          {suggestions.map((sg) => (
+            <button
+              key={sg}
+              type="button"
+              onClick={() => setSearch(sg)}
+              className="shrink-0 rounded-full border border-espresso-900/15 bg-cream-50 px-3 py-1.5 text-xs font-semibold transition-colors hover:border-espresso-900 hover:bg-espresso-900 hover:text-cream-50"
+            >
+              {sg}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-espresso-700">
             <span className="font-bold text-espresso-900">{filtered.length}</span> ürün
-            {q && (
+            {search.trim() && (
               <>
                 {" "}
-                · “<span className="font-semibold">{q}</span>” için sonuçlar
+                · “<mark className="rounded bg-caramel-300/60 px-1 font-semibold text-espresso-900">{search.trim()}</mark>” için sonuçlar
               </>
             )}
           </p>
@@ -248,8 +297,15 @@ export function ProductGrid({
 
         {filtered.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-espresso-900/15 p-12 text-center">
-            <p className="font-display text-2xl font-semibold text-espresso-900">Sonuç bulunamadı</p>
-            <p className="mt-2 text-sm text-espresso-600">Farklı bir arama deneyin veya filtreleri temizleyin.</p>
+            <p className="font-display text-2xl font-semibold text-espresso-900">“{search.trim() || "Bu filtreler"}” için sonuç yok</p>
+            <p className="mt-2 text-sm text-espresso-600">Yazımı kontrol edin, daha kısa bir kelime deneyin ya da popüler aramalardan birini seçin.</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              {popularSearches.slice(0, 5).map((sg) => (
+                <button key={sg} type="button" onClick={() => setSearch(sg)} className="rounded-full border border-espresso-900/15 px-3 py-1.5 text-xs font-semibold hover:bg-cream-200">
+                  {sg}
+                </button>
+              ))}
+            </div>
             <button
               type="button"
               onClick={() => {

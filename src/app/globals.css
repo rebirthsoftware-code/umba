@@ -2,23 +2,23 @@
 
 @theme {
   /* Marka paleti */
-  --color-espresso-950: #160d08;
-  --color-espresso-900: #2b1b12;
-  --color-espresso-800: #3d2a1e;
-  --color-espresso-700: #553b2a;
-  --color-espresso-600: #6e4f3a;
-  --color-cocoa-500: #8b6a52;
-  --color-cocoa-400: #a9896f;
+  --color-espresso-950: #0a0a0a;
+  --color-espresso-900: #141414;
+  --color-espresso-800: #1f1f1f;
+  --color-espresso-700: #2e2e2e;
+  --color-espresso-600: #4a4a4a;
+  --color-cocoa-500: #6b6b6b;
+  --color-cocoa-400: #8c8c8c;
   --color-cream-50: #fdfaf5;
   --color-cream-100: #f8f1e7;
   --color-cream-200: #efe3d2;
   --color-cream-300: #e3d1b9;
   --color-cream-400: #d2b995;
-  --color-caramel-300: #f0c57a;
-  --color-caramel-400: #e2a84b;
-  --color-caramel-500: #d08f2e;
-  --color-caramel-600: #b4761f;
-  --color-caramel-700: #8e5c16;
+  --color-caramel-300: #e9dcc3;
+  --color-caramel-400: #d9c7a3;
+  --color-caramel-500: #c9b48a;
+  --color-caramel-600: #7a7064;
+  --color-caramel-700: #4a4a4a;
   --color-leaf-500: #2f6f5e;
   --color-leaf-100: #e1efea;
   --color-berry-500: #d9484f;
@@ -26,9 +26,9 @@
   --font-display: var(--font-fraunces), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --shadow-soft: 0 10px 30px -20px rgb(43 27 18 / 0.2);
-  --shadow-card: 0 1px 0 rgb(43 27 18 / 0.04);
-  --shadow-lift: 0 24px 48px -28px rgb(43 27 18 / 0.28);
+  --shadow-soft: 0 10px 30px -20px rgb(17 17 17 / 0.2);
+  --shadow-card: 0 1px 0 rgb(17 17 17 / 0.04);
+  --shadow-lift: 0 24px 48px -28px rgb(17 17 17 / 0.28);
 
   --radius-4xl: 2rem;
   --radius-5xl: 2.5rem;
@@ -656,4 +656,107 @@ details.acc[open] .acc-icon {
 /* Sabit satın alma çubuğu varken WhatsApp düğmesini yukarı al */
 body.has-buybar .wa-btn {
   transform: translateY(-4.75rem);
+}
+
+/* ---------- Kahve hikâyesi (kaydırmaya bağlı sahne) ---------- */
+.story {
+  --p: 0;
+  --s1: clamp(0, calc(var(--p) / 0.25), 1);
+  --s2: clamp(0, calc((var(--p) - 0.25) / 0.25), 1);
+  --s3: clamp(0, calc((var(--p) - 0.5) / 0.25), 1);
+  --s4: clamp(0, calc((var(--p) - 0.75) / 0.25), 1);
+}
+.story-scene g,
+.story-scene rect,
+.story-scene ellipse {
+  transform-box: fill-box;
+}
+.story-scene .story-beans,
+.story-scene .story-bean,
+.story-scene .story-machine,
+.story-scene .story-cup {
+  transform-origin: center;
+}
+.story-scene .story-streams {
+  transform-origin: top;
+}
+.story-scene .story-liquid {
+  transform-origin: bottom;
+}
+.story-beans {
+  transform: translateY(calc(var(--s1) * -150px)) scale(calc(1 - var(--s1) * 0.55));
+  opacity: calc(1 - var(--s2));
+}
+.story-bean {
+  animation: float 6s ease-in-out infinite;
+}
+.story-machine {
+  opacity: var(--s1);
+  transform: translateY(calc((1 - var(--s1)) * -40px));
+}
+.story-grounds {
+  opacity: var(--s2);
+}
+.story-led {
+  opacity: calc(0.3 + var(--s3) * 0.7);
+}
+.story-streams {
+  transform: scaleY(var(--s3));
+  opacity: calc(var(--s3) * (1 - var(--s4)));
+}
+.story-cup {
+  opacity: var(--s3);
+  transform: translateY(calc((1 - var(--s3)) * 40px));
+}
+.story-liquid {
+  transform: scaleY(calc(0.08 + var(--s4) * 0.92));
+}
+.story-rim {
+  opacity: calc(1 - var(--s4));
+}
+.story-steam {
+  opacity: calc(var(--s4) * 0.5);
+}
+.story-steam path {
+  animation: float 4s ease-in-out infinite;
+}
+.story-caption {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.story[data-stage="0"] .story-caption[data-i="0"],
+.story[data-stage="1"] .story-caption[data-i="1"],
+.story[data-stage="2"] .story-caption[data-i="2"],
+.story[data-stage="3"] .story-caption[data-i="3"] {
+  opacity: 1;
+  transform: none;
+}
+.story-dot {
+  transition: background-color 0.3s ease;
+}
+.story[data-stage="0"] .story-dot[data-i="0"],
+.story[data-stage="1"] .story-dot[data-i="1"],
+.story[data-stage="2"] .story-dot[data-i="2"],
+.story[data-stage="3"] .story-dot[data-i="3"] {
+  background: var(--color-cream-50);
+}
+.story-cta {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.story[data-stage="3"] .story-cta {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story {
+    --p: 1;
+  }
+  .story-bean,
+  .story-steam path {
+    animation: none;
+  }
 }

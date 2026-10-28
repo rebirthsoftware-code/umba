@@ -21,7 +21,7 @@ const steps = [
     title: "Küçük partiler, kendi tesisimiz",
     text: "Şuruplar ve soslar kendi dolum hattımızda, kahveler sipariş sonrası küçük partiler hâlinde kavruluyor. Taze gider, taze gelir.",
     product: "tuzlu-karamel-surubu",
-    color: "#d08f2e",
+    color: "#c9b48a",
   },
   {
     id: "test",

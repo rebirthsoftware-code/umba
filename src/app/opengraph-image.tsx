@@ -19,7 +19,7 @@ export default async function Image() {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "linear-gradient(135deg, #2b1b12 0%, #160d08 100%)",
+          background: "linear-gradient(135deg, #141414 0%, #0a0a0a 100%)",
           color: "#fdfaf5",
           fontFamily: "Georgia, serif",
           position: "relative",
@@ -33,7 +33,7 @@ export default async function Image() {
             width: 520,
             height: 520,
             borderRadius: 9999,
-            background: "rgba(226,168,75,0.28)",
+            background: "rgba(217,199,163,0.28)",
             filter: "blur(80px)",
           }}
         />
