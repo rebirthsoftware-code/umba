@@ -192,7 +192,7 @@ export function Header() {
                                   sample={sample}
                                   className={cn(
                                     "absolute drop-shadow-md transition-transform duration-500 group-hover/item:scale-110",
-                                    c.imageLandscape ? "right-2 top-1/2 h-auto w-[34%] -translate-y-1/2 rounded-lg" : "-right-1 bottom-0 h-[92%] w-auto group-hover/item:-rotate-6",
+                                    c.imageLandscape ? "-right-1 top-1/2 h-auto w-[44%] -translate-y-1/2" : "-right-1 bottom-0 h-[92%] w-auto group-hover/item:-rotate-6",
                                   )}
                                 />
                               </Link>

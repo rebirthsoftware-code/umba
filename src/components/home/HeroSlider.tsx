@@ -39,7 +39,7 @@ const slides: Slide[] = [
     primary: { label: "Ürünleri keşfet", href: "/urunler" },
     secondary: { label: "Kurumsal fiyat al", href: "/kurumsal" },
     products: [],
-    image: { src: "/hero/kahve.webp", alt: "Umba espresso koleksiyonu: Daily, Colombian, Reserve", fit: "cover" },
+    image: { src: "/hero/kahve.webp", alt: "Umba espresso koleksiyonu: Daily, Colombian, Reserve" },
     badge: { label: "Yeni", product: "espresso-reserve" },
     caption: "Umba Coffee · 2026 koleksiyonu",
     tone: "dark",

@@ -34,7 +34,7 @@ export function CategoryGrid() {
                     İncele
                     <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
-                  <CategoryVisual category={c} sample={sample} className={c.imageLandscape ? "h-auto w-40 rounded-xl drop-shadow-md transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1" : "h-28 w-auto drop-shadow-md transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 group-hover:-rotate-3"} />
+                  <CategoryVisual category={c} sample={sample} className={c.imageLandscape ? "h-auto w-48 drop-shadow-md transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1" : "h-28 w-auto drop-shadow-md transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 group-hover:-rotate-3"} />
                 </div>
               </Link>
             </Reveal>
