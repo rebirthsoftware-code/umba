@@ -661,102 +661,90 @@ body.has-buybar .wa-btn {
 /* ---------- Kahve hikâyesi (kaydırmaya bağlı sahne) ---------- */
 .story {
   --p: 0;
-  --s1: clamp(0, calc(var(--p) / 0.25), 1);
-  --s2: clamp(0, calc((var(--p) - 0.25) / 0.25), 1);
-  --s3: clamp(0, calc((var(--p) - 0.5) / 0.25), 1);
-  --s4: clamp(0, calc((var(--p) - 0.75) / 0.25), 1);
+  /* sahne içi ilerleme */
+  --l1: clamp(0, calc(var(--p) / 0.333), 1);
+  --l2: clamp(0, calc((var(--p) - 0.333) / 0.333), 1);
+  --l3: clamp(0, calc((var(--p) - 0.666) / 0.334), 1);
+  /* geçişler */
+  --t12: clamp(0, calc((var(--p) - 0.3) / 0.07), 1);
+  --t23: clamp(0, calc((var(--p) - 0.63) / 0.07), 1);
 }
 .story-scene g,
 .story-scene rect,
-.story-scene ellipse {
+.story-scene ellipse,
+.story-scene path {
   transform-box: fill-box;
-}
-.story-scene .story-beans,
-.story-scene .story-bean,
-.story-scene .story-machine,
-.story-scene .story-cup {
   transform-origin: center;
 }
-.story-scene .story-streams {
+.story-sc {
+  transition: none;
+}
+.story-sc1 {
+  opacity: calc(1 - var(--t12));
+  transform: scale(calc(1 - var(--t12) * 0.1));
+}
+.story-sc2 {
+  opacity: calc(var(--t12) * (1 - var(--t23)));
+  transform: scale(calc(0.9 + var(--t12) * 0.1 - var(--t23) * 0.1));
+}
+.story-sc3 {
+  opacity: var(--t23);
+  transform: scale(calc(0.9 + var(--t23) * 0.1));
+}
+/* 01: damla düşer, halka açılır */
+.story-drop {
+  transform: translateY(calc(-120px + var(--l1) * 150px));
+}
+.story-ripple {
+  transform: scale(calc(0.6 + var(--l1) * 2.2));
+  opacity: calc(1 - var(--l1));
+}
+/* 02: girdap döner ve sepete toplanır */
+.story-swirl {
+  transform: rotate(calc(var(--l2) * 160deg)) scale(calc(1.1 - var(--l2) * 0.75));
+  opacity: calc(1 - var(--l2) * 0.9);
+}
+.story-basket {
+  opacity: var(--l2);
+}
+/* 03: akış iner, fincan dolar */
+.story-scene .story-pour {
   transform-origin: top;
+  transform: scaleY(calc(var(--l3) * 1.5));
+  opacity: calc(1 - var(--l3) * var(--l3));
 }
-.story-scene .story-liquid {
+.story-scene .story-fill {
   transform-origin: bottom;
+  transform: scaleY(calc(0.1 + var(--l3) * 0.9));
 }
-.story-beans {
-  transform: translateY(calc(var(--s1) * -150px)) scale(calc(1 - var(--s1) * 0.55));
-  opacity: calc(1 - var(--s2));
+.story-cremaTop {
+  opacity: var(--l3);
 }
-.story-bean {
-  animation: float 6s ease-in-out infinite;
-}
-.story-machine {
-  opacity: var(--s1);
-  transform: translateY(calc((1 - var(--s1)) * -40px));
-}
-.story-grounds {
-  opacity: var(--s2);
-}
-.story-led {
-  opacity: calc(0.3 + var(--s3) * 0.7);
-}
-.story-streams {
-  transform: scaleY(var(--s3));
-  opacity: calc(var(--s3) * (1 - var(--s4)));
-}
-.story-cup {
-  opacity: var(--s3);
-  transform: translateY(calc((1 - var(--s3)) * 40px));
-}
-.story-liquid {
-  transform: scaleY(calc(0.08 + var(--s4) * 0.92));
-}
-.story-rim {
-  opacity: calc(1 - var(--s4));
-}
-.story-steam {
-  opacity: calc(var(--s4) * 0.5);
-}
-.story-steam path {
-  animation: float 4s ease-in-out infinite;
+.story-gold {
+  background: linear-gradient(100deg, #f3d7a0 0%, #c9893a 50%, #f3d7a0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .story-caption {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
 }
 .story[data-stage="0"] .story-caption[data-i="0"],
 .story[data-stage="1"] .story-caption[data-i="1"],
-.story[data-stage="2"] .story-caption[data-i="2"],
-.story[data-stage="3"] .story-caption[data-i="3"] {
+.story[data-stage="2"] .story-caption[data-i="2"] {
   opacity: 1;
   transform: none;
 }
-.story-dot {
-  transition: background-color 0.3s ease;
-}
 .story[data-stage="0"] .story-dot[data-i="0"],
 .story[data-stage="1"] .story-dot[data-i="1"],
-.story[data-stage="2"] .story-dot[data-i="2"],
-.story[data-stage="3"] .story-dot[data-i="3"] {
-  background: var(--color-cream-50);
-}
-.story-cta {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.story[data-stage="3"] .story-cta {
-  opacity: 1;
-  pointer-events: auto;
+.story[data-stage="2"] .story-dot[data-i="2"] {
+  background: #f3d7a0;
 }
 @media (prefers-reduced-motion: reduce) {
   .story {
     --p: 1;
-  }
-  .story-bean,
-  .story-steam path {
-    animation: none;
   }
 }

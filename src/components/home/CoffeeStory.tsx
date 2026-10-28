@@ -5,21 +5,22 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 /**
- * Kaydırmaya bağlı kahve hikâyesi. Bölüm 4 ekran yüksekliğinde; içerik yapışkan (sticky)
- * kalır ve sayfa kaydırıldıkça sahne ilerler: çiğ çekirdek → öğütüm → ekstraksiyon → fincan.
- * İlerleme, yeniden render olmadan `--p` CSS değişkeniyle sahneye aktarılır.
+ * Kaydırmaya bağlı üç sahnelik kahve hikâyesi: Damla → Ekstraksiyon → Ödül.
+ * Bölüm 3 ekran yüksekliğinde; içerik yapışkan kalır, kaydırdıkça sahne ilerler.
+ * İlerleme yeniden render olmadan `--p` CSS değişkeniyle sahneye aktarılır.
  */
-const stages = [
-  { no: "01", title: "Çiğ çekirdek", text: "Yüksek rakım Arabica çekirdekleri; kooperatiflerden, sezonunda." },
-  { no: "02", title: "Taze öğütüm", text: "Sipariş sonrası kavrulur, demlemeden saniyeler önce öğütülür." },
-  { no: "03", title: "Ekstraksiyon", text: "9 bar basınç, 25 saniye: yoğun, parlak ve dengeli bir shot." },
-  { no: "04", title: "Fincanınızda", text: "Kalın krema, uzun bitiş. Umba Signature, kafe standardında." },
+const scenes = [
+  { no: "01", label: "Damla", a: "Her damlada", b: "altın.", text: "Yoğun krema, parlak yüzey. Umba Signature harmanı her shot'ta aynı renk, aynı tat." },
+  { no: "02", label: "Ekstraksiyon", a: "Taze öğütüm,", b: "9 bar.", text: "Sipariş sonrası kavrulan çekirdek, demlemeden saniyeler önce öğütülür. 25 saniyede dengeli ekstraksiyon." },
+  { no: "03", label: "Ödül", a: "Fincanınızda", b: "ödül.", text: "Kalın krema, uzun bitiş. Kafe standardında espresso; barınızda, otelinizde, evinizde." },
 ];
 
-const beans = [
-  [120, 150, -25], [210, 95, 30], [300, 160, -10], [390, 110, 45], [470, 170, -35],
-  [160, 250, 15], [250, 215, -40], [340, 260, 25], [430, 230, -15], [300, 340, 40], [200, 330, -30], [410, 330, 10],
-];
+/* Çekirdek girdabı: spiral üzerinde parçacıklar */
+const swirl = Array.from({ length: 70 }, (_, i) => {
+  const t = i * 0.42;
+  const r = 60 + i * 2.9;
+  return { x: 300 + r * Math.cos(t), y: 300 + r * Math.sin(t) * 0.7, s: 4 + (i % 5), rot: (i * 37) % 180 };
+});
 
 export function CoffeeStory() {
   const ref = useRef<HTMLElement>(null);
@@ -35,7 +36,7 @@ export function CoffeeStory() {
       const total = r.height - window.innerHeight;
       const p = reduced ? 1 : Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
       el.style.setProperty("--p", p.toFixed(4));
-      el.dataset.stage = String(Math.min(3, Math.floor(p * 4)));
+      el.dataset.stage = String(Math.min(2, Math.floor(p * 3)));
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -50,120 +51,155 @@ export function CoffeeStory() {
     };
   }, []);
 
+  const goTo = (i: number) => {
+    const el = ref.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const total = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + (total * (i + 0.5)) / 3, behavior: "smooth" });
+  };
+
   return (
-    <section ref={ref} id="hikaye" className="story relative bg-espresso-950 text-cream-50" style={{ height: "400vh" }} data-stage="0">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <div className="container-x grid w-full grid-cols-[minmax(0,1fr)] items-center gap-8 lg:grid-cols-12">
-          {/* Metin */}
-          <div className="relative z-10 order-2 lg:order-1 lg:col-span-5">
-            <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-caramel-300">Çekirdekten fincana</p>
-            <div className="relative mt-4 h-44 sm:h-48">
-              {stages.map((s, i) => (
+    <section ref={ref} id="hikaye" className="story relative bg-[#0a0806] text-cream-50" style={{ height: "300vh" }} data-stage="0">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Işık ve filigran */}
+        <div aria-hidden="true" className="absolute inset-0" style={{ background: "radial-gradient(60% 55% at 60% 45%, rgba(201,150,70,0.22) 0%, rgba(10,8,6,0) 70%)" }} />
+        <p aria-hidden="true" className="story-mark pointer-events-none absolute left-1/2 top-[8%] -translate-x-1/2 select-none font-display text-[26vw] font-semibold leading-none tracking-tight text-cream-50/[0.045] lg:text-[18vw]">
+          UMBA
+        </p>
+
+        {/* Sahneler */}
+        <div className="absolute inset-0 flex items-center justify-center lg:justify-end lg:pr-[6vw]">
+          <svg viewBox="0 0 600 600" className="story-scene h-[52vh] w-auto max-w-[92vw] lg:h-[82vh]" aria-hidden="true">
+            <defs>
+              <linearGradient id="st-gold" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#f3d7a0" />
+                <stop offset="0.45" stopColor="#c9893a" />
+                <stop offset="1" stopColor="#5a2a10" />
+              </linearGradient>
+              <radialGradient id="st-crema" cx="50%" cy="40%" r="60%">
+                <stop offset="0" stopColor="#e9c58a" />
+                <stop offset="0.5" stopColor="#b57a3a" />
+                <stop offset="1" stopColor="#3a1a0a" />
+              </radialGradient>
+              <linearGradient id="st-steel" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#f2f2f2" />
+                <stop offset="0.4" stopColor="#8d8d8d" />
+                <stop offset="0.6" stopColor="#d6d6d6" />
+                <stop offset="1" stopColor="#4a4a4a" />
+              </linearGradient>
+              <linearGradient id="st-cupb" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#3a3a3a" />
+                <stop offset="0.5" stopColor="#111" />
+                <stop offset="1" stopColor="#2a2a2a" />
+              </linearGradient>
+              <linearGradient id="st-stream" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#6a2e10" />
+                <stop offset="1" stopColor="#d9a05a" />
+              </linearGradient>
+              <radialGradient id="st-hl" cx="35%" cy="30%" r="50%">
+                <stop offset="0" stopColor="#fff" stopOpacity="0.55" />
+                <stop offset="1" stopColor="#fff" stopOpacity="0" />
+              </radialGradient>
+              <clipPath id="st-cupclip">
+                <path d="M190 330 h220 v150 q0 60 -60 60 h-100 q-60 0 -60 -60 z" />
+              </clipPath>
+            </defs>
+
+            {/* 01 · Damla */}
+            <g className="story-sc story-sc1">
+              <g className="story-crema">
+                <ellipse cx="300" cy="440" rx="230" ry="80" fill="url(#st-crema)" />
+                <ellipse cx="300" cy="440" rx="160" ry="54" fill="none" stroke="#f0cf96" strokeOpacity="0.35" strokeWidth="3" />
+                <ellipse cx="300" cy="440" rx="95" ry="32" fill="none" stroke="#f0cf96" strokeOpacity="0.5" strokeWidth="3" />
+                <ellipse className="story-ripple" cx="300" cy="440" rx="40" ry="14" fill="none" stroke="#fff4dc" strokeOpacity="0.8" strokeWidth="3" />
+              </g>
+              <g className="story-drop">
+                <path d="M300 60 c-40 90 -95 150 -95 220 a95 95 0 0 0 190 0 c0 -70 -55 -130 -95 -220z" fill="url(#st-gold)" />
+                <path d="M300 60 c-40 90 -95 150 -95 220 a95 95 0 0 0 190 0 c0 -70 -55 -130 -95 -220z" fill="url(#st-hl)" />
+                <path d="M252 220 c-10 20 -12 45 -4 70" fill="none" stroke="#fff" strokeOpacity="0.55" strokeWidth="14" strokeLinecap="round" />
+              </g>
+            </g>
+
+            {/* 02 · Ekstraksiyon */}
+            <g className="story-sc story-sc2">
+              <g className="story-swirl">
+                {swirl.map((b, i) => (
+                  <ellipse key={i} cx={b.x} cy={b.y} rx={b.s} ry={b.s * 1.5} fill={i % 3 ? "#b8762e" : "#e3b872"} style={{ transform: `rotate(${b.rot}deg)` }} />
+                ))}
+              </g>
+              <g className="story-pf">
+                <rect x="330" y="300" width="190" height="34" rx="17" fill="#141414" />
+                <rect x="470" y="296" width="60" height="42" rx="14" fill="#0a0a0a" />
+                <path d="M200 260 h190 a24 24 0 0 1 24 24 v36 a24 24 0 0 1 -24 24 h-190 a24 24 0 0 1 -24 -24 v-36 a24 24 0 0 1 24 -24z" fill="url(#st-steel)" />
+                <ellipse cx="295" cy="262" rx="110" ry="18" fill="#2a1a10" />
+                <ellipse className="story-basket" cx="295" cy="262" rx="100" ry="14" fill="#5a3a22" />
+                <path d="M270 344 l-10 22 h18z M320 344 l10 22 h-18z" fill="#3a3a3a" />
+              </g>
+            </g>
+
+            {/* 03 · Ödül */}
+            <g className="story-sc story-sc3">
+              <g className="story-head">
+                <rect x="190" y="40" width="220" height="70" rx="20" fill="#1c1c1c" />
+                <path d="M225 110 h150 a16 16 0 0 1 16 16 v20 a16 16 0 0 1 -16 16 h-150 a16 16 0 0 1 -16 -16 v-20 a16 16 0 0 1 16 -16z" fill="url(#st-steel)" />
+                <path d="M275 162 l-8 22 h16z M325 162 l8 22 h-16z" fill="#3a3a3a" />
+              </g>
+              <g className="story-pour">
+                <rect x="264" y="184" width="6" height="150" rx="3" fill="url(#st-stream)" />
+                <rect x="330" y="184" width="6" height="150" rx="3" fill="url(#st-stream)" />
+              </g>
+              <g className="story-cup3">
+                <path d="M190 330 h220 v150 q0 60 -60 60 h-100 q-60 0 -60 -60 z" fill="url(#st-cupb)" />
+                <path d="M410 360 q80 0 80 55 q0 55 -80 55 v-24 q52 0 52 -31 q0 -31 -52 -31z" fill="#1a1a1a" />
+                <g clipPath="url(#st-cupclip)">
+                  <rect className="story-fill" x="170" y="330" width="260" height="210" fill="#3a1a0a" />
+                </g>
+                <ellipse className="story-cremaTop" cx="300" cy="332" rx="110" ry="22" fill="url(#st-crema)" />
+                <ellipse cx="300" cy="332" rx="110" ry="22" fill="none" stroke="#2a2a2a" strokeWidth="6" />
+                <ellipse cx="300" cy="548" rx="150" ry="14" fill="#000" fillOpacity="0.5" />
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        {/* Metin */}
+        <div className="container-x relative z-10 flex h-full items-end pb-16 lg:items-center lg:pb-0">
+          <div className="story-text relative w-full lg:max-w-xl">
+            <div className="absolute inset-x-[-1.5rem] inset-y-[-2rem] -z-10 rounded-[2rem] bg-[#0a0806]/70 backdrop-blur-sm lg:hidden" />
+            <div className="relative h-56 sm:h-64 lg:h-80">
+              {scenes.map((s, i) => (
                 <div key={s.no} className="story-caption absolute inset-0" data-i={i}>
-                  <p className="font-display text-sm italic text-cream-200/60">{s.no}</p>
-                  <h2 className="mt-2 font-display text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">{s.title}</h2>
-                  <p className="mt-4 max-w-md text-base leading-relaxed text-cream-200 sm:text-lg">{s.text}</p>
+                  <p className="text-[0.7rem] font-bold uppercase tracking-[0.26em] text-caramel-300">
+                    Bölüm {s.no} <span className="mx-2 opacity-50">—</span> {s.label}
+                  </p>
+                  <h2 className="mt-5 font-display text-[2.6rem] font-semibold leading-[0.98] sm:text-6xl lg:text-7xl">
+                    {s.a}
+                    <br />
+                    <span className="story-gold">{s.b}</span>
+                  </h2>
+                  <p className="mt-5 max-w-md text-base leading-relaxed text-cream-200/85 sm:text-lg">{s.text}</p>
                 </div>
               ))}
             </div>
-            <div className="mt-2 flex items-center gap-4">
-              <div className="flex gap-1.5" aria-hidden="true">
-                {stages.map((s, i) => (
-                  <span key={s.no} className="story-dot h-1 w-8 rounded-full bg-cream-50/20" data-i={i} />
+            <div className="mt-4 flex items-center gap-5">
+              <div className="flex gap-2" role="tablist" aria-label="Hikâye bölümleri">
+                {scenes.map((s, i) => (
+                  <button
+                    key={s.no}
+                    type="button"
+                    role="tab"
+                    aria-label={`${s.no} ${s.label}`}
+                    onClick={() => goTo(i)}
+                    className="story-dot h-1.5 w-10 rounded-full bg-cream-50/20 transition-colors hover:bg-cream-50/50"
+                    data-i={i}
+                  />
                 ))}
               </div>
-              <Button href="/kategori/kahve" size="sm" variant="light" className="story-cta group/btn">
+              <Button href="/kategori/kahve" size="sm" variant="light" className="group/btn">
                 Kahveleri keşfet <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
               </Button>
             </div>
-          </div>
-
-          {/* Sahne */}
-          <div className="order-1 lg:order-2 lg:col-span-7">
-            <svg viewBox="0 0 600 640" className="story-scene mx-auto h-[46vh] w-auto max-w-full lg:h-[78vh]" aria-hidden="true">
-              <defs>
-                <radialGradient id="st-glow" cx="50%" cy="45%" r="50%">
-                  <stop offset="0" stopColor="#d9c7a3" stopOpacity="0.25" />
-                  <stop offset="1" stopColor="#d9c7a3" stopOpacity="0" />
-                </radialGradient>
-                <linearGradient id="st-bean" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stopColor="#8a5a3a" />
-                  <stop offset="1" stopColor="#3a2113" />
-                </linearGradient>
-                <linearGradient id="st-metal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor="#4a4a4a" />
-                  <stop offset="0.5" stopColor="#1f1f1f" />
-                  <stop offset="1" stopColor="#0f0f0f" />
-                </linearGradient>
-                <linearGradient id="st-stream" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor="#5a2a12" />
-                  <stop offset="1" stopColor="#c48a3f" />
-                </linearGradient>
-                <linearGradient id="st-coffee" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor="#c48a3f" />
-                  <stop offset="0.18" stopColor="#5a2a12" />
-                  <stop offset="1" stopColor="#2a130a" />
-                </linearGradient>
-                <clipPath id="st-cup-clip">
-                  <path d="M190 420 h220 l-18 150 q-2 20 -22 20 h-140 q-20 0 -22 -20 z" />
-                </clipPath>
-              </defs>
-
-              <circle cx="300" cy="300" r="280" fill="url(#st-glow)" />
-
-              {/* Çekirdekler */}
-              <g className="story-beans">
-                {beans.map(([x, y, r], i) => (
-                  <g key={i} transform={`translate(${x} ${y}) rotate(${r})`}>
-                    <g className="story-bean" style={{ animationDelay: `${-i * 0.7}s` }}>
-                      <ellipse rx="26" ry="38" fill="url(#st-bean)" />
-                      <path d="M0 -30 c-10 10 -10 20 0 30 s10 20 0 30" fill="none" stroke="#1a0d07" strokeWidth="4" strokeLinecap="round" />
-                    </g>
-                  </g>
-                ))}
-              </g>
-
-              {/* Makine: grup başlığı */}
-              <g className="story-machine">
-                <rect x="140" y="20" width="320" height="120" rx="18" fill="url(#st-metal)" />
-                <rect x="170" y="48" width="260" height="10" rx="5" fill="#2a2a2a" />
-                <circle cx="300" cy="100" r="6" fill="#d9c7a3" className="story-led" />
-                {/* Portafiltre */}
-                <path d="M220 140 h160 v26 q0 14 -14 14 h-132 q-14 0 -14 -14 z" fill="#1a1a1a" />
-                <rect x="380" y="146" width="90" height="12" rx="6" fill="#0f0f0f" />
-                {/* Çıkış uçları */}
-                <path d="M268 180 l-10 22 h16 z" fill="#2a2a2a" />
-                <path d="M332 180 l10 22 h-16 z" fill="#2a2a2a" />
-                {/* Öğütülmüş kahve (sepette) */}
-                <g className="story-grounds">
-                  {Array.from({ length: 26 }).map((_, i) => (
-                    <circle key={i} cx={238 + ((i * 37) % 124)} cy={150 + ((i * 13) % 16)} r={2 + (i % 3)} fill="#4a2a16" />
-                  ))}
-                </g>
-              </g>
-
-              {/* Akış */}
-              <g className="story-streams">
-                <rect x="258" y="202" width="7" height="220" rx="3.5" fill="url(#st-stream)" />
-                <rect x="335" y="202" width="7" height="220" rx="3.5" fill="url(#st-stream)" />
-              </g>
-
-              {/* Fincan */}
-              <g className="story-cup">
-                <path d="M190 420 h220 l-18 150 q-2 20 -22 20 h-140 q-20 0 -22 -20 z" fill="#f3efe6" />
-                <path d="M410 440 q70 0 70 50 q0 50 -70 50 v-20 q45 0 45 -30 q0 -30 -45 -30 z" fill="#e7e1d4" />
-                <g clipPath="url(#st-cup-clip)">
-                  <rect className="story-liquid" x="170" y="420" width="260" height="180" fill="url(#st-coffee)" />
-                </g>
-                <ellipse cx="300" cy="420" rx="110" ry="14" fill="#faf7f1" className="story-rim" />
-                <rect x="150" y="588" width="300" height="12" rx="6" fill="#1f1f1f" />
-                <g className="story-steam" fill="none" stroke="#f3efe6" strokeWidth="4" strokeLinecap="round" opacity="0.5">
-                  <path d="M260 380 c-14 -22 14 -34 0 -56" />
-                  <path d="M300 370 c-14 -24 14 -36 0 -60" />
-                  <path d="M340 380 c-14 -22 14 -34 0 -56" />
-                </g>
-              </g>
-            </svg>
           </div>
         </div>
       </div>
