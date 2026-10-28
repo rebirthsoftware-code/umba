@@ -658,67 +658,49 @@ body.has-buybar .wa-btn {
   transform: translateY(-4.75rem);
 }
 
-/* ---------- Kahve hikâyesi (kaydırmaya bağlı sahne) ---------- */
+/* ---------- Kahve hikâyesi (kaydırmaya bağlı fotoğraf sahnesi) ---------- */
 .story {
   --p: 0;
-  /* sahne içi ilerleme */
-  --l1: clamp(0, calc(var(--p) / 0.333), 1);
-  --l2: clamp(0, calc((var(--p) - 0.333) / 0.333), 1);
-  --l3: clamp(0, calc((var(--p) - 0.666) / 0.334), 1);
-  /* geçişler */
-  --t12: clamp(0, calc((var(--p) - 0.3) / 0.07), 1);
-  --t23: clamp(0, calc((var(--p) - 0.63) / 0.07), 1);
+  --n: 4;
+  /* kare i için yerel ilerleme: 0 → 1 */
+  --l0: clamp(0, calc(var(--p) * var(--n) - 0), 1);
+  --l1: clamp(0, calc(var(--p) * var(--n) - 1), 1);
+  --l2: clamp(0, calc(var(--p) * var(--n) - 2), 1);
+  --l3: clamp(0, calc(var(--p) * var(--n) - 3), 1);
+  /* geçiş eğrisi: her karenin son %18'inde sonraki kare açılır */
+  --f1: clamp(0, calc((var(--l0) - 0.82) / 0.18), 1);
+  --f2: clamp(0, calc((var(--l1) - 0.82) / 0.18), 1);
+  --f3: clamp(0, calc((var(--l2) - 0.82) / 0.18), 1);
 }
-.story-scene g,
-.story-scene rect,
-.story-scene ellipse,
-.story-scene path {
-  transform-box: fill-box;
-  transform-origin: center;
+.story-photo {
+  will-change: opacity, transform;
 }
-.story-sc {
-  transition: none;
+.story-photo img {
+  transform-origin: 55% 50%;
 }
-.story-sc1 {
-  opacity: calc(1 - var(--t12));
-  transform: scale(calc(1 - var(--t12) * 0.1));
+.story-photo[data-i="0"] {
+  opacity: 1;
 }
-.story-sc2 {
-  opacity: calc(var(--t12) * (1 - var(--t23)));
-  transform: scale(calc(0.9 + var(--t12) * 0.1 - var(--t23) * 0.1));
+.story-photo[data-i="0"] img {
+  transform: scale(calc(1.06 + var(--l0) * 0.08));
 }
-.story-sc3 {
-  opacity: var(--t23);
-  transform: scale(calc(0.9 + var(--t23) * 0.1));
+.story-photo[data-i="1"] {
+  opacity: var(--f1);
 }
-/* 01: damla düşer, halka açılır */
-.story-drop {
-  transform: translateY(calc(-120px + var(--l1) * 150px));
+.story-photo[data-i="1"] img {
+  transform: scale(calc(1.06 + var(--l1) * 0.08));
 }
-.story-ripple {
-  transform: scale(calc(0.6 + var(--l1) * 2.2));
-  opacity: calc(1 - var(--l1));
+.story-photo[data-i="2"] {
+  opacity: var(--f2);
 }
-/* 02: girdap döner ve sepete toplanır */
-.story-swirl {
-  transform: rotate(calc(var(--l2) * 160deg)) scale(calc(1.1 - var(--l2) * 0.75));
-  opacity: calc(1 - var(--l2) * 0.9);
+.story-photo[data-i="2"] img {
+  transform: scale(calc(1.06 + var(--l2) * 0.08));
 }
-.story-basket {
-  opacity: var(--l2);
+.story-photo[data-i="3"] {
+  opacity: var(--f3);
 }
-/* 03: akış iner, fincan dolar */
-.story-scene .story-pour {
-  transform-origin: top;
-  transform: scaleY(calc(var(--l3) * 1.5));
-  opacity: calc(1 - var(--l3) * var(--l3));
-}
-.story-scene .story-fill {
-  transform-origin: bottom;
-  transform: scaleY(calc(0.1 + var(--l3) * 0.9));
-}
-.story-cremaTop {
-  opacity: var(--l3);
+.story-photo[data-i="3"] img {
+  transform: scale(calc(1.06 + var(--l3) * 0.08));
 }
 .story-gold {
   background: linear-gradient(100deg, #f3d7a0 0%, #c9893a 50%, #f3d7a0 100%);
@@ -734,13 +716,15 @@ body.has-buybar .wa-btn {
 }
 .story[data-stage="0"] .story-caption[data-i="0"],
 .story[data-stage="1"] .story-caption[data-i="1"],
-.story[data-stage="2"] .story-caption[data-i="2"] {
+.story[data-stage="2"] .story-caption[data-i="2"],
+.story[data-stage="3"] .story-caption[data-i="3"] {
   opacity: 1;
   transform: none;
 }
 .story[data-stage="0"] .story-dot[data-i="0"],
 .story[data-stage="1"] .story-dot[data-i="1"],
-.story[data-stage="2"] .story-dot[data-i="2"] {
+.story[data-stage="2"] .story-dot[data-i="2"],
+.story[data-stage="3"] .story-dot[data-i="3"] {
   background: #f3d7a0;
 }
 @media (prefers-reduced-motion: reduce) {
