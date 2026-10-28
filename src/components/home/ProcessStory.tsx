@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getProduct } from "@/lib/products";
-import { ProductVisual } from "@/components/product/ProductVisual";
-import { DrinkArt } from "@/components/product/DrinkArt";
+import Image from "next/image";
+import { assetUrl } from "@/lib/assets";
 import { cn } from "@/lib/format";
 
 const steps = [
@@ -12,7 +11,7 @@ const steps = [
     no: "01",
     title: "Kaynağında seçim",
     text: "Kahve çekirdeklerini kooperatiflerden, meyveleri sezonunda, kakaoyu yüksek oranlı tedarik ediyoruz. Her partiyi tadıp onaylamadan üretime almıyoruz.",
-    product: "etiyopya-yirgacheffe",
+    image: "/story/cekirdek.webp",
     color: "#9a5f3b",
   },
   {
@@ -20,7 +19,7 @@ const steps = [
     no: "02",
     title: "Küçük partiler, kendi tesisimiz",
     text: "Şuruplar ve soslar kendi dolum hattımızda, kahveler sipariş sonrası küçük partiler hâlinde kavruluyor. Taze gider, taze gelir.",
-    product: "tuzlu-karamel-surubu",
+    image: "/products/tuzlu-karamel-surubu.webp",
     color: "#c9b48a",
   },
   {
@@ -28,16 +27,15 @@ const steps = [
     no: "03",
     title: "Barista testi",
     text: "Her reçete sıcak, soğuk ve soda bazlı içeceklerde gerçek bar koşullarında denenir. Çöken, ayrışan, rengi solan ürün rafa çıkmaz.",
-    product: "cilek-puresi",
+    image: "/products/cilek-puresi.webp",
     color: "#d9484f",
-    drink: true,
   },
   {
     id: "teslimat",
     no: "04",
     title: "Aynı gün kargo",
     text: "14:00'e kadar onaylanan siparişler aynı gün yola çıkar. Cam şişeler bölmeli kutularda, 81 ile 1–3 iş gününde kapınızda.",
-    product: "klasik-sicak-cikolata",
+    image: "/story/odul.webp",
     color: "#4a2318",
   },
 ];
@@ -77,41 +75,41 @@ export function ProcessStory() {
         <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-12">
           {/* Sabit panel */}
           <div className="lg:col-span-5">
-            <div
-              className="grain sticky top-24 flex aspect-[4/5] max-h-[34rem] flex-col justify-between overflow-hidden rounded-[1.75rem] bg-espresso-950 p-7 text-cream-50 lg:p-9"
-            >
-              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 transition-colors duration-700" style={{ background: `linear-gradient(180deg, transparent, ${current.color}55)` }} />
-              <div className="relative flex items-start justify-between">
-                <span key={current.no} className="animate-pop-in font-display text-6xl font-semibold text-cream-50/90">
-                  {current.no}
-                </span>
-                <div className="flex gap-1.5">
-                  {steps.map((s, i) => (
-                    <span key={s.id} className={cn("h-1.5 rounded-full transition-all duration-500", i === active ? "w-8 bg-cream-50" : "w-3 bg-cream-50/30")} />
-                  ))}
+            <div className="sticky top-24 aspect-[4/5] max-h-[34rem] overflow-hidden rounded-[1.75rem] bg-espresso-950 text-cream-50 shadow-lift">
+              {steps.map((s, i) => (
+                <Image
+                  key={s.id}
+                  src={assetUrl(s.image)}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  aria-hidden={i !== active}
+                  priority={i === 0}
+                  className={cn(
+                    "object-cover transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    i === active ? "scale-100 opacity-100" : "scale-110 opacity-0",
+                  )}
+                />
+              ))}
+              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-[#0a0806] via-[#0a0806]/35 to-[#0a0806]/10" />
+              <div className="absolute inset-0 flex flex-col justify-between p-7 lg:p-9">
+                <div className="flex items-start justify-between">
+                  <span key={current.no} className="animate-pop-in font-display text-6xl font-semibold text-cream-50/90">
+                    {current.no}
+                  </span>
+                  <div className="flex gap-1.5">
+                    {steps.map((s, i) => (
+                      <span key={s.id} className={cn("h-1.5 rounded-full transition-all duration-500", i === active ? "w-8 bg-cream-50" : "w-3 bg-cream-50/40")} />
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-caramel-300">Adım {current.no} / 04</p>
+                  <h3 key={current.id} className="mt-2 animate-pop-in font-display text-3xl font-semibold leading-tight">
+                    {current.title}
+                  </h3>
                 </div>
               </div>
-              <div className="relative flex-1">
-                {steps.map((s, i) => {
-                  const p = getProduct(s.product)!;
-                  const on = i === active;
-                  return (
-                    <div
-                      key={s.id}
-                      aria-hidden={!on}
-                      className={cn(
-                        "absolute inset-0 flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        on ? "translate-y-0 scale-100 opacity-100" : "translate-y-6 scale-90 opacity-0",
-                      )}
-                    >
-                      {s.drink ? <DrinkArt product={p} className="h-[88%] w-auto drop-shadow-2xl" /> : <ProductVisual product={p} className="h-[88%] w-auto drop-shadow-2xl" />}
-                    </div>
-                  );
-                })}
-              </div>
-              <h3 key={current.id} className="relative animate-pop-in font-display text-2xl font-semibold">
-                {current.title}
-              </h3>
             </div>
           </div>
 
