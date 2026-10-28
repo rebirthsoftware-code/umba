@@ -113,13 +113,6 @@ export function OrderSuccess() {
         </div>
       )}
 
-      {order?.paymentMethod === "kapida" && order.delivered && (
-        <div className="mt-8 rounded-2xl border border-espresso-900/10 bg-cream-100 p-6 text-sm text-espresso-700">
-          Siparişiniz hazırlanıyor. Kargo görevlisine <strong>{formatPrice(order.totals.total)}</strong> tutarını nakit veya kart ile
-          ödeyebilirsiniz.
-        </div>
-      )}
-
       {order && (
         <div className="mt-8 rounded-2xl border border-espresso-900/10 bg-cream-50 p-6">
           <h2 className="font-display text-xl font-semibold text-espresso-900">Sipariş detayı</h2>

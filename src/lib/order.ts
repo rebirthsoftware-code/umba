@@ -4,7 +4,7 @@ import { computeTotals, resolveLines } from "./cart";
 import { formatPrice } from "./format";
 import { site } from "./site";
 
-export const paymentMethods = ["havale", "kapida", "kart"] as const;
+export const paymentMethods = ["havale", "kart"] as const;
 export type PaymentMethod = (typeof paymentMethods)[number];
 
 export const checkoutSchema = z
@@ -81,7 +81,6 @@ export interface OrderRecord {
 
 export const paymentLabels: Record<PaymentMethod, string> = {
   havale: "Havale / EFT",
-  kapida: "Kapıda ödeme",
   kart: "Kredi / banka kartı (PayTR)",
 };
 
@@ -101,7 +100,7 @@ export function createOrder(data: CheckoutInput, items: CartItem[]): OrderRecord
   const outOfStock = lines.find((l) => !l.variant.inStock);
   if (outOfStock) return { error: `${outOfStock.product.name} şu anda stokta değil` };
   if (data.paymentMethod === "kart" && !site.commerce.cardPaymentsEnabled) {
-    return { error: "Kart ile ödeme henüz aktif değil. Lütfen Havale/EFT veya Kapıda Ödeme seçin." };
+    return { error: "Kart ile ödeme şu anda kullanılamıyor. Lütfen Havale/EFT seçin." };
   }
   const totals = computeTotals(lines, data.paymentMethod);
   const { items: _items, acceptTerms: _t, acceptKvkk: _k, ...customer } = data;

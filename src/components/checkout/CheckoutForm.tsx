@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent } from "react";
-import { Banknote, CreditCard, Truck, Loader2, Lock, AlertCircle } from "lucide-react";
+import { Banknote, CreditCard, Loader2, Lock, AlertCircle } from "lucide-react";
 import { useCart } from "@/components/cart/CartProvider";
 import { ProductImage } from "@/components/product/ProductImage";
 import { checkoutSchema, cities, createOrder, orderToFormPayload, type CheckoutInput } from "@/lib/order";
@@ -86,14 +86,6 @@ const PAYMENTS: { id: PaymentMethod; title: string; text: string; icon: React.El
     disabled: false,
   },
   {
-    id: "kapida",
-    title: "Kapıda ödeme",
-    text: "Nakit veya kart ile kapıda ödeyin.",
-    icon: Truck,
-    disabled: false,
-    extra: `+${formatPrice(site.commerce.codFee)} hizmet bedeli`,
-  },
-  {
     id: "kart",
     title: "Kredi / Banka kartı",
     text: paytrEnabled() ? "PayTR güvencesiyle 3D Secure ödeme. Tüm kartlar ve taksit seçenekleri." : "Çok yakında.",
@@ -172,7 +164,7 @@ export function CheckoutForm() {
       return;
     }
 
-    // Havale / kapıda: form servisi tanımlıysa siparişi mağazaya otomatik ilet; değilse müşteri WhatsApp/e-posta ile iletir.
+    // Havale: form servisi tanımlıysa siparişi mağazaya otomatik ilet; değilse müşteri WhatsApp/e-posta ile iletir.
     const delivered = await submitForm(orderToFormPayload(order));
     saveLastOrder({ ...order, delivered });
     clear();

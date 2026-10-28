@@ -26,8 +26,7 @@ export default function Page() {
       </ul>
       <h2>Ödeme</h2>
       <p>
-        Havale/EFT, kapıda ödeme ({formatPrice(site.commerce.codFee)} hizmet bedeli) ve aktif olduğu dönemde kredi kartı
-        ile ödeme yapılabilir.
+        Kredi/banka kartı veya Havale/EFT ile ödeme yapılabilir.
       </p>
       <h2>Cayma hakkı</h2>
       <p>

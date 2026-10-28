@@ -35,8 +35,7 @@ export default function Page() {
       <p>
         Ürünlerin cinsi, adedi, boyu, KDV dâhil satış fiyatı, kargo ücreti ve ödeme şekli sipariş özetinde ve sipariş
         onay e-postasında belirtildiği gibidir. {formatPrice(site.commerce.freeShippingThreshold)} ve üzeri siparişlerde kargo
-        ücretsizdir; bu tutarın altındaki siparişlerde {formatPrice(site.commerce.shippingFee)} kargo ücreti, kapıda ödeme
-        seçilmesi hâlinde ayrıca {formatPrice(site.commerce.codFee)} hizmet bedeli uygulanır.
+        ücretsizdir; bu tutarın altındaki siparişlerde {formatPrice(site.commerce.shippingFee)} kargo ücreti uygulanır.
       </p>
       <h2>Madde 4 – Teslimat</h2>
       <p>
@@ -46,7 +45,7 @@ export default function Page() {
       </p>
       <h2>Madde 5 – Ödeme</h2>
       <p>
-        Ödeme; havale/EFT, kapıda ödeme veya (aktif olduğu dönemlerde) kredi kartı ile yapılır. Havale/EFT seçilmesi hâlinde
+        Ödeme; kredi/banka kartı veya havale/EFT ile yapılır. Havale/EFT seçilmesi hâlinde
         ödeme 3 iş günü içinde yapılmazsa sipariş iptal edilir.
       </p>
       <h2>Madde 6 – Cayma hakkı</h2>

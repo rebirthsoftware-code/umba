@@ -13,7 +13,7 @@ const groups = [
   {
     title: "Sipariş ve ödeme",
     items: [
-      { q: "Hangi ödeme yöntemlerini kullanabilirim?", a: `Havale/EFT ve kapıda ödeme (nakit veya kart) ile ödeme yapabilirsiniz. Kapıda ödemede ${formatPrice(site.commerce.codFee)} hizmet bedeli uygulanır. Kredi kartı ile online ödeme çok yakında aktif olacak.` },
+      { q: "Hangi ödeme yöntemlerini kullanabilirim?", a: "Kredi/banka kartı (PayTR güvencesiyle, 3D Secure) veya Havale/EFT ile ödeme yapabilirsiniz." },
       { q: "Havale yaptım, siparişim ne zaman onaylanır?", a: "Havale/EFT ödemeleri iş günlerinde en geç 1 iş günü içinde kontrol edilir ve onaylanır. Dekontunuzu WhatsApp üzerinden iletirseniz süreç hızlanır." },
       { q: "Kurumsal fatura alabilir miyim?", a: "Evet. Ödeme adımında “Kurumsal” seçeneğini işaretleyip firma unvanı, vergi dairesi ve vergi numaranızı girmeniz yeterli. E-fatura mükellefi iseniz e-fatura düzenlenir." },
       { q: "Minimum sipariş tutarı var mı?", a: "Bireysel siparişlerde minimum tutar yoktur. Kurumsal fiyat listesinden yararlanmak için kurumsal satış ekibimizle görüşebilirsiniz." },

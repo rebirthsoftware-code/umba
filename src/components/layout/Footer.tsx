@@ -150,7 +150,6 @@ export function Footer() {
               <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">Kredi Kartı · PayTR</span>
             )}
             <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">Havale / EFT</span>
-            <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">Kapıda Ödeme</span>
             <span className="rounded-md border border-cream-50/15 px-2 py-1 font-semibold">256-bit SSL</span>
           </div>
         </div>

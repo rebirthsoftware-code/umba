@@ -59,7 +59,9 @@ export function computeOrder(items: { productSlug: string; variantId: string; qu
   const subtotal = Math.round(lines.reduce((s, l) => s + l.lineTotal, 0) * 100) / 100;
   const { freeShippingThreshold, shippingFee, codFee } = site.commerce;
   const shipping = subtotal === 0 || subtotal >= freeShippingThreshold ? 0 : shippingFee;
-  const cod = paymentMethod === "kapida" ? codFee : 0;
+  const cod = 0;
+  void paymentMethod;
+  void codFee;
   const total = Math.round((subtotal + shipping + cod) * 100) / 100;
   return { lines, subtotal, shipping, codFee: cod, total };
 }
@@ -127,7 +129,7 @@ export type CreateResult =
 
 export async function createOrder(body: CreateOrderBody, userIp: string): Promise<CreateResult> {
   const c = body.customer ?? {};
-  const paymentMethod: PaymentMethod = body.paymentMethod === "kart" || body.paymentMethod === "kapida" ? body.paymentMethod : "havale";
+  const paymentMethod: PaymentMethod = body.paymentMethod === "kart" ? "kart" : "havale";
   const email = String(c.email ?? "").trim().toLowerCase();
   const phone = digits(c.phone);
   if (!email.includes("@") || phone.length < 10 || !c.fullName || !c.address || !c.city) return { ok: false, status: 400, reason: "Müşteri bilgileri eksik" };
@@ -152,8 +154,8 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
     taxOffice: String(c.taxOffice ?? "").slice(0, 80),
     taxNo: String(c.taxNo ?? "").slice(0, 11),
   };
-  const status: OrderStatus = paymentMethod === "kart" ? "odeme-bekliyor" : paymentMethod === "havale" ? "beklemede" : "onaylandi";
-  const paymentStatus = paymentMethod === "kapida" ? "kapida" : "bekliyor";
+  const status: OrderStatus = paymentMethod === "kart" ? "odeme-bekliyor" : "beklemede";
+  const paymentStatus = "bekliyor";
   const ts = now();
   const testMode = paymentMethod === "kart" && (demo || paytrTestMode()) ? 1 : 0;
 

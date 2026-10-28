@@ -25,7 +25,7 @@ export function resolveLines(items: CartItem[]): CartLine[] {
   return lines;
 }
 
-export type PaymentMethod = "havale" | "kapida" | "kart";
+export type PaymentMethod = "havale" | "kart";
 
 export interface Totals {
   subtotal: number;
@@ -45,7 +45,9 @@ export function computeTotals(
   const itemCount = lines.reduce((s, l) => s + l.quantity, 0);
   const { freeShippingThreshold, shippingFee, codFee } = site.commerce;
   const shipping = subtotal === 0 || subtotal >= freeShippingThreshold ? 0 : shippingFee;
-  const cod = paymentMethod === "kapida" && subtotal > 0 ? codFee : 0;
+  const cod = 0;
+  void paymentMethod;
+  void codFee;
   const total = round2(subtotal + shipping + cod);
   return {
     subtotal,

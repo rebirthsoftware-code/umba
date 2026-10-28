@@ -141,14 +141,14 @@ export function CartPageContent() {
               <dd className="font-bold tabular-nums text-espresso-900">{formatPrice(totals.total)}</dd>
             </div>
           </dl>
-          <p className="mt-2 text-xs text-espresso-600">Fiyatlara KDV dahildir. Kapıda ödeme seçilirse {formatPrice(site.commerce.codFee)} hizmet bedeli eklenir.</p>
+          <p className="mt-2 text-xs text-espresso-600">Fiyatlara KDV dahildir.</p>
           <Link
             href="/odeme"
             className="mt-5 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-espresso-900 text-base font-bold text-cream-50 hover:bg-espresso-800"
           >
             Ödemeye geç <ArrowRight className="h-4 w-4" />
           </Link>
-          <p className="mt-3 text-center text-xs text-espresso-600">Havale/EFT · Kapıda ödeme · 256-bit SSL</p>
+          <p className="mt-3 text-center text-xs text-espresso-600">Kredi kartı · Havale/EFT · 256-bit SSL</p>
         </div>
       </aside>
     </div>
