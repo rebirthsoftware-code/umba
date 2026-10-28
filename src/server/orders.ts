@@ -1,6 +1,6 @@
 import type { InValue, Row } from "@libsql/client";
 import { db } from "./db";
-import { getPaytrToken, paytrConfigured, paytrTestMode } from "./paytr";
+import { getPaytrToken, paymentDemoMode, paytrTestMode } from "./paytr";
 import { products } from "@/lib/products";
 import { site } from "@/lib/site";
 import { orderStatuses, type ApiOrder, type OrderEvent, type OrderStatus } from "@/lib/api";
@@ -122,7 +122,7 @@ export interface CreateOrderBody {
 }
 
 export type CreateResult =
-  | { ok: true; orderNo: string; merchantOid: string; totals: ComputedOrder; token?: string; orderStatus: OrderStatus }
+  | { ok: true; orderNo: string; merchantOid: string; totals: ComputedOrder; token?: string; demo?: boolean; orderStatus: OrderStatus }
   | { ok: false; status: number; reason: string; orderNo?: string };
 
 export async function createOrder(body: CreateOrderBody, userIp: string): Promise<CreateResult> {
@@ -131,7 +131,7 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
   const email = String(c.email ?? "").trim().toLowerCase();
   const phone = digits(c.phone);
   if (!email.includes("@") || phone.length < 10 || !c.fullName || !c.address || !c.city) return { ok: false, status: 400, reason: "Müşteri bilgileri eksik" };
-  if (paymentMethod === "kart" && !paytrConfigured()) return { ok: false, status: 400, reason: "Kart ödemesi henüz yapılandırılmadı. Lütfen Havale/EFT veya Kapıda Ödeme seçin." };
+  const demo = paymentMethod === "kart" && paymentDemoMode();
 
   const order = computeOrder(body.items ?? [], paymentMethod);
   if (order.lines.length === 0 || order.total <= 0) return { ok: false, status: 400, reason: "Sepet boş veya ürünler stokta değil" };
@@ -155,7 +155,7 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
   const status: OrderStatus = paymentMethod === "kart" ? "odeme-bekliyor" : paymentMethod === "havale" ? "beklemede" : "onaylandi";
   const paymentStatus = paymentMethod === "kapida" ? "kapida" : "bekliyor";
   const ts = now();
-  const testMode = paymentMethod === "kart" && paytrTestMode() ? 1 : 0;
+  const testMode = paymentMethod === "kart" && (demo || paytrTestMode()) ? 1 : 0;
 
   const client = await db();
   await client.execute({
@@ -167,7 +167,9 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
   await addEvent(orderNo, "created", { status, message: `Sipariş oluşturuldu · ${paymentMethod}`, actor: "customer" });
 
   let token: string | undefined;
-  if (paymentMethod === "kart") {
+  if (paymentMethod === "kart" && demo) {
+    await addEvent(orderNo, "payment", { message: "Demo kart ödemesi başlatıldı (PayTR yapılandırılmadı)", actor: "system" });
+  } else if (paymentMethod === "kart") {
     try {
       token = await getPaytrToken({ orderNo, merchantOid, userIp, customer, lines: order.lines, shipping: order.shipping, total: order.total });
     } catch (err) {
@@ -179,7 +181,7 @@ export async function createOrder(body: CreateOrderBody, userIp: string): Promis
   } else {
     await notify(`Yeni sipariş ${orderNo} · ${order.total.toFixed(2)} TL · ${paymentMethod}`, `${customer.fullName} · ${customer.phone}\n${site.url}/yonetim?no=${orderNo}`);
   }
-  return { ok: true, orderNo, merchantOid, totals: order, token, orderStatus: status };
+  return { ok: true, orderNo, merchantOid, totals: order, token, demo: demo || undefined, orderStatus: status };
 }
 
 /* --------------------------- PayTR bildirimi ------------------------------ */
@@ -200,6 +202,16 @@ export async function applyPaymentCallback(merchantOid: string, status: string, 
     await client.execute({ sql: "UPDATE orders SET status = 'odeme-basarisiz', payment_status = 'basarisiz', updated_at = ?2 WHERE order_no = ?1", args: [orderNo, now()] });
     await addEvent(orderNo, "payment", { status: "odeme-basarisiz", message: `Ödeme başarısız: ${extra.failedReason ?? "Ödeme reddedildi"}`, actor: "paytr" });
   }
+}
+
+/** Demo kart ödemesi: yalnızca demo modunda, ödeme bekleyen sipariş için. */
+export async function completeDemoPayment(orderNo: string, approve: boolean): Promise<{ ok: true } | { ok: false; status: number; reason: string }> {
+  if (!paymentDemoMode()) return { ok: false, status: 403, reason: "Demo ödeme kapalı" };
+  const order = await getOrder(orderNo.toUpperCase());
+  if (!order) return { ok: false, status: 404, reason: "Sipariş bulunamadı" };
+  if (order.paymentMethod !== "kart" || order.paymentStatus !== "bekliyor") return { ok: false, status: 400, reason: "Bu sipariş için ödeme beklenmiyor" };
+  await applyPaymentCallback(order.merchantOid!, approve ? "success" : "failed", String(Math.round(order.totals.total * 100)), { failedReason: "Demo: kart reddedildi", testMode: true });
+  return { ok: true };
 }
 
 /* --------------------------------- Takip ---------------------------------- */

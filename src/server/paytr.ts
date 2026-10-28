@@ -11,6 +11,11 @@ export function paytrConfigured(): boolean {
   return Boolean(process.env.PAYTR_MERCHANT_ID && process.env.PAYTR_MERCHANT_KEY && process.env.PAYTR_MERCHANT_SALT);
 }
 
+/** PayTR anahtarları yokken (veya PAYMENT_DEMO=1) kart ödemesi sahte "demo" ekranıyla simüle edilir. */
+export function paymentDemoMode(): boolean {
+  return process.env.PAYMENT_DEMO === "1" || !paytrConfigured();
+}
+
 export function paytrTestMode(): boolean {
   return (process.env.PAYTR_TEST_MODE ?? "1") === "1";
 }

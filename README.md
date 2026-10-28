@@ -63,6 +63,8 @@ Sonrası panelden: **Hazırlanıyor → Kargoya verildi (kargo firması + takip 
 
 ## Demo / test modu
 
+PayTR anahtarları girilmemişken (veya `PAYMENT_DEMO=1` ile) kart ödemesi **demo ekranıyla** simüle edilir: müşteri kart formunu görür, "öde" deyince sipariş ödenmiş sayılır ve panelde TEST etiketiyle düşer; kart bilgisi hiçbir yere gönderilmez. PayTR anahtarları girildiğinde demo otomatik kapanır ve gerçek PayTR penceresi açılır.
+
 `PAYTR_TEST_MODE=1` iken kart ödemeleri PayTR test modunda yapılır: gerçek tahsilat olmaz, sipariş yine düşer ve panelde **TEST** etiketiyle görünür. Test kart numaraları PayTR mağaza panelindeki **Test Kart Bilgileri** sayfasındadır. Canlıya geçerken `0` yapıp yeniden yayınlayın.
 
 ## API uç noktaları

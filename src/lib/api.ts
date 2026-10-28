@@ -106,6 +106,7 @@ export interface CreateOrderResponse {
   totals: ApiOrder["totals"];
   lines: OrderRecord["lines"];
   token?: string;
+  demo?: boolean;
   orderStatus: OrderStatus;
 }
 
@@ -118,6 +119,10 @@ export function createRemoteOrder(order: OrderRecord) {
       items: order.lines.map((l) => ({ productSlug: l.productSlug, variantId: l.variantId, quantity: l.quantity })),
     }),
   });
+}
+
+export function completeDemoPayment(orderNo: string, approve: boolean) {
+  return call<object>("/paytr/demo", { method: "POST", body: JSON.stringify({ orderNo, approve }) });
 }
 
 export function trackOrder(orderNo: string, phone: string) {

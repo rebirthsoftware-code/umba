@@ -6,6 +6,7 @@ import { ShieldCheck, ExternalLink, Lock } from "lucide-react";
 import { useLastOrder } from "@/lib/last-order";
 import { paytrIframeUrl } from "@/lib/paytr";
 import { formatPrice } from "@/lib/format";
+import { DemoCardForm } from "./DemoCardForm";
 
 declare global {
   interface Window {
@@ -16,8 +17,9 @@ declare global {
 export function PaytrFrame() {
   const order = useLastOrder();
   const token = order?.paytr?.token;
+  const demo = order?.paytr?.demo;
 
-  if (!order || !token) {
+  if (!order || (!token && !demo)) {
     return (
       <div className="mx-auto max-w-lg rounded-[1.5rem] border border-dashed border-espresso-900/15 p-10 text-center">
         <h2 className="font-display text-2xl font-semibold text-espresso-900">Ödeme oturumu bulunamadı</h2>
@@ -29,11 +31,14 @@ export function PaytrFrame() {
     );
   }
 
-  const url = paytrIframeUrl(token);
+  const url = paytrIframeUrl(token ?? "");
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-12">
       <div className="lg:col-span-8">
+        {demo ? (
+          <DemoCardForm order={order} />
+        ) : (
         <div className="overflow-hidden rounded-2xl border border-espresso-900/10 bg-cream-50 shadow-card">
           <div className="flex items-center justify-between border-b border-espresso-900/10 bg-cream-100 px-5 py-3 text-xs font-semibold text-espresso-700">
             <span className="inline-flex items-center gap-1.5">
@@ -52,6 +57,8 @@ export function PaytrFrame() {
             allow="payment"
           />
         </div>
+        )}
+        {!demo && (
         <p className="mt-3 text-xs text-espresso-600">
           Ödeme penceresi açılmadıysa{" "}
           <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-caramel-700 underline underline-offset-2">
@@ -59,6 +66,7 @@ export function PaytrFrame() {
           </a>
           .
         </p>
+        )}
       </div>
       <aside className="lg:col-span-4">
         <div className="sticky top-28 rounded-2xl border border-espresso-900/10 bg-cream-100 p-6">
@@ -85,7 +93,7 @@ export function PaytrFrame() {
           </dl>
           <p className="mt-4 flex items-start gap-2 text-xs text-espresso-600">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-leaf-500" />
-            Kart bilgileriniz Umba sunucularına ulaşmaz; ödeme PayTR&apos;nin güvenli sayfasında tamamlanır.
+            {demo ? "Demo modu: kart bilgisi gönderilmez, tahsilat yapılmaz." : "Kart bilgileriniz Umba sunucularına ulaşmaz; ödeme PayTR'nin güvenli sayfasında tamamlanır."}
           </p>
         </div>
       </aside>

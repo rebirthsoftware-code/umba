@@ -152,12 +152,12 @@ export function CheckoutForm() {
       }
       const synced = { ...order, orderNo: res.orderNo, totals: { ...order.totals, ...res.totals } };
       if (order.paymentMethod === "kart") {
-        if (!res.token) {
+        if (!res.token && !res.demo) {
           setServerError("Kart ödemesi başlatılamadı. Lütfen tekrar deneyin veya başka bir yöntem seçin.");
           setSubmitting(false);
           return;
         }
-        saveLastOrder({ ...synced, paytr: { token: res.token, merchantOid: res.merchantOid } });
+        saveLastOrder({ ...synced, paytr: { token: res.token ?? "", merchantOid: res.merchantOid, demo: res.demo } });
         router.push("/odeme/kart");
         return;
       }

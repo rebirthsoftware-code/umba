@@ -76,7 +76,7 @@ export interface OrderRecord {
   /** Form servisi üzerinden mağazaya otomatik iletildi mi? */
   delivered: boolean;
   /** PayTR kart ödemesi bilgileri */
-  paytr?: { token: string; merchantOid: string };
+  paytr?: { token: string; merchantOid: string; demo?: boolean };
 }
 
 export const paymentLabels: Record<PaymentMethod, string> = {
