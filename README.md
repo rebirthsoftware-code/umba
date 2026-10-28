@@ -5,90 +5,75 @@ Next.js 16 ile geliştirilmiş, Türkçe, mobil uyumlu e-ticaret sitesi.
 
 ## Özellikler
 
-- **Katalog:** 6 ürün grubu, 51 ürün, boy/fiyat varyantları (`src/lib/products.ts`)
-- **Listeleme:** arama, kategori ve etiket filtreleri, sıralama (URL ile paylaşılabilir)
+- **Katalog:** 7 ürün grubu (şurup, dekor sos, püre, kahve, sıcak çikolata, bar ürünleri, bitki çayı), boy/fiyat varyantları (`src/lib/products.ts`)
+- **Listeleme:** anında arama, kategori ve etiket filtreleri, sıralama (URL ile paylaşılabilir)
 - **Ürün sayfası:** boy seçimi, adet, kullanım önerisi, ürün bilgileri, ilgili ürünler, Product JSON-LD
 - **Sepet:** tarayıcıda saklanır (localStorage), sekmeler arası senkron, ücretsiz kargo çubuğu
-- **Ödeme:** teslimat + fatura (bireysel/kurumsal) formu, Havale/EFT ve Kapıda Ödeme, zod ile doğrulama, fiyatlar katalogdan hesaplanır
-- **Sipariş iletimi:** sipariş özeti hazır mesaj olarak **WhatsApp** veya **e-posta** ile mağazaya gönderilir; isteğe bağlı form servisi (Formspree / Web3Forms) tanımlanırsa otomatik iletilir
-- **Siparişler, kart ödemesi, takip ve yönetim paneli:** `api/` altındaki Cloudflare Worker + D1 (PayTR iFrame API, 3D Secure)
-- **Ana sayfa:** otomatik akan, kaydırılabilir temalı hero slider; ürün kartlarında hover'da "bardakta görünüm" ve yuvarlanan fiyat
-- **İçerik sayfaları:** Hakkımızda, Kurumsal & Bayilik (teklif formu), İletişim, SSS (FAQ JSON-LD)
+- **Ödeme:** teslimat + fatura (bireysel/kurumsal) formu; Kredi kartı (PayTR, 3D Secure), Havale/EFT ve Kapıda Ödeme; fiyatlar sunucuda katalogdan hesaplanır
+- **Sipariş sistemi:** siparişler veritabanına yazılır; `/yonetim` panelinden durum (Onaylandı → Hazırlanıyor → Kargoya verildi → Teslim edildi), kargo takip numarası ve notlar yönetilir; müşteri `/siparis-takip` sayfasından üyeliksiz takip eder
+- **Ana sayfa:** temalı hero slider, kaydırmaya bağlı fotoğraflı kahve hikâyesi, bitki çayları bölümü, ürün kartlarında hover görseli ve yuvarlanan fiyat
+- **İçerik sayfaları:** Hakkımızda, Kurumsal & Bayilik (teklif formu), İletişim (iki WhatsApp hattı), SSS (FAQ JSON-LD)
 - **Yasal sayfalar:** KVKK, Gizlilik & Çerez, Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu, İptal & İade, Teslimat & Kargo
 - **SEO:** sitemap.xml, robots.txt, Open Graph görseli, manifest, canonical adresler
-- **Görseller:** Ürün fotoğrafı olmayan ürünler için otomatik vektörel ambalaj çizimi; fotoğraf eklendiğinde otomatik olarak fotoğraf kullanılır
-- **Tamamen statik:** sunucu gerektirmez; GitHub Pages, Netlify, Vercel veya herhangi bir hosting'de çalışır
 
 ## Teknoloji
 
-Next.js 16 (App Router, statik dışa aktarım), React 19, TypeScript, Tailwind CSS v4, lucide-react, zod.
+Next.js 16 (App Router, Route Handlers), React 19, TypeScript, Tailwind CSS v4, lucide-react, zod, libSQL/Turso (sipariş veritabanı). Yayın: **Vercel** (umbagida.com).
 
 ## Yerel çalıştırma
 
 ```bash
 npm install
-cp .env.example .env.local   # değerleri düzenleyin
+cp .env.example .env.local   # değerleri düzenleyin; yerel veritabanı için DATABASE_URL=file:./data/umba.db
+mkdir -p data
 npm run dev                  # http://localhost:3000
 ```
 
-Üretim derlemesi `out/` klasörüne statik dosyalar üretir:
+Üretim derlemesi ve API testleri:
 
 ```bash
-npm run build
-npx serve out                # veya herhangi bir statik sunucu
+npm run build && npm start
+BASE=http://localhost:3000 npm run test:api
 ```
 
-Kontroller: `npm run lint`, `npm run typecheck`, `npm run test:worker`.
+## Yayın: Vercel + umbagida.com
 
-## Yayın: GitHub Pages (otomatik)
+1. Vercel'de projeyi GitHub deposuna bağlayın (her push otomatik yayınlanır). Framework: Next.js, ek ayar gerekmez.
+2. **Veritabanı:** Vercel → Storage (Marketplace) → **Turso** ekleyin; `TURSO_DATABASE_URL` ve `TURSO_AUTH_TOKEN` projeye otomatik gelir. Tablolar ilk istekte kendiliğinden oluşur.
+3. **Ortam değişkenleri** (Settings → Environment Variables; liste `.env.example` içinde):
+   - `ADMIN_PASSWORD` – yönetim paneli şifresi
+   - `PAYTR_MERCHANT_ID`, `PAYTR_MERCHANT_KEY`, `PAYTR_MERCHANT_SALT` – PayTR mağaza paneli → Bilgi
+   - `PAYTR_TEST_MODE` – `1` test (gerçek tahsilat yok), `0` canlı
+   - `NEXT_PUBLIC_SITE_URL=https://umbagida.com` ve iletişim/banka bilgileri
+4. **Alan adı:** Vercel → Domains → `umbagida.com` ve `www.umbagida.com` ekleyin; Vercel'in verdiği A/CNAME kayıtlarını alan adı sağlayıcınıza girin. SSL otomatik.
+5. **PayTR bildirim adresi:** PayTR paneli → Ayarlar → Bildirim URL: `https://umbagida.com/api/paytr/callback`
+6. Değişkenleri girdikten sonra Deployments → Redeploy. Kontrol: `https://umbagida.com/api/health` → `{"ok":true,"db":true,"paytr":true,...}`
 
-`.github/workflows/deploy.yml` her push'ta siteyi derler ve GitHub Pages'e yayınlar.
+## Sipariş akışı
 
-1. Depo **Settings → Pages → Build and deployment → Source: GitHub Actions** seçili olmalı.
-2. Push sonrası **Actions** sekmesinden "GitHub Pages'e yayınla" akışını izleyin.
-3. Site `https://<kullanici>.github.io/<depo>/` adresinde yayınlanır. Alt dizin (`/<depo>`) otomatik ayarlanır.
-4. **Özel alan adı** için Settings → Pages → Custom domain alanına alan adınızı yazın ve DNS'te CNAME kaydı ekleyin; bir sonraki yayında alt dizin otomatik kalkar.
+| Ödeme | Sipariş oluşunca | Sonra |
+|---|---|---|
+| Kredi kartı | `odeme-bekliyor`; PayTR penceresi açılır | PayTR bildirimi gelince `onaylandi` (imza doğrulanır, ilk bildirim işlenir) |
+| Havale / EFT | `beklemede` (havale bekleniyor) | Dekont gelince panelden "Havale geldi, onayla" |
+| Kapıda ödeme | `onaylandi` | — |
 
-Telefon, IBAN gibi bilgileri koda yazmadan vermek için **Settings → Secrets and variables → Actions → Variables** altında aşağıdaki değişkenleri tanımlayın (isimler `.env.example` ile aynı). Değişiklik sonrası akışı **Run workflow** ile yeniden çalıştırın.
+Sonrası panelden: **Hazırlanıyor → Kargoya verildi (kargo firması + takip no) → Teslim edildi**; gerekirse **İptal**. Takip numarası girince müşteri `/siparis-takip` sayfasında kargo firmasının takip bağlantısını görür (Yurtiçi, Aras, MNG, PTT, Sürat, HepsiJET, UPS; diğerleri için bağlantı elle girilir).
 
-## Yapılandırma
+`NOTIFY_WEBHOOK` tanımlarsanız her yeni sipariş ve ödemede bu adrese (Formspree/Web3Forms) bildirim gider.
 
-| Değişken | Açıklama |
-| --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Canlı adres (sitemap, OG, canonical için). GitHub Actions otomatik verir. |
-| `NEXT_PUBLIC_BASE_PATH` | Alt dizinde yayın (ör. `/umba`). GitHub Actions otomatik verir; kök alan adında boş. |
-| `NEXT_PUBLIC_PHONE`, `NEXT_PUBLIC_WHATSAPP`, `NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_ADDRESS` | İletişim bilgileri. WhatsApp numarası ülke koduyla, boşluksuz: `905xxxxxxxxx`; birden fazla hat için virgülle ayırın, site numara seçtirir |
-| `NEXT_PUBLIC_INSTAGRAM`, `NEXT_PUBLIC_FACEBOOK` | Sosyal medya bağlantıları |
-| `NEXT_PUBLIC_COMPANY_NAME`, `NEXT_PUBLIC_MERSIS` | Yasal sayfalarda görünen şirket bilgileri |
-| `NEXT_PUBLIC_BANK_NAME`, `NEXT_PUBLIC_BANK_HOLDER`, `NEXT_PUBLIC_IBAN` | Havale/EFT bilgileri |
-| `NEXT_PUBLIC_FORM_ENDPOINT`, `NEXT_PUBLIC_FORM_ACCESS_KEY` | İsteğe bağlı form servisi (aşağıya bakın) |
-| `NEXT_PUBLIC_API_URL` | Sipariş API'si adresi (`https://umba-api.<hesap>.workers.dev`); tanımlanınca kart ödemesi, sipariş takibi ve yönetim paneli açılır |
+## Demo / test modu
 
-Kargo eşiği, kargo ücreti, kapıda ödeme bedeli ve teslimat süresi `src/lib/site.ts` → `commerce` altında.
+`PAYTR_TEST_MODE=1` iken kart ödemeleri PayTR test modunda yapılır: gerçek tahsilat olmaz, sipariş yine düşer ve panelde **TEST** etiketiyle görünür. Test kart numaraları PayTR mağaza panelindeki **Test Kart Bilgileri** sayfasındadır. Canlıya geçerken `0` yapıp yeniden yayınlayın.
 
-## Siparişler nasıl ulaşır?
+## API uç noktaları
 
-Site statik olduğu için sunucu tarafı yoktur; sipariş müşterinin tarayıcısında oluşturulur:
-
-1. Müşteri "Siparişi tamamla" der; form doğrulanır, `UMB-YYAAGG-XXXX` numaralı sipariş özeti hazırlanır.
-2. **Form servisi tanımlıysa** (`NEXT_PUBLIC_FORM_ENDPOINT`): sipariş otomatik olarak size e-posta ile gelir. Ücretsiz seçenekler:
-   - Formspree: form oluşturun, `https://formspree.io/f/xxxx` adresini `NEXT_PUBLIC_FORM_ENDPOINT` olarak girin.
-   - Web3Forms: e-postanız için anahtar alın; `NEXT_PUBLIC_FORM_ENDPOINT=https://api.web3forms.com/submit` ve `NEXT_PUBLIC_FORM_ACCESS_KEY=anahtar`.
-3. **Form servisi yoksa:** sipariş sayfasında "WhatsApp ile gönder" / "E-posta ile gönder" butonları çıkar; sipariş özeti hazır mesaj olarak WhatsApp numaranıza gelir.
-4. Havale seçildiyse müşteri IBAN bilgilerini görür ve dekontu WhatsApp'tan iletir.
-
-İletişim ve teklif formları da aynı mantıkla çalışır (form servisi varsa otomatik, yoksa e-posta/WhatsApp).
-
-## Siparişler, PayTR, takip ve yönetim paneli
-
-Site statik olduğu için siparişler `api/` klasöründeki küçük Cloudflare Worker'a (ücretsiz plan) yazılır; veriler D1 (SQLite) veritabanında tutulur.
-
-- **Sipariş akışı:** müşteri ödeme formunu doldurur → `POST /orders` siparişi katalog fiyatlarıyla hesaplar ve kaydeder → havale/kapıda siparişi "Havale bekleniyor" / "Onaylandı" olur; kartta PayTR penceresi açılır, ödeme bildirimi (`/callback`) gelince sipariş "Onaylandı" olur.
-- **Yönetim paneli:** `/yonetim` (şifre: Worker'daki `ADMIN_PASSWORD`). Siparişleri filtreleyip arayın; durumu Onaylandı → Hazırlanıyor → Kargoya verildi → Teslim edildi olarak ilerletin; kargo firması ve takip numarası girin; iç not ekleyin; müşteriye tek tıkla WhatsApp yazın.
-- **Sipariş takip:** `/siparis-takip` — müşteri sipariş numarası + telefonla durumu, geçmişi ve kargo takip bağlantısını görür (üyelik yok).
-- **Demo / test:** Worker `TEST_MODE = "1"` iken PayTR test modunda çalışır; gerçek tahsilat olmaz, sipariş yine düşer ve panelde TEST etiketiyle görünür.
-
-Kurulum adımları `api/README.md` dosyasında. `NEXT_PUBLIC_API_URL` tanımlı değilken site eski akışa düşer: kart seçeneği kapalı, siparişler WhatsApp / e-posta ile iletilir.
+| Uç nokta | Açıklama |
+|---|---|
+| `POST /api/orders` | Sipariş oluşturur (fiyatlar sunucuda); kartta PayTR token'ı döner |
+| `POST /api/paytr/callback` | PayTR ödeme bildirimi; `OK` döner |
+| `GET /api/track?no=&phone=` | Müşteri sipariş takibi |
+| `POST /api/admin/login`, `GET /api/admin/orders`, `GET|PATCH /api/admin/orders/:no`, `GET /api/admin/stats` | Yönetim (`Authorization: Bearer <ADMIN_PASSWORD>`) |
+| `GET /api/health` | Yapılandırma kontrolü |
 
 ## Ürünleri düzenleme
 
@@ -99,23 +84,22 @@ Kurulum adımları `api/README.md` dosyasında. `NEXT_PUBLIC_API_URL` tanımlı 
 
 ## Yayın öncesi kontrol listesi
 
-- [ ] GitHub Variables: telefon, WhatsApp, e-posta, adres, IBAN, şirket unvanı, MERSİS
-- [ ] (İsteğe bağlı) Form servisi anahtarı, siparişlerin e-posta ile gelmesi için
+- [ ] Vercel ortam değişkenleri: `ADMIN_PASSWORD`, PayTR anahtarları, Turso, iletişim/banka bilgileri
+- [ ] `PAYTR_TEST_MODE=1` ile test kartıyla bir sipariş verip panelde "Onaylandı" olduğunu görme
+- [ ] PayTR panelinde bildirim URL'sinin `https://umbagida.com/api/paytr/callback` olduğunu kontrol etme
 - [ ] Fiyatların ve stok kodlarının gözden geçirilmesi (`src/lib/products.ts`)
-- [ ] Ürün fotoğraflarının eklenmesi (isteğe bağlı)
 - [ ] Yasal metinlerin (KVKK, mesafeli satış vb.) hukuk danışmanınızca onaylanması
-- [ ] Test siparişi verip WhatsApp mesajının doğru numaraya düştüğünü kontrol etme
 - [ ] Google Search Console'a `sitemap.xml` gönderimi
+- [ ] Canlıya geçiş: `PAYTR_TEST_MODE=0` + Redeploy
 
 ## Dizin yapısı
 
 ```
-.github/workflows/  GitHub Pages yayın akışı
-api/                Sipariş API'si: PayTR, takip, yönetim (Cloudflare Worker + D1)
-scripts/            derleme öncesi katalog dışa aktarımı
 src/
-  app/            sayfalar
-  components/     layout, ürün, sepet, ödeme, form bileşenleri
-  lib/            site ayarları, katalog, sepet mantığı, sipariş ve form yardımcıları
-public/           statik dosyalar (ürün fotoğrafları için public/products/)
+  app/            sayfalar ve API (src/app/api)
+  components/     layout, ürün, sepet, ödeme, yönetim, sipariş takip bileşenleri
+  lib/            site ayarları, katalog, sepet, sipariş ve API istemcisi
+  server/         veritabanı (libSQL/Turso), PayTR, sipariş mantığı
+tests/            API uçtan uca testleri
+public/           statik dosyalar (ürün fotoğrafları: public/products/)
 ```

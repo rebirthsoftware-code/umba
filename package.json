@@ -8,11 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "prebuild": "tsx scripts/export-catalog.ts",
-    "export:catalog": "tsx scripts/export-catalog.ts",
-    "test:worker": "node --test paytr-worker/test.mjs"
+    "test:api": "node --test tests/api.test.mjs"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "lucide-react": "^1.62.0",
     "next": "16.4.3",
     "react": "19.3.0",

@@ -45,3 +45,6 @@ next-env.d.ts
 
 # derleme sırasında üretilir
 /public/catalog.json
+
+# yerel sipariş veritabanı
+/data/

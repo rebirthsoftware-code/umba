@@ -20,20 +20,20 @@ export const site = {
   tagline: "Barınızın lezzet ortağı",
   description:
     "Umba Coffee; kafeler, oteller ve evler için şurup, sos, püre, kahve, sıcak çikolata ve bar ürünleri üretir. Türkiye'nin her yerine hızlı teslimat.",
-  url: pick(process.env.NEXT_PUBLIC_SITE_URL, "https://umbacoffee.com.tr").replace(/\/$/, ""),
+  url: pick(process.env.NEXT_PUBLIC_SITE_URL, "https://umbagida.com").replace(/\/$/, ""),
   locale: "tr_TR",
   contact: {
     phone,
     phoneHref: phone.replace(/[^\d+]/g, ""),
     whatsapp: whatsappNumbers[0] ?? "",
     whatsappNumbers,
-    email: pick(process.env.NEXT_PUBLIC_EMAIL, "info@umbacoffee.com.tr"),
+    email: pick(process.env.NEXT_PUBLIC_EMAIL, "info@umbagida.com"),
     address: pick(process.env.NEXT_PUBLIC_ADDRESS, "Organize Sanayi Bölgesi, 1. Cadde No: 1, İstanbul / Türkiye"),
     workingHours: "Hafta içi 09:00 – 18:00",
   },
   social: {
-    instagram: pick(process.env.NEXT_PUBLIC_INSTAGRAM, "https://instagram.com/umbacoffee"),
-    facebook: pick(process.env.NEXT_PUBLIC_FACEBOOK, "https://facebook.com/umbacoffee"),
+    instagram: pick(process.env.NEXT_PUBLIC_INSTAGRAM, "https://instagram.com/umbagida"),
+    facebook: pick(process.env.NEXT_PUBLIC_FACEBOOK, "https://facebook.com/umbagida"),
   },
   legal: {
     companyName: pick(process.env.NEXT_PUBLIC_COMPANY_NAME, "Umba Gıda Sanayi ve Ticaret Ltd. Şti."),
@@ -52,9 +52,9 @@ export const site = {
     endpoint: pick(process.env.NEXT_PUBLIC_FORM_ENDPOINT, ""),
     accessKey: pick(process.env.NEXT_PUBLIC_FORM_ACCESS_KEY, ""),
   },
-  /** Sipariş API'si (Cloudflare Worker, bkz. api/): siparişler, PayTR, takip ve yönetim paneli. */
+  /** Sipariş API'si aynı uygulamada (src/app/api). NEXT_PUBLIC_ORDERS_API=0 ile kapatılabilir. */
   api: {
-    url: pick(process.env.NEXT_PUBLIC_API_URL, "").replace(/\/$/, ""),
+    url: pick(process.env.NEXT_PUBLIC_ORDERS_API, "1") === "0" ? "" : "/api",
   },
   commerce: {
     currency: "TRY",
@@ -62,7 +62,7 @@ export const site = {
     shippingFee: 89.9,
     codFee: 29.9, // kapıda ödeme hizmet bedeli
     deliveryEstimate: "1–3 iş günü",
-    cardPaymentsEnabled: Boolean(pick(process.env.NEXT_PUBLIC_API_URL, "")),
+    cardPaymentsEnabled: pick(process.env.NEXT_PUBLIC_CARD_PAYMENTS, "1") !== "0",
   },
 } as const;
 
