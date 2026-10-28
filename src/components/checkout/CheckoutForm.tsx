@@ -9,7 +9,8 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { checkoutSchema, cities, createOrder, orderToFormPayload, type CheckoutInput } from "@/lib/order";
 import { submitForm, formsEnabled } from "@/lib/forms";
 import { saveLastOrder } from "@/lib/last-order";
-import { paytrEnabled, requestPaytrToken } from "@/lib/paytr";
+import { paytrEnabled } from "@/lib/paytr";
+import { apiEnabled, createRemoteOrder } from "@/lib/api";
 import { computeTotals, type PaymentMethod } from "@/lib/cart";
 import { formatPrice, cn } from "@/lib/format";
 import { site } from "@/lib/site";
@@ -141,20 +142,33 @@ export function CheckoutForm() {
       return;
     }
 
-    // Kart: PayTR token al, güvenli ödeme sayfasına geç (sepet ödeme başarılı olana kadar korunur)
-    if (order.paymentMethod === "kart") {
-      const res = await requestPaytrToken(order);
-      if (res.status !== "success" || !res.token) {
-        setServerError(res.reason ?? "Kart ödemesi başlatılamadı. Lütfen tekrar deneyin veya başka bir yöntem seçin.");
+    // Sipariş API'si tanımlıysa sipariş sunucuya yazılır (yönetim paneli + takip); kartta PayTR token'ı da gelir.
+    if (apiEnabled()) {
+      const res = await createRemoteOrder(order);
+      if (res.status !== "success" || !res.orderNo) {
+        setServerError(res.reason ?? "Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
         setSubmitting(false);
         return;
       }
-      saveLastOrder({
-        ...order,
-        totals: res.total ? { ...order.totals, total: res.total } : order.totals,
-        paytr: { token: res.token, merchantOid: res.merchant_oid ?? order.orderNo.replace(/-/g, "") },
-      });
-      router.push("/odeme/kart");
+      const synced = { ...order, orderNo: res.orderNo, totals: { ...order.totals, ...res.totals } };
+      if (order.paymentMethod === "kart") {
+        if (!res.token) {
+          setServerError("Kart ödemesi başlatılamadı. Lütfen tekrar deneyin veya başka bir yöntem seçin.");
+          setSubmitting(false);
+          return;
+        }
+        saveLastOrder({ ...synced, paytr: { token: res.token, merchantOid: res.merchantOid } });
+        router.push("/odeme/kart");
+        return;
+      }
+      saveLastOrder({ ...synced, delivered: true });
+      clear();
+      router.push(`/siparis-alindi?no=${encodeURIComponent(res.orderNo)}`);
+      return;
+    }
+    if (order.paymentMethod === "kart") {
+      setServerError("Kart ödemesi henüz aktif değil. Lütfen başka bir yöntem seçin.");
+      setSubmitting(false);
       return;
     }
 

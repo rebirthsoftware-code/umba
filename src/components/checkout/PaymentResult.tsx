@@ -9,6 +9,7 @@ import { orderToText } from "@/lib/order";
 import { formatPrice } from "@/lib/format";
 import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { site } from "@/lib/site";
+import { apiEnabled } from "@/lib/api";
 
 export function PaymentResult({ status }: { status: "success" | "failed" }) {
   const order = useLastOrder();
@@ -61,6 +62,11 @@ export function PaymentResult({ status }: { status: "success" | "failed" }) {
           <p className="mt-3 text-espresso-700">Siparişiniz hazırlanıyor. Onay e-postası kısa süre içinde gelecek.</p>
         )}
         <p className="mt-1 text-sm text-espresso-600">Siparişiniz {site.commerce.deliveryEstimate} içinde kargoya verilir.</p>
+        {apiEnabled() && order && (
+          <Link href={`/siparis-takip?no=${encodeURIComponent(order.orderNo)}`} className="mt-3 inline-block text-sm font-semibold underline underline-offset-4">
+            Sipariş durumunu takip et
+          </Link>
+        )}
       </div>
 
       {order && (

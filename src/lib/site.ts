@@ -52,9 +52,9 @@ export const site = {
     endpoint: pick(process.env.NEXT_PUBLIC_FORM_ENDPOINT, ""),
     accessKey: pick(process.env.NEXT_PUBLIC_FORM_ACCESS_KEY, ""),
   },
-  /** PayTR kart ödemesi: token üreten Worker adresi (ör. https://umba-paytr.<hesap>.workers.dev/token). */
-  paytr: {
-    tokenEndpoint: pick(process.env.NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT, "").replace(/\/$/, ""),
+  /** Sipariş API'si (Cloudflare Worker, bkz. api/): siparişler, PayTR, takip ve yönetim paneli. */
+  api: {
+    url: pick(process.env.NEXT_PUBLIC_API_URL, "").replace(/\/$/, ""),
   },
   commerce: {
     currency: "TRY",
@@ -62,7 +62,7 @@ export const site = {
     shippingFee: 89.9,
     codFee: 29.9, // kapıda ödeme hizmet bedeli
     deliveryEstimate: "1–3 iş günü",
-    cardPaymentsEnabled: Boolean(pick(process.env.NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT, "")),
+    cardPaymentsEnabled: Boolean(pick(process.env.NEXT_PUBLIC_API_URL, "")),
   },
 } as const;
 

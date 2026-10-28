@@ -16,6 +16,7 @@ const links = [
   { href: "/kurumsal", label: "Kurumsal & Bayilik", hint: "İşletmelere özel fiyat" },
   { href: "/hakkimizda", label: "Hakkımızda", hint: "Hikâyemiz ve değerlerimiz" },
   { href: "/iletisim", label: "İletişim", hint: "Bize ulaşın" },
+  { href: "/siparis-takip", label: "Sipariş Takip", hint: "Siparişiniz nerede?" },
   { href: "/sss", label: "Sıkça Sorulan Sorular", hint: "Kargo, iade, kullanım" },
 ];
 

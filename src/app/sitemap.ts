@@ -8,7 +8,7 @@ import { categories } from "@/lib/categories";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url.replace(/\/$/, "");
   const lastModified = new Date("2026-10-01");
-  const statics = ["", "/urunler", "/hakkimizda", "/kurumsal", "/iletisim", "/sss", "/kvkk", "/gizlilik-politikasi", "/mesafeli-satis-sozlesmesi", "/on-bilgilendirme-formu", "/iptal-ve-iade", "/teslimat-ve-kargo"];
+  const statics = ["", "/urunler", "/hakkimizda", "/kurumsal", "/iletisim", "/sss", "/kvkk", "/gizlilik-politikasi", "/mesafeli-satis-sozlesmesi", "/on-bilgilendirme-formu", "/iptal-ve-iade", "/teslimat-ve-kargo", "/siparis-takip"];
   return [
     ...statics.map((p) => ({
       url: `${base}${p}`,

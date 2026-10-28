@@ -13,6 +13,7 @@ const items = products.flatMap((p) =>
     variantId: v.id,
     sku: v.sku,
     name: `${p.name} (${v.label})`,
+    variantLabel: v.label,
     price: v.price,
     inStock: v.inStock,
   })),

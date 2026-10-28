@@ -9,6 +9,7 @@ import { CopyrightYear } from "./CopyrightYear";
 
 const help = [
   { href: "/sss", label: "Sıkça Sorulan Sorular" },
+  { href: "/siparis-takip", label: "Sipariş Takip" },
   { href: "/teslimat-ve-kargo", label: "Teslimat ve Kargo" },
   { href: "/iptal-ve-iade", label: "İptal ve İade Koşulları" },
   { href: "/mesafeli-satis-sozlesmesi", label: "Mesafeli Satış Sözleşmesi" },

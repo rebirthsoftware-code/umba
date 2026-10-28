@@ -11,7 +11,7 @@ Next.js 16 ile geliştirilmiş, Türkçe, mobil uyumlu e-ticaret sitesi.
 - **Sepet:** tarayıcıda saklanır (localStorage), sekmeler arası senkron, ücretsiz kargo çubuğu
 - **Ödeme:** teslimat + fatura (bireysel/kurumsal) formu, Havale/EFT ve Kapıda Ödeme, zod ile doğrulama, fiyatlar katalogdan hesaplanır
 - **Sipariş iletimi:** sipariş özeti hazır mesaj olarak **WhatsApp** veya **e-posta** ile mağazaya gönderilir; isteğe bağlı form servisi (Formspree / Web3Forms) tanımlanırsa otomatik iletilir
-- **Kart ile ödeme:** PayTR iFrame API (3D Secure); token üretimi için `paytr-worker/` altında Cloudflare Worker
+- **Siparişler, kart ödemesi, takip ve yönetim paneli:** `api/` altındaki Cloudflare Worker + D1 (PayTR iFrame API, 3D Secure)
 - **Ana sayfa:** otomatik akan, kaydırılabilir temalı hero slider; ürün kartlarında hover'da "bardakta görünüm" ve yuvarlanan fiyat
 - **İçerik sayfaları:** Hakkımızda, Kurumsal & Bayilik (teklif formu), İletişim, SSS (FAQ JSON-LD)
 - **Yasal sayfalar:** KVKK, Gizlilik & Çerez, Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu, İptal & İade, Teslimat & Kargo
@@ -62,7 +62,7 @@ Telefon, IBAN gibi bilgileri koda yazmadan vermek için **Settings → Secrets a
 | `NEXT_PUBLIC_COMPANY_NAME`, `NEXT_PUBLIC_MERSIS` | Yasal sayfalarda görünen şirket bilgileri |
 | `NEXT_PUBLIC_BANK_NAME`, `NEXT_PUBLIC_BANK_HOLDER`, `NEXT_PUBLIC_IBAN` | Havale/EFT bilgileri |
 | `NEXT_PUBLIC_FORM_ENDPOINT`, `NEXT_PUBLIC_FORM_ACCESS_KEY` | İsteğe bağlı form servisi (aşağıya bakın) |
-| `NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT` | PayTR Worker adresi (`.../token`); tanımlanınca kart ile ödeme açılır |
+| `NEXT_PUBLIC_API_URL` | Sipariş API'si adresi (`https://umba-api.<hesap>.workers.dev`); tanımlanınca kart ödemesi, sipariş takibi ve yönetim paneli açılır |
 
 Kargo eşiği, kargo ücreti, kapıda ödeme bedeli ve teslimat süresi `src/lib/site.ts` → `commerce` altında.
 
@@ -79,13 +79,16 @@ Site statik olduğu için sunucu tarafı yoktur; sipariş müşterinin tarayıc�
 
 İletişim ve teklif formları da aynı mantıkla çalışır (form servisi varsa otomatik, yoksa e-posta/WhatsApp).
 
-## Kart ile ödeme (PayTR)
+## Siparişler, PayTR, takip ve yönetim paneli
 
-Kart ödemesi **PayTR iFrame API** ile çalışır. Site statik olduğu için merchant anahtarları tarayıcıya verilemez; token üretimi ve ödeme bildirimi `paytr-worker/` klasöründeki küçük Cloudflare Worker (ücretsiz) tarafından yapılır.
+Site statik olduğu için siparişler `api/` klasöründeki küçük Cloudflare Worker'a (ücretsiz plan) yazılır; veriler D1 (SQLite) veritabanında tutulur.
 
-Akış: müşteri "Güvenli ödemeye geç" der → site Worker'dan token ister (Worker sepeti `catalog.json` fiyatlarıyla yeniden hesaplar) → `/odeme/kart/` sayfasında PayTR ödeme penceresi açılır → sonuç `/odeme/basarili/` veya `/odeme/basarisiz/` sayfasına döner; PayTR ayrıca Worker'ın `/callback` adresine imzalı bildirim gönderir.
+- **Sipariş akışı:** müşteri ödeme formunu doldurur → `POST /orders` siparişi katalog fiyatlarıyla hesaplar ve kaydeder → havale/kapıda siparişi "Havale bekleniyor" / "Onaylandı" olur; kartta PayTR penceresi açılır, ödeme bildirimi (`/callback`) gelince sipariş "Onaylandı" olur.
+- **Yönetim paneli:** `/yonetim` (şifre: Worker'daki `ADMIN_PASSWORD`). Siparişleri filtreleyip arayın; durumu Onaylandı → Hazırlanıyor → Kargoya verildi → Teslim edildi olarak ilerletin; kargo firması ve takip numarası girin; iç not ekleyin; müşteriye tek tıkla WhatsApp yazın.
+- **Sipariş takip:** `/siparis-takip` — müşteri sipariş numarası + telefonla durumu, geçmişi ve kargo takip bağlantısını görür (üyelik yok).
+- **Demo / test:** Worker `TEST_MODE = "1"` iken PayTR test modunda çalışır; gerçek tahsilat olmaz, sipariş yine düşer ve panelde TEST etiketiyle görünür.
 
-Kurulum adımları `paytr-worker/README.md` dosyasında. Özetle: `npx wrangler deploy`, PayTR paneline bildirim URL'si, GitHub Variables'a `NEXT_PUBLIC_PAYTR_TOKEN_ENDPOINT`. Endpoint tanımlı değilken ödeme adımında kart seçeneği "Çok yakında" olarak kapalı görünür.
+Kurulum adımları `api/README.md` dosyasında. `NEXT_PUBLIC_API_URL` tanımlı değilken site eski akışa düşer: kart seçeneği kapalı, siparişler WhatsApp / e-posta ile iletilir.
 
 ## Ürünleri düzenleme
 
@@ -108,7 +111,7 @@ Kurulum adımları `paytr-worker/README.md` dosyasında. Özetle: `npx wrangler 
 
 ```
 .github/workflows/  GitHub Pages yayın akışı
-paytr-worker/       PayTR token/bildirim Worker'ı (Cloudflare)
+api/                Sipariş API'si: PayTR, takip, yönetim (Cloudflare Worker + D1)
 scripts/            derleme öncesi katalog dışa aktarımı
 src/
   app/            sayfalar

@@ -1,0 +1,7 @@
+PAYTR_MERCHANT_ID=123456
+PAYTR_MERCHANT_KEY=testkey
+PAYTR_MERCHANT_SALT=testsalt
+ADMIN_PASSWORD=admin123
+# Yerel PayTR taklidi (isteğe bağlı): PAYTR_TOKEN_URL=http://localhost:3300/get-token
+SITE_URL=http://localhost:3000
+ALLOWED_ORIGIN=http://localhost:3000

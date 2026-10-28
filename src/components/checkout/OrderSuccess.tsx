@@ -10,6 +10,7 @@ import { formatPrice, formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
 import { mailtoUrl } from "@/lib/forms";
 import { WhatsAppLink } from "@/components/ui/WhatsAppLink";
+import { apiEnabled } from "@/lib/api";
 
 export function OrderSuccess() {
   const params = useSearchParams();
@@ -49,6 +50,11 @@ export function OrderSuccess() {
           <p className="mt-1 text-sm text-espresso-600">
             {formatDate(order.createdAt)} · {paymentLabels[order.paymentMethod]}
           </p>
+        )}
+        {apiEnabled() && orderNo && (
+          <Link href={`/siparis-takip?no=${encodeURIComponent(orderNo)}`} className="mt-3 inline-block text-sm font-semibold underline underline-offset-4">
+            Sipariş durumunu takip et
+          </Link>
         )}
       </div>
 
