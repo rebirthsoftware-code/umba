@@ -27,6 +27,8 @@ export interface Category {
   art: ArtKind;
   /** Kategoriye özel şeffaf görsel (public yolu). */
   image?: string;
+  /** Görsel yataysa (genişlik > yükseklik) işaretleyin. */
+  imageLandscape?: boolean;
   order: number;
 }
 

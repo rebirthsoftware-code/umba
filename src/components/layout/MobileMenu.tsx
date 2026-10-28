@@ -107,7 +107,10 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
                     <CategoryVisual
                       category={c}
                       sample={list[0]}
-                      className="absolute -right-2 -top-1 h-[115%] w-auto opacity-90 drop-shadow-lg transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105"
+                      className={cn(
+                        "absolute -top-1 w-auto opacity-90 drop-shadow-lg transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105",
+                        c.imageLandscape ? "-right-4 h-[80%] max-w-[62%] object-contain object-right" : "-right-2 h-[115%]",
+                      )}
                     />
                   </Link>
                 </li>

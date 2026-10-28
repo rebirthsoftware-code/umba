@@ -27,6 +27,8 @@ export const categories: Category[] = [
   {
     slug: "pureler",
     name: "Püreler",
+    image: "/categories/pureler.webp",
+    imageLandscape: true,
     tagline: "Gerçek meyve ile smoothie ve frozen bazları",
     description:
       "18 çeşit gerçek meyveli püre; 1 L pompalı şişede. Smoothie, frozen, limonata ve kokteyllerde gerçek meyve lezzeti.",

@@ -6,7 +6,8 @@ import { ProductVisual } from "./ProductVisual";
 /** Kategori görseli: kategoriye özel şeffaf fotoğraf varsa onu, yoksa ilk ürünün görselini gösterir. */
 export function CategoryVisual({ category, sample, className }: { category: Category; sample?: Product; className?: string }) {
   if (category.image) {
-    return <Image src={assetUrl(category.image)} alt={category.name} width={900} height={1200} className={className} style={{ objectFit: "contain" }} />;
+    const landscape = category.imageLandscape;
+    return <Image src={assetUrl(category.image)} alt={category.name} width={landscape ? 1200 : 900} height={landscape ? 800 : 1200} className={className} style={{ objectFit: "contain" }} />;
   }
   if (!sample) return null;
   return <ProductVisual product={sample} className={className} />;
