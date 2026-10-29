@@ -9,8 +9,20 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { GridSkeleton } from "@/components/product/GridSkeleton";
 import Link from "next/link";
 import { cn } from "@/lib/format";
+import { site } from "@/lib/site";
 
 export const dynamicParams = false;
+
+/** Google için kategori başlık/açıklamaları (arama niyetine uygun anahtar kelimeler). */
+const categorySeo: Record<string, { title: string; description: string }> = {
+  suruplar: { title: "Kahve Şurubu ve Aromalı Bar Şurupları (37 Aroma, 750 ml)", description: "Latte, soğuk kahve, soda ve kokteyller için 37 aroma kahve şurubu: karamel, vanilya, fındık, çilek, mojito, cool lime, damla sakızı ve daha fazlası. Premium kalite, 750 ml şişe." },
+  soslar: { title: "Dekor Sos: Çikolata, Karamel, Beyaz Çikolata ve Meyveli Soslar", description: "Bardak süsleme ve topping için 10 aroma dekor sos: çikolata, karamel, beyaz çikolata, çilek, frambuaz, blue curaçao. Mocha, frappe, milkshake ve tatlılar için ince uçlu sıkma şişe." },
+  pureler: { title: "Meyve Püresi: Smoothie, Frozen ve Limonata Bazı (1 L)", description: "18 çeşit gerçek meyveli püre: mango, çilek, karpuz, çarkıfelek, karadut, yaban mersini, kavun. Smoothie, frozen, soda ve kokteyl için 1 L pompalı şişe." },
+  kahve: { title: "Espresso Çekirdek Kahve: Daily, Colombian ve Reserve (1 kg)", description: "Kafeler için espresso çekirdek kahve: dengeli Espresso Daily, %100 Arabica Colombian ve çikolata-fındık notalı Reserve. 1 kg valfli poşet, taze kavrum." },
+  "sicak-cikolata": { title: "Sıcak Çikolata Tozu: Klasik, Bitter, Beyaz ve Fındıklı", description: "Gerçek kakaolu, kıvamlı sıcak çikolata tozları: klasik, bitter, beyaz, fındıklı ve karamelli. Kafe ve otel kış menüsü için 1 kg ekonomik ambalaj." },
+  "bar-urunleri": { title: "Bar Ürünleri: Frappe Tozu, Chai Latte, Salep, Matcha ve Limonata Konsantresi", description: "Kafe barı için toz ve konsantre ürünler: vanilya ve çikolata frappe tozu, chai latte, salep, matcha, limonata konsantresi. HoReCa ambalajı." },
+  "bitki-cayi": { title: "Bitki Çayı ve Meyve Çayı: Kuşburnu, Hibiskus, Ada Çayı, Nane Limon", description: "Safranbolu'da doğal kurutulmuş 9 çeşit meyve ve bitki çayı: kuşburnu, hibiskus, ada çayı, nane limon, orman meyveli, böğürtlen, ıhlamur, yeşil çay. Kilitli pencereli poşet, 100 g ve 250 g." },
+};
 
 export function generateStaticParams() {
   return categories.map((c) => ({ slug: c.slug }));
@@ -20,10 +32,13 @@ export async function generateMetadata({ params }: PageProps<"/kategori/[slug]">
   const { slug } = await params;
   const category = getCategory(slug);
   if (!category) return {};
+  const count = getProductsByCategory(category.slug).length;
+  const seo = categorySeo[category.slug] ?? { title: category.name, description: category.description };
   return {
-    title: category.name,
-    description: category.description,
+    title: seo.title,
+    description: `${seo.description} ${count} ürün; kartla veya havaleyle ödeme, 1–3 iş günü teslimat.`,
     alternates: { canonical: `/kategori/${category.slug}` },
+    openGraph: { title: `${seo.title} | ${site.name}`, description: seo.description, type: "website" },
   };
 }
 
@@ -34,7 +49,27 @@ export default async function CategoryPage({ params }: PageProps<"/kategori/[slu
   const products = getProductsByCategory(category.slug);
   const sample = products[0];
 
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: site.url },
+        { "@type": "ListItem", position: 2, name: "Ürünler", item: `${site.url}/urunler` },
+        { "@type": "ListItem", position: 3, name: category.name, item: `${site.url}/kategori/${category.slug}` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: category.name,
+      numberOfItems: products.length,
+      itemListElement: products.slice(0, 50).map((p, idx) => ({ "@type": "ListItem", position: idx + 1, name: p.name, url: `${site.url}/urun/${p.slug}` })),
+    },
+  ];
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <>
       <section
         className="relative overflow-hidden border-b border-espresso-900/5"
@@ -84,6 +119,7 @@ export default async function CategoryPage({ params }: PageProps<"/kategori/[slu
           <ProductGrid products={products} lockedCategory={category.slug} />
         </Suspense>
       </section>
+    </>
     </>
   );
 }

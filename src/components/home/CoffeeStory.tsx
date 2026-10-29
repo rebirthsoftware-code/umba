@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import Image from "next/image";
 import { assetUrl } from "@/lib/assets";
 
 /**
@@ -61,10 +62,10 @@ export function CoffeeStory() {
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Fotoğraf katmanları */}
         {scenes.map((s, i) => (
-          <picture key={s.id} className="story-photo absolute inset-0" data-i={i}>
-            <source media="(max-width: 767px)" srcSet={assetUrl(`/story/${s.id}-m.webp`)} />
-            <img src={assetUrl(`/story/${s.id}.webp`)} alt="" className="h-full w-full object-cover" loading={i === 0 ? "eager" : "lazy"} decoding="async" />
-          </picture>
+          <div key={s.id} className="story-photo absolute inset-0" data-i={i}>
+            <Image src={assetUrl(`/story/${s.id}.webp`)} alt="" fill sizes="100vw" loading={i === 0 ? "eager" : "lazy"} quality={70} className="hidden object-cover md:block" />
+            <Image src={assetUrl(`/story/${s.id}-m.webp`)} alt="" fill sizes="100vw" loading={i === 0 ? "eager" : "lazy"} quality={70} className="object-cover md:hidden" />
+          </div>
         ))}
         {/* Okunabilirlik için karartma */}
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-[#0a0806] via-[#0a0806]/55 to-[#0a0806]/20 lg:bg-gradient-to-r lg:from-[#0a0806] lg:via-[#0a0806]/60 lg:to-transparent" />

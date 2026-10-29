@@ -5,6 +5,7 @@ import { Check, Plus, ArrowUpRight } from "lucide-react";
 import { products, getProduct, getRelatedProducts, getBundlePartner } from "@/lib/products";
 import { categoryMap } from "@/lib/categories";
 import { site } from "@/lib/site";
+import { getCategory } from "@/lib/categories";
 import { formatPrice } from "@/lib/format";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { TagBadge } from "@/components/ui/Badge";
@@ -26,9 +27,11 @@ export async function generateMetadata({ params }: PageProps<"/urun/[slug]">): P
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return {};
+  const cat = getCategory(product.category);
+  const price = formatPrice(product.variants[0].price);
   return {
-    title: product.name,
-    description: `${product.short} ${product.description}`.slice(0, 160),
+    title: `${product.name} | ${cat?.name ?? ""} · ${product.variants[0].label} · ${price}`,
+    description: `${product.name}: ${product.short} ${product.description}`.slice(0, 155) + " Kartla veya havaleyle ödeme, 1–3 iş günü teslimat.",
     alternates: { canonical: `/urun/${product.slug}` },
     openGraph: { title: `${product.name} | ${site.name}`, description: product.short, type: "website" },
   };

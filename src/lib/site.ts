@@ -19,7 +19,7 @@ export const site = {
   shortName: "Umba",
   tagline: "Barınızın lezzet ortağı",
   description:
-    "Umba Coffee; kafeler, oteller ve evler için şurup, sos, püre, kahve, sıcak çikolata ve bar ürünleri üretir. Türkiye'nin her yerine hızlı teslimat.",
+    "Umba Coffee: kafe ve barlar için 37 aroma kahve şurubu, dekor sos, meyve püresi, espresso çekirdek kahve, sıcak çikolata, frappe tozu ve bitki çayı. Safranbolu'dan Türkiye'nin her yerine 1–3 iş günü teslimat, 1.500 ₺ üzeri kargo bedava.",
   url: pick(process.env.NEXT_PUBLIC_SITE_URL, "https://umbagida.com").replace(/\/$/, ""),
   locale: "tr_TR",
   contact: {

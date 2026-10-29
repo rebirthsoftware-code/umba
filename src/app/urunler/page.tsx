@@ -6,9 +6,9 @@ import { products } from "@/lib/products";
 import { GridSkeleton } from "@/components/product/GridSkeleton";
 
 export const metadata: Metadata = {
-  title: "Tüm Ürünler",
+  title: "Tüm Ürünler | Kahve Şurubu, Püre, Sos, Espresso, Sıcak Çikolata",
   description:
-    "Umba Coffee şurup, sos, püre, kahve, sıcak çikolata ve bar ürünleri. Kategoriye, etikete ve fiyata göre filtreleyin.",
+    "Kafe ve barlar için 90'dan fazla ürün: 37 aroma kahve şurubu, 18 meyve püresi, dekor soslar, espresso çekirdek kahve, sıcak çikolata, frappe ve chai tozları, bitki çayları. Kategori ve fiyata göre filtreleyin, kartla ödeyin.",
   alternates: { canonical: "/urunler" },
 };
 

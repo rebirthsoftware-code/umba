@@ -94,7 +94,7 @@ export function HeroStage({
 
       {image?.fit === "cover" && (
         <div className="absolute inset-x-8 bottom-6 top-10 z-10 overflow-hidden rounded-[1.5rem]" style={layer(-10, 140)}>
-          <Image src={assetUrl(image.src)} alt={image.alt} fill priority={active} sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+          <Image src={assetUrl(image.src)} alt={image.alt} fill priority={active} loading={active ? "eager" : "lazy"} sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
         </div>
       )}
       {image && image.fit !== "cover" && (
@@ -105,6 +105,7 @@ export function HeroStage({
               alt={image.alt}
               fill
               priority={active}
+              loading={active ? "eager" : "lazy"}
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-contain drop-shadow-2xl"
             />
