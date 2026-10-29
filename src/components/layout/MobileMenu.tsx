@@ -79,7 +79,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
           </button>
 
           {/* Ürünler */}
-          <Link
+          <Link prefetch={false}
             href="/urunler"
             style={item()}
             className="menu-item mt-7 flex items-end justify-between border-b border-cream-50/10 pb-3"
@@ -96,7 +96,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
               const list = getProductsByCategory(c.slug);
               return (
                 <li key={c.slug} className="menu-item" style={item()}>
-                  <Link href={`/kategori/${c.slug}`} className="group flex items-center gap-3.5 px-3 py-2.5 transition-colors active:bg-cream-50/10">
+                  <Link prefetch={false} href={`/kategori/${c.slug}`} className="group flex items-center gap-3.5 px-3 py-2.5 transition-colors active:bg-cream-50/10">
                     <CategoryTile
                       category={c}
                       sample={list[0]}
@@ -122,7 +122,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
           <ul className="mt-7 divide-y divide-cream-50/10 border-y border-cream-50/10">
             {links.map((l, idx) => (
               <li key={l.href} className="menu-item" style={item()}>
-                <Link href={l.href} className="group flex items-center gap-4 py-3.5">
+                <Link prefetch={false} href={l.href} className="group flex items-center gap-4 py-3.5">
                   <span className="font-display text-sm italic text-caramel-300">0{idx + 1}</span>
                   <span className="flex-1">
                     <span className="block text-lg font-semibold leading-tight">{l.label}</span>

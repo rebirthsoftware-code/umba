@@ -75,7 +75,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm">
             {categories.map((c) => (
               <li key={c.slug}>
-                <Link href={`/kategori/${c.slug}`} className="text-cream-200/80 transition-colors hover:text-caramel-300">
+                <Link prefetch={false} href={`/kategori/${c.slug}`} className="text-cream-200/80 transition-colors hover:text-caramel-300">
                   {c.name}
                 </Link>
               </li>
@@ -88,7 +88,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm">
             {corporate.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-cream-200/80 transition-colors hover:text-caramel-300">
+                <Link prefetch={false} href={l.href} className="text-cream-200/80 transition-colors hover:text-caramel-300">
                   {l.label}
                 </Link>
               </li>
@@ -101,7 +101,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm">
             {help.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-cream-200/80 transition-colors hover:text-caramel-300">
+                <Link prefetch={false} href={l.href} className="text-cream-200/80 transition-colors hover:text-caramel-300">
                   {l.label}
                 </Link>
               </li>

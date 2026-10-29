@@ -211,6 +211,7 @@ export function Header() {
                             return (
                               <Link
                                 key={c.slug}
+                                prefetch={false}
                                 href={`/kategori/${c.slug}`}
                                 style={{ transitionDelay: megaOpen ? `${i * 40}ms` : "0ms" }}
                                 className={cn(
