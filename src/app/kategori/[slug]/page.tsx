@@ -23,7 +23,7 @@ const categorySeo: Record<string, { title: string; description: string }> = {
   kahve: { title: "Espresso Çekirdek Kahve: Daily, Colombian ve Reserve (1 kg)", description: "Kafeler için espresso çekirdek kahve: dengeli Espresso Daily, %100 Arabica Colombian ve çikolata-fındık notalı Reserve. 1 kg valfli poşet, taze kavrum." },
   "sicak-cikolata": { title: "Sıcak Çikolata ve Salep Tozu (1 kg)", description: "Gerçek kakaolu sıcak çikolata tozları (Classic, Premium, Beyaz, Ümba Premium Safranbolu) ve Classic, Premium, damla sakızlı, çikolatalı, fındıklı salep tozu. Kafe ve otel kış menüsü için 1 kg kutu." },
   "bar-urunleri": { title: "Milkshake Tozu: Vanilya, Karamel, Çikolata (1 kg)", description: "Kafe barı için vanilya, karamel ve çikolata aromalı milkshake tozları. Soğuk sütle blender'da kremamsı milkshake, frappe ve smoothie bazı; 1 kg poşet." },
-  "bitki-cayi": { title: "Bitki Çayı ve Meyve Çayı: Kuşburnu, Hibiskus, Ada Çayı, Nane Limon", description: "Safranbolu'da doğal kurutulmuş 9 çeşit meyve ve bitki çayı: kuşburnu, hibiskus, ada çayı, nane limon, orman meyveli, böğürtlen, ıhlamur, yeşil çay. Kilitli pencereli poşet, 100 g ve 250 g." },
+  "bitki-cayi": { title: "Bitki Çayı ve Meyve Çayı: Kuşburnu, Hibiskus, Ada Çayı, Nane Limon", description: "Safranbolu'da doğal kurutulmuş 9 çeşit meyve ve bitki çayı: kuşburnu, hibiskus, ada çayı, nane limon, orman meyveli, böğürtlen, ıhlamur, yeşil çay. Kilitli pencereli poşet, 100–250 g." },
 };
 
 export function generateStaticParams() {

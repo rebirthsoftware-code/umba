@@ -71,7 +71,7 @@ function syrup(b: Base): Product {
       { label: "Saklama", value: "Serin ve kuru yerde, doğrudan güneş ışığından uzak" },
       { label: "Menşei", value: "Türkiye" },
     ],
-    variants: [v("750ml", "750 ml", 329.9, `SRP-${code}-750`)],
+    variants: [v("750ml", "750 ml", 385, `SRP-${code}-750`)],
     tags: b.tags ?? [],
     ...b,
   };
@@ -101,7 +101,7 @@ function sauce(b: Base): Product {
       { label: "Saklama", value: "Oda sıcaklığında, açıldıktan sonra kapağı kapalı" },
       { label: "Menşei", value: "Türkiye" },
     ],
-    variants: [v("sise", "Şişe", 249.9, `SOS-${code}`)],
+    variants: [v("sise", "Şişe", 155, `SOS-${code}`)],
     tags: b.tags ?? [],
     ...b,
   };
@@ -131,14 +131,14 @@ function puree(b: Base): Product {
       { label: "Saklama", value: "Serin ve kuru yerde, açıldıktan sonra 2–6 °C" },
       { label: "Menşei", value: "Türkiye" },
     ],
-    variants: [v("1l", "1 L", 449.9, `PUR-${code}-1000`)],
+    variants: [v("1l", "1 L", 485, `PUR-${code}-1000`)],
     tags: [...(b.tags ?? []), "vegan"],
     ...b,
   };
 }
 
-function coffee(b: Base & { notes: string; roast: string; origin: string }): Product {
-  const { notes, roast, origin, ...rest } = b;
+function coffee(b: Base & { price?: number; notes: string; roast: string; origin: string }): Product {
+  const { notes, roast, origin, price = 830, ...rest } = b;
   const code = skuCode(b.slug);
   return {
     category: "kahve",
@@ -161,7 +161,7 @@ function coffee(b: Base & { notes: string; roast: string; origin: string }): Pro
       { label: "Ambalaj", value: "1 kg (35.2 oz) valfli poşet" },
       { label: "Raf ömrü", value: "12 ay (en iyi tüketim: kavurmadan sonra 2 ay)" },
     ],
-    variants: [v("1kg", "1 kg", 1149.9, `KHV-${code}-1000`)],
+    variants: [v("1kg", "1 kg", price, `KHV-${code}-1000`)],
     tags: rest.tags ?? [],
     ...rest,
   };
@@ -219,7 +219,7 @@ function bar(b: Base & { kind?: "salep" | "milkshake" | "sos" }): Product {
       highlights: ["Yoğun kıvam, soğukta bile akışkan", "Topping, mocha ve tatlı sosu olarak çok amaçlı", "HoReCa için ekonomik 2,5 kg şişe", "Isıtmaya gerek olmadan kullanım"],
       usage: ["Caramel macchiato / frappe: 25–30 g", "Waffle, pankek ve dondurma üzeri: istenilen miktarda", "Bardak içi dekorasyon: 5–10 g"],
       specs: [{ label: "Ambalaj", value: "2,5 kg şişe" }, { label: "Raf ömrü", value: "18 ay" }, { label: "Saklama", value: "Oda sıcaklığında, açıldıktan sonra kapağı kapalı" }, { label: "Menşei", value: "Türkiye" }],
-      variants: [v("2-5kg", "2,5 kg", 699.9, `BAR-${code}-2500`)],
+      variants: [v("2-5kg", "2,5 kg", 885, `BAR-${code}-2500`)],
     },
   }[kind];
   const category = { salep: "sicak-cikolata", milkshake: "bar-urunleri", sos: "soslar" }[kind] as Product["category"];
@@ -232,8 +232,8 @@ function bar(b: Base & { kind?: "salep" | "milkshake" | "sos" }): Product {
   };
 }
 
-function tea(b: Base & { brew: string }): Product {
-  const { brew, ...rest } = b;
+function tea(b: Base & { brew: string; grams?: number; price?: number }): Product {
+  const { brew, grams = 250, price = 250, ...rest } = b;
   const code = skuCode(b.slug);
   return {
     category: "bitki-cayi",
@@ -252,10 +252,7 @@ function tea(b: Base & { brew: string }): Product {
       { label: "Saklama", value: "Serin, kuru ve kokusuz ortamda, ağzı kapalı" },
       { label: "Menşei", value: "Türkiye" },
     ],
-    variants: [
-      v("100g", "100 g", 149.9, `CAY-${code}-100`),
-      v("250g", "250 g", 329.9, `CAY-${code}-250`),
-    ],
+    variants: [v(`${grams}g`, `${grams} g`, price, `CAY-${code}-${grams}`)],
     tags: [...(rest.tags ?? []), "vegan"],
     ...rest,
   };
@@ -963,6 +960,7 @@ export const products: Product[] = [
   /* ------------------------------------ Kahve ---------------------------------- */
   coffee({
     slug: "espresso-daily",
+    price: 830,
     name: "Espresso Daily",
     color: "#1e3a8a",
     color2: "#0f1f4d",
@@ -977,6 +975,7 @@ export const products: Product[] = [
   }),
   coffee({
     slug: "espresso-colombian",
+    price: 1250,
     name: "Espresso Colombian",
     color: "#8b1a1a",
     color2: "#4d0d0d",
@@ -991,6 +990,7 @@ export const products: Product[] = [
   }),
   coffee({
     slug: "espresso-reserve",
+    price: 995,
     name: "Espresso Reserve",
     color: "#2f5e2a",
     color2: "#1a3a17",
@@ -1149,6 +1149,8 @@ export const products: Product[] = [
   /* --------------------------------- Bitki Çayları ------------------------------ */
   tea({
     slug: "nane-limon-cayi",
+    grams: 250,
+    price: 275,
     name: "Nane Limon Çayı",
     color: "#a7c957",
     color2: "#6a994e",
@@ -1160,6 +1162,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "kusburnu-cayi",
+    grams: 250,
+    price: 275,
     name: "Kuşburnu Çayı",
     color: "#c1272d",
     color2: "#7a1a1f",
@@ -1171,6 +1175,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "yesil-cay",
+    grams: 250,
+    price: 250,
     name: "Yeşil Çay",
     color: "#7a9a3c",
     color2: "#4e6b23",
@@ -1181,6 +1187,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "hibiskus-cayi",
+    grams: 150,
+    price: 175,
     name: "Hibiskus Çayı",
     color: "#b8102e",
     color2: "#6b0b1d",
@@ -1191,6 +1199,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "ada-cayi",
+    grams: 100,
+    price: 150,
     name: "Ada Çayı",
     color: "#9fb08a",
     color2: "#6f8260",
@@ -1201,6 +1211,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "orman-meyveli-cay",
+    grams: 250,
+    price: 250,
     name: "Orman Meyveli Çay",
     color: "#8e1b3a",
     color2: "#4c0f22",
@@ -1212,6 +1224,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "elma-cayi",
+    grams: 200,
+    price: 250,
     name: "Elma Çayı",
     color: "#d9a441",
     color2: "#a86f1f",
@@ -1222,6 +1236,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "ihlamur-cayi",
+    grams: 100,
+    price: 250,
     name: "Ihlamur",
     color: "#c9b55a",
     color2: "#8f7d2c",
@@ -1233,6 +1249,8 @@ export const products: Product[] = [
   }),
   tea({
     slug: "bogurtlen-cayi",
+    grams: 250,
+    price: 250,
     name: "Böğürtlen Çayı",
     color: "#5b1e3a",
     color2: "#2e0f1f",

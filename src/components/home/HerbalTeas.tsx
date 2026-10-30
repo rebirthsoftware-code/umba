@@ -69,7 +69,7 @@ export function HerbalTeas() {
               className="relative mx-auto h-auto w-[92%] drop-shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2 group-hover:scale-[1.02]"
             />
             <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-espresso-900/10 bg-cream-50/95 px-4 py-2 text-xs font-bold shadow-card backdrop-blur sm:left-auto sm:right-8 sm:translate-x-0">
-              100 g ve 250 g poşet
+              100–250 g kilitli poşet
             </span>
           </Link>
         </Reveal>
