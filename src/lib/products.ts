@@ -204,8 +204,9 @@ function bar(b: Base & { kind?: "salep" | "milkshake" | "sos" }): Product {
       variants: [v("2-5kg", "2,5 kg", 699.9, `BAR-${code}-2500`)],
     },
   }[kind];
+  const category = { salep: "sicak-cikolata", milkshake: "bar-urunleri", sos: "soslar" }[kind] as Product["category"];
   return {
-    category: "bar-urunleri",
+    category,
     imageFit: "cover",
     ...byKind,
     tags: rest.tags ?? [],
@@ -1275,8 +1276,8 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
       reason = partner?.category === "soslar" ? "Şurup içeride, sos üstte: tam kafe sunumu." : "Latte için şurup ve dengeli bir espresso harmanı.";
       break;
     case "soslar":
-      partner = pick(product.slug.includes("cikolata") ? "sicak-cikolata-klasik" : "tuzlu-karamel-surubu");
-      reason = "Topping sos ile yanına yakışan içecek bazı.";
+      partner = pick(product.slug.startsWith("karamel-sosu-2") ? "karamel-surubu" : product.slug.includes("cikolata") ? "sicak-cikolata-klasik" : "tuzlu-karamel-surubu");
+      reason = product.slug.startsWith("karamel-sosu-2") ? "Karamel sos ve karamel şurubu: tam caramel macchiato." : "Topping sos ile yanına yakışan içecek bazı.";
       break;
     case "pureler":
       partner = pick("milkshake-vanilya");
@@ -1287,16 +1288,16 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
       reason = "Espresso'nun yanına en çok satan aroma: tuzlu karamel.";
       break;
     case "sicak-cikolata":
-      partner = pick("findik-surubu");
-      reason = "Fındıklı sıcak çikolata için klasik ikili.";
+      partner = pick(product.slug.startsWith("salep") ? "sicak-cikolata-klasik" : "findik-surubu");
+      reason = product.slug.startsWith("salep") ? "Kış menüsünün ikilisi: salep ve sıcak çikolata." : "Fındıklı sıcak çikolata için klasik ikili.";
       break;
     case "bitki-cayi":
       partner = pick("limon-surubu");
       reason = "Buzlu çay için demleyin, limon şurubuyla tatlandırın.";
       break;
     case "bar-urunleri":
-      partner = pick(product.slug.startsWith("milkshake") ? "cilek-puresi" : product.slug.startsWith("salep") ? "sicak-cikolata-klasik" : "karamel-surubu");
-      reason = product.slug.startsWith("milkshake") ? "Milkshake tozu + meyve püresi: gerçek meyveli milkshake." : product.slug.startsWith("salep") ? "Kış menüsünün ikilisi: salep ve sıcak çikolata." : "Karamel sos ve karamel şurubu: tam caramel macchiato.";
+      partner = pick("cilek-puresi");
+      reason = "Milkshake tozu + meyve püresi: gerçek meyveli milkshake.";
       break;
   }
   return partner ? { partner, reason } : null;

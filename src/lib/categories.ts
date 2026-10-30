@@ -16,9 +16,9 @@ export const categories: Category[] = [
   {
     slug: "soslar",
     name: "Soslar",
-    tagline: "Bardak süsleme ve topping için dekor soslar",
+    tagline: "Dekor soslar ve 2,5 kg karamel sos",
     description:
-      "10 aroma dekor sos; ince uçlu sıkma şişede. Mocha, frappe, milkshake ve tatlılarda bardak içi ve üstü süsleme.",
+      "10 aroma dekor sos ince uçlu sıkma şişede; mocha, frappe, milkshake ve tatlılarda bardak içi ve üstü süsleme. HoReCa için 2,5 kg Chef's Collection karamel sos.",
     color: "#6b3e26",
     colorSoft: "#f1e5dc",
     art: "sauce",
@@ -52,10 +52,12 @@ export const categories: Category[] = [
   },
   {
     slug: "sicak-cikolata",
-    name: "Sıcak Çikolata",
-    tagline: "Classic, Premium, Beyaz ve Ümba Premium sıcak çikolata",
+    name: "Sıcak Çikolata & Salep",
+    image: "/categories/sicak-cikolata.webp",
+    imageLandscape: true,
+    tagline: "Sıcak çikolata ve salep; kış barının ikilisi",
     description:
-      "Dört sıcak çikolata: Classic, Premium, Beyaz ve Ümba Premium Safranbolu serisi. Yüksek kakao oranı, kafe standardında kıvam ve parlaklık; 1 kg kutu.",
+      "Dört sıcak çikolata (Classic, Premium, Beyaz, Ümba Premium Safranbolu) ve beş salep (Classic, Premium, damla sakızlı, çikolatalı, fındıklı). Yüksek kakao oranı, kafe standardında kıvam; 1 kg kutu.",
     color: "#4a2318",
     colorSoft: "#efdfd8",
     art: "tin",
@@ -64,9 +66,11 @@ export const categories: Category[] = [
   {
     slug: "bar-urunleri",
     name: "Bar Ürünleri",
-    tagline: "Salep, milkshake tozu ve 2,5 kg karamel sos",
+    image: "/categories/bar-urunleri.webp",
+    imageLandscape: true,
+    tagline: "Vanilya, karamel ve çikolata milkshake tozları",
     description:
-      "Kafe barının vazgeçilmezleri: beş çeşit salep (Classic, Premium, damla sakızlı, çikolatalı, fındıklı), vanilya, karamel ve çikolata milkshake tozları ve HoReCa için 2,5 kg karamel sos.",
+      "Kafe barının soğuk tarafı: vanilya, karamel ve çikolata aromalı milkshake tozları. Soğuk sütle blender'da 30 saniyede kremamsı milkshake; frappe ve smoothie bazı. 1 kg poşet.",
     color: "#2f6f5e",
     colorSoft: "#e1efea",
     art: "tin",
