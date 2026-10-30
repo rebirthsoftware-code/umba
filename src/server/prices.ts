@@ -1,6 +1,6 @@
 import { db, dbConfigured } from "./db";
 import { products } from "@/lib/products";
-import { normalizePrice, setPriceOverrides, type PriceOverrides } from "@/lib/prices";
+import { normalizePrice, normalizeAmount, setPriceOverrides, setCommerceSettings, getCommerceSettings, defaultCommerce, type PriceOverrides, type CommerceSettings } from "@/lib/prices";
 
 /** Veritabanındaki SKU → fiyat tablosunu okur. */
 export async function readPriceOverrides(): Promise<PriceOverrides> {
@@ -18,12 +18,43 @@ export async function readPriceOverrides(): Promise<PriceOverrides> {
 export async function loadPriceOverrides(): Promise<PriceOverrides> {
   if (!dbConfigured()) return {};
   try {
-    const map = await readPriceOverrides();
+    const [map, commerce] = await Promise.all([readPriceOverrides(), readCommerceSettings()]);
     setPriceOverrides(map);
+    setCommerceSettings(commerce);
     return map;
   } catch {
     return {};
   }
+}
+
+const COMMERCE_KEYS: (keyof CommerceSettings)[] = ["shippingFee", "freeShippingThreshold"];
+
+/** Panelden kaydedilen kargo ayarları; kayıt yoksa varsayılanlar. */
+export async function readCommerceSettings(): Promise<CommerceSettings> {
+  const client = await db();
+  const rs = await client.execute("SELECT key, value FROM settings WHERE key IN ('shippingFee','freeShippingThreshold')");
+  const out: CommerceSettings = { ...defaultCommerce };
+  for (const r of rs.rows) {
+    const k = String(r.key) as keyof CommerceSettings;
+    const n = normalizeAmount(String(r.value));
+    if (COMMERCE_KEYS.includes(k) && n !== null) out[k] = n;
+  }
+  return out;
+}
+
+export async function saveCommerceSettings(input: Partial<Record<keyof CommerceSettings, unknown>>): Promise<CommerceSettings> {
+  const client = await db();
+  const now = new Date().toISOString();
+  const stmts: { sql: string; args: (string | number)[] }[] = [];
+  for (const k of COMMERCE_KEYS) {
+    if (input[k] === undefined) continue;
+    const n = normalizeAmount(input[k]);
+    if (n === null) throw new Error(`Geçersiz değer: ${k}`);
+    stmts.push({ sql: "INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at", args: [k, String(n), now] });
+  }
+  if (stmts.length) await client.batch(stmts, "write");
+  await loadPriceOverrides();
+  return getCommerceSettings();
 }
 
 export interface PriceRow {

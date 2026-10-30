@@ -1,3 +1,4 @@
+import { getCommerceSettings } from "./prices";
 /**
  * Site genel ayarları.
  * Değerler ortam değişkenleri ile (.env.local veya GitHub Actions "Variables") ezilebilir.
@@ -18,8 +19,11 @@ export const site = {
   name: "Umba Coffee",
   shortName: "Umba",
   tagline: "Barınızın lezzet ortağı",
-  description:
-    "Umba Coffee: kafe ve barlar için 37 aroma kahve şurubu, dekor sos, meyve püresi, espresso çekirdek kahve, sıcak çikolata, frappe tozu ve bitki çayı. Safranbolu'dan Türkiye'nin her yerine 1–3 iş günü teslimat, 1.500 ₺ üzeri kargo bedava.",
+  get description(): string {
+    const t = getCommerceSettings().freeShippingThreshold;
+    const free = t > 0 ? `, ${t.toLocaleString("tr-TR")} ₺ üzeri kargo bedava` : ", kargo bedava";
+    return `Umba Coffee: kafe ve barlar için 37 aroma kahve şurubu, dekor sos, meyve püresi, espresso çekirdek kahve, sıcak çikolata, milkshake tozu ve bitki çayı. Safranbolu'dan Türkiye'nin her yerine 1–3 iş günü teslimat${free}.`;
+  },
   url: pick(process.env.NEXT_PUBLIC_SITE_URL, "https://umbagida.com").replace(/\/$/, ""),
   locale: "tr_TR",
   contact: {
@@ -58,8 +62,13 @@ export const site = {
   },
   commerce: {
     currency: "TRY",
-    freeShippingThreshold: 1500,
-    shippingFee: 89.9,
+    /** Yönetim panelinden değiştirilebilir (bkz. lib/prices.ts → CommerceSettings). */
+    get freeShippingThreshold(): number {
+      return getCommerceSettings().freeShippingThreshold;
+    },
+    get shippingFee(): number {
+      return getCommerceSettings().shippingFee;
+    },
     codFee: 29.9, // kapıda ödeme hizmet bedeli
     deliveryEstimate: "1–3 iş günü",
     cardPaymentsEnabled: pick(process.env.NEXT_PUBLIC_CARD_PAYMENTS, "1") !== "0",

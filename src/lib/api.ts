@@ -144,6 +144,9 @@ export interface PriceRow {
 }
 
 export const admin = {
+  settings: (token: string) => call<{ commerce: { shippingFee: number; freeShippingThreshold: number } }>("/admin/settings", {}, token),
+  saveSettings: (token: string, commerce: { shippingFee: number; freeShippingThreshold: number }) =>
+    call<{ commerce: { shippingFee: number; freeShippingThreshold: number } }>("/admin/settings", { method: "PUT", body: JSON.stringify(commerce) }, token),
   prices: (token: string) => call<{ rows: PriceRow[] }>("/admin/prices", {}, token),
   savePrices: (token: string, items: { sku: string; price: number | null }[]) =>
     call<{ rows: PriceRow[]; saved: number; reset: number; invalid: string[] }>("/admin/prices", { method: "PUT", body: JSON.stringify({ items }) }, token),

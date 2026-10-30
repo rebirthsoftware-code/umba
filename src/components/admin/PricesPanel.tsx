@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Loader2, Save, Search, RotateCcw, Percent, Check, AlertCircle } from "lucide-react";
+import { Loader2, Save, Search, RotateCcw, Percent, Check, AlertCircle, Truck } from "lucide-react";
 import { admin, type PriceRow } from "@/lib/api";
 import { categories } from "@/lib/categories";
 import { formatPrice, cn } from "@/lib/format";
-import { normalizePrice } from "@/lib/prices";
+import { normalizePrice, normalizeAmount } from "@/lib/prices";
 
 /**
  * Yönetim → Fiyatlar: tüm ürün/varyant fiyatları tek tablodan düzenlenir.
@@ -189,6 +189,85 @@ export function PricesPanel({ token, onUnauthorized }: { token: string; onUnauth
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Fiyatları kaydet
         </button>
       </div>
+    </div>
+  );
+}
+
+/* ------------------------------ Kargo ayarları ------------------------------ */
+export function ShippingCard({ token, onUnauthorized }: { token: string; onUnauthorized: () => void }) {
+  const [fee, setFee] = useState("");
+  const [limit, setLimit] = useState("");
+  const [saved, setSaved] = useState<{ shippingFee: number; freeShippingThreshold: number } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ tone: "ok" | "err"; text: string } | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    const t = window.setTimeout(async () => {
+      const res = await admin.settings(token);
+      if (!alive) return;
+      if (res.status !== "success") {
+        setMsg({ tone: "err", text: res.reason ?? "Ayarlar alınamadı" });
+        if (res.reason === "Yetkisiz") onUnauthorized();
+        return;
+      }
+      setSaved(res.commerce);
+      setFee(res.commerce.shippingFee.toFixed(2));
+      setLimit(res.commerce.freeShippingThreshold.toFixed(2));
+    }, 0);
+    return () => {
+      alive = false;
+      window.clearTimeout(t);
+    };
+  }, [token, onUnauthorized]);
+
+  const feeN = normalizeAmount(fee);
+  const limitN = normalizeAmount(limit);
+  const valid = feeN !== null && limitN !== null;
+  const dirty = saved !== null && valid && (feeN !== saved.shippingFee || limitN !== saved.freeShippingThreshold);
+
+  const save = async () => {
+    if (!valid || !dirty) return;
+    setBusy(true);
+    setMsg(null);
+    const res = await admin.saveSettings(token, { shippingFee: feeN, freeShippingThreshold: limitN });
+    if (res.status !== "success") {
+      setMsg({ tone: "err", text: res.reason ?? "Kaydedilemedi" });
+      if (res.reason === "Yetkisiz") onUnauthorized();
+    } else {
+      setSaved(res.commerce);
+      setMsg({ tone: "ok", text: "Kargo ayarları kaydedildi; mağaza sayfaları yenilendi." });
+    }
+    setBusy(false);
+  };
+
+  return (
+    <div className="mt-6 rounded-2xl border border-espresso-900/10 bg-cream-50 p-5">
+      <div className="flex flex-wrap items-end gap-4">
+        <div className="mr-auto">
+          <p className="flex items-center gap-2 font-display text-xl font-semibold text-espresso-900"><Truck className="h-5 w-5" /> Kargo</p>
+          <p className="mt-1 text-xs text-espresso-600">Ücretsiz kargo limitinin altındaki siparişlere kargo ücreti eklenir. Limit 0 ise her sipariş ücretsiz kargo.</p>
+        </div>
+        <label className="block">
+          <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-espresso-600">Kargo ücreti (₺)</span>
+          <input value={fee} onChange={(e) => setFee(e.target.value)} inputMode="decimal" disabled={!saved} className={cn("mt-1 h-10 w-36 rounded-lg border bg-cream-50 px-3 text-right text-sm tabular-nums focus:outline-none", feeN === null ? "border-berry-500" : "border-espresso-900/10 focus:border-espresso-900")} />
+        </label>
+        <label className="block">
+          <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-espresso-600">Ücretsiz kargo limiti (₺)</span>
+          <input value={limit} onChange={(e) => setLimit(e.target.value)} inputMode="decimal" disabled={!saved} className={cn("mt-1 h-10 w-36 rounded-lg border bg-cream-50 px-3 text-right text-sm tabular-nums focus:outline-none", limitN === null ? "border-berry-500" : "border-espresso-900/10 focus:border-espresso-900")} />
+        </label>
+        <button type="button" onClick={() => void save()} disabled={busy || !dirty} className="inline-flex h-10 items-center gap-2 rounded-full bg-espresso-900 px-5 text-sm font-bold text-cream-50 disabled:opacity-50">
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Kaydet
+        </button>
+      </div>
+      {saved && (
+        <p className="mt-3 text-xs text-espresso-600">Şu an: {formatPrice(saved.freeShippingThreshold)} ve üzeri ücretsiz, altında {formatPrice(saved.shippingFee)}.</p>
+      )}
+      {msg && (
+        <p role="status" className={cn("mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold", msg.tone === "ok" ? "bg-leaf-500/10 text-leaf-500" : "bg-berry-500/10 text-berry-500")}>
+          {msg.tone === "ok" ? <Check className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />} {msg.text}
+        </p>
+      )}
     </div>
   );
 }

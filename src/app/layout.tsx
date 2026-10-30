@@ -10,7 +10,9 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { StoreChrome } from "@/components/layout/Chrome";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
-import { PriceSync } from "@/components/PriceSync";
+import { PriceProvider } from "@/components/PriceSync";
+import { loadPriceOverrides } from "@/server/prices";
+import { getCommerceSettings } from "@/lib/prices";
 import { InstallBanner } from "@/components/pwa/InstallBanner";
 
 const fraunces = Fraunces({
@@ -26,61 +28,68 @@ const manrope = Manrope({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    default: `${site.name} | Kahve Şurubu, Meyve Püresi, Dekor Sos, Espresso ve Bitki Çayı`,
-    template: `%s | ${site.name}`,
-  },
-  description: site.description,
-  keywords: [
-    "kahve şurubu",
-    "aromalı şurup",
-    "bar şurubu",
-    "latte şurubu",
-    "soda şurubu",
-    "karamel şurubu",
-    "vanilya şurubu",
-    "dekor sos",
-    "kahve sosu",
-    "meyve püresi",
-    "smoothie püresi",
-    "frozen püresi",
-    "espresso çekirdek kahve",
-    "arabica kahve",
-    "sıcak çikolata tozu",
-    "milkshake tozu",
-    "salep tozu",
-    "salep",
-    "bitki çayı",
-    "kuşburnu çayı",
-    "kafe malzemeleri",
-    "barista ürünleri",
-    "horeca tedarik",
-    "toptan kahve şurubu",
-    "umba coffee",
-    "umba gıda",
-    "safranbolu",
-  ],
-  openGraph: {
-    type: "website",
-    locale: site.locale,
-    siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
+export async function generateMetadata(): Promise<Metadata> {
+  await loadPriceOverrides();
+  return {
+    metadataBase: new URL(site.url),
+    title: {
+      default: `${site.name} | Kahve Şurubu, Meyve Püresi, Dekor Sos, Espresso ve Bitki Çayı`,
+      template: `%s | ${site.name}`,
+    },
     description: site.description,
-    url: site.url,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${site.name} — ${site.tagline}`,
-    description: site.description,
-  },
-  robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
-  manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: site.shortName, statusBarStyle: "default" },
-  applicationName: site.name,
-};
+    keywords: [
+      "kahve şurubu",
+      "aromalı şurup",
+      "bar şurubu",
+      "latte şurubu",
+      "soda şurubu",
+      "karamel şurubu",
+      "vanilya şurubu",
+      "dekor sos",
+      "kahve sosu",
+      "meyve püresi",
+      "smoothie püresi",
+      "frozen püresi",
+      "espresso çekirdek kahve",
+      "arabica kahve",
+      "sıcak çikolata tozu",
+      "milkshake tozu",
+      "salep tozu",
+      "salep",
+      "bitki çayı",
+      "kuşburnu çayı",
+      "kafe malzemeleri",
+      "barista ürünleri",
+      "horeca tedarik",
+      "toptan kahve şurubu",
+      "umba coffee",
+      "umba gıda",
+      "safranbolu",
+    ],
+    openGraph: {
+      type: "website",
+      locale: site.locale,
+      siteName: site.name,
+      title: `${site.name} — ${site.tagline}`,
+      description: site.description,
+      url: site.url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${site.name} — ${site.tagline}`,
+      description: site.description,
+    },
+    robots: { index: true, follow: true },
+    alternates: { canonical: "/" },
+    manifest: "/manifest.webmanifest",
+    appleWebApp: {
+      capable: true,
+      title: site.shortName,
+      statusBarStyle: "default",
+    },
+    applicationName: site.name,
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#141414",
@@ -88,7 +97,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const organizationJsonLd = {
+const organizationJsonLd = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: site.name,
@@ -111,39 +120,51 @@ const organizationJsonLd = {
     },
   ],
   sameAs: [site.social.instagram, site.social.facebook].filter(Boolean),
-};
+});
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const prices = await loadPriceOverrides();
+  const commerce = getCommerceSettings();
   return (
-    <html lang="tr" className={`${fraunces.variable} ${manrope.variable} h-full antialiased`}>
+    <html
+      lang="tr"
+      className={`${fraunces.variable} ${manrope.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         <a
           href="#icerik"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-espresso-900 focus:px-4 focus:py-2 focus:text-cream-50"
         >
           İçeriğe atla
         </a>
-        <CartProvider>
-          <StoreChrome>
-            <Header />
-          </StoreChrome>
-          <main id="icerik" className="flex-1">
-            {children}
-          </main>
-          <StoreChrome>
-            <Footer />
-            <CartDrawer />
-            <CartToast />
-            <WhatsAppButton />
-            <InstallBanner />
-          </StoreChrome>
-          <PwaRegister />
-          <PriceSync />
-        </CartProvider>
+        <PriceProvider initial={{ prices, commerce }}>
+          <CartProvider>
+            <StoreChrome>
+              <Header />
+            </StoreChrome>
+            <main id="icerik" className="flex-1">
+              {children}
+            </main>
+            <StoreChrome>
+              <Footer />
+              <CartDrawer />
+              <CartToast />
+              <WhatsAppButton />
+              <InstallBanner />
+            </StoreChrome>
+            <PwaRegister />
+          </CartProvider>
+        </PriceProvider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd()),
+          }}
         />
       </body>
     </html>

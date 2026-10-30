@@ -12,7 +12,7 @@ import Link from "next/link";
 import { LogoImage } from "@/components/ui/Logo";
 import { InstallButton } from "@/components/pwa/InstallButton";
 import { PushToggle } from "@/components/pwa/PushToggle";
-import { PricesPanel } from "./PricesPanel";
+import { PricesPanel, ShippingCard } from "./PricesPanel";
 
 /* ------------------------------ Oturum deposu ------------------------------ */
 const KEY = "umba:admin";
@@ -138,6 +138,7 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(initialNo);
   const [view, setView] = useState<"orders" | "prices">("orders");
+  const logout = useCallback(() => session.write(""), []);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -178,7 +179,10 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
         </div>
       </div>
 
-      {view === "prices" && <PricesPanel token={token} onUnauthorized={() => session.write("")} />}
+      {view === "prices" && (<>
+        <ShippingCard token={token} onUnauthorized={logout} />
+        <PricesPanel token={token} onUnauthorized={logout} />
+      </>)}
 
       {view === "orders" && (<>
 

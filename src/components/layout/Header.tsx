@@ -8,6 +8,7 @@ import { Logo } from "@/components/ui/Logo";
 import { categories } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
 import { site } from "@/lib/site";
+import { usePrices } from "@/lib/usePrices";
 import { cn, formatPrice } from "@/lib/format";
 import { useCart } from "@/components/cart/CartProvider";
 import { CategoryTile } from "@/components/product/CategoryTile";
@@ -23,6 +24,7 @@ const nav = [
 ];
 
 export function Header() {
+  usePrices();
   const pathname = usePathname();
   const router = useRouter();
   const { totals, open: openCart, hydrated } = useCart();

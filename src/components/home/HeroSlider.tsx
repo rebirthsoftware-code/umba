@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { getProduct, products } from "@/lib/products";
 import { site } from "@/lib/site";
+import { usePrices } from "@/lib/usePrices";
 import { cn, formatPrice } from "@/lib/format";
 import { HeroStage, type StageTheme } from "./HeroStage";
 
@@ -132,6 +133,7 @@ function useReducedMotion() {
 void noop;
 
 export function HeroSlider() {
+  usePrices();
   const [index, setIndex] = useState(0);
   const [hovering, setHovering] = useState(false);
   const [userPaused, setUserPaused] = useState(false);

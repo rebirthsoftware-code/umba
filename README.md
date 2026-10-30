@@ -136,6 +136,10 @@ public/           statik dosyalar (ürün fotoğrafları: public/products/)
 
 Yönetim paneli (`/yonetim`) → **Fiyatlar** sekmesinden tüm ürün/varyant fiyatları düzenlenir. Kaydedilen fiyatlar Turso'daki `price_overrides` tablosuna yazılır; katalogdaki (`src/lib/products.ts`) fiyatlar yalnızca varsayılandır. Kayıt sonrası mağaza sayfaları (`revalidatePath`) anında yenilenir, sepet ve sipariş hesabı da aynı tabloyu kullanır. "Katalog fiyatına dön" ile kayıt silinir. Toplu oran aracı listedeki ürünlere yüzde uygular (0,10 ₺ yuvarlama).
 
+## Kargo ayarları
+
+Yönetim paneli → **Fiyatlar** sekmesinin üstündeki **Kargo** kartından kargo ücreti ve ücretsiz kargo limiti değiştirilir (`settings` tablosu). Üst bilgi çubuğu, sepet, ödeme, yasal metinler ve sipariş hesabı aynı değeri kullanır.
+
 ## Görseller (GitHub → jsDelivr CDN)
 
 Vercel görsel optimizasyonu ve bant genişliği kotasını kullanmamak için `/public/products|hero|categories|story|brand` altındaki dosyalar GitHub deposundan jsDelivr CDN ile sunulur; boyutlandırma `wsrv.nl` üzerinden yapılır (`src/lib/image-loader.ts`). Taban adres Vercel derlemesinde otomatik olarak o anki commit'e sabitlenir (`next.config.ts → assetBase()`); yeni görsel eklemek için dosyayı `public/` altına koyup push etmek yeterlidir. Kapatmak için Vercel'de `NEXT_PUBLIC_ASSET_BASE` değişkenini boş tanımlayın.
