@@ -7,8 +7,10 @@ import { useCart } from "@/components/cart/CartProvider";
 import { formatPrice, cn, unitPrice } from "@/lib/format";
 import { DeliveryEstimate } from "./DeliveryEstimate";
 import { site } from "@/lib/site";
+import { usePrices } from "@/lib/usePrices";
 
 export function AddToCartPanel({ product }: { product: Product }) {
+  usePrices();
   const { add } = useCart();
   const [variantId, setVariantId] = useState(product.variants[0].id);
   const [qty, setQty] = useState(1);

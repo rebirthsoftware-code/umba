@@ -16,14 +16,17 @@ import { AddToCartPanel } from "@/components/product/AddToCartPanel";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
 import { Bundle } from "@/components/product/Bundle";
 import { RecentlyViewed, TrackView } from "@/components/product/RecentlyViewed";
+import { loadPriceOverrides } from "@/server/prices";
 
 export const dynamicParams = false;
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/urun/[slug]">): Promise<Metadata> {
+  await loadPriceOverrides();
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return {};
@@ -50,6 +53,7 @@ function Section({ title, children, open = false }: { title: string; children: R
 }
 
 export default async function ProductPage({ params }: PageProps<"/urun/[slug]">) {
+  await loadPriceOverrides();
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) notFound();

@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { CartItem, CartLine } from "@/lib/types";
 import { computeTotals, resolveLines, type Totals } from "@/lib/cart";
 import { cartStore, getServerSnapshot, getSnapshot, subscribe } from "@/lib/cart-store";
+import { usePrices } from "@/lib/usePrices";
 
 export interface CartToast {
   id: number;
@@ -35,13 +36,15 @@ const noopSubscribe = () => () => {};
 export const TOAST_MS = 3200;
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const priceVersion = usePrices();
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
   const [isOpen, setIsOpen] = useState(false);
   const [toast, setToast] = useState<CartToast | null>(null);
   const toastTimer = useRef<number | null>(null);
 
-  const lines = useMemo(() => resolveLines(items), [items]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- fiyat deposu değişince satırlar yeniden hesaplanır
+  const lines = useMemo(() => resolveLines(items), [items, priceVersion]);
   const totals = useMemo(() => computeTotals(lines), [lines]);
 
   const open = useCallback(() => setIsOpen(true), []);

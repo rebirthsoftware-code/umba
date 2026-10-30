@@ -43,6 +43,11 @@ const SCHEMA = [
     actor TEXT NOT NULL DEFAULT 'system'
   )`,
   `CREATE INDEX IF NOT EXISTS idx_events_order ON order_events(order_no, id)`,
+  `CREATE TABLE IF NOT EXISTS price_overrides (
+    sku TEXT PRIMARY KEY,
+    price REAL NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
   `CREATE TABLE IF NOT EXISTS push_subscriptions (
     endpoint TEXT PRIMARY KEY,
     subscription_json TEXT NOT NULL,

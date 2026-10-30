@@ -6,6 +6,7 @@ import { ProductVisual } from "@/components/product/ProductVisual";
 import Image from "next/image";
 import { formatPrice } from "@/lib/format";
 import { assetUrl } from "@/lib/assets";
+import { usePrices } from "@/lib/usePrices";
 
 export interface StageTheme {
   panel: string;
@@ -30,6 +31,7 @@ export function HeroStage({
   badge?: { label: string; product: Product };
   active?: boolean;
 }) {
+  usePrices();
   const ref = useRef<HTMLDivElement>(null);
 
   const onMove = (e: MouseEvent<HTMLDivElement>) => {

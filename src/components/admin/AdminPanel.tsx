@@ -12,6 +12,7 @@ import Link from "next/link";
 import { LogoImage } from "@/components/ui/Logo";
 import { InstallButton } from "@/components/pwa/InstallButton";
 import { PushToggle } from "@/components/pwa/PushToggle";
+import { PricesPanel } from "./PricesPanel";
 
 /* ------------------------------ Oturum deposu ------------------------------ */
 const KEY = "umba:admin";
@@ -136,6 +137,7 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(initialNo);
+  const [view, setView] = useState<"orders" | "prices">("orders");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -162,10 +164,23 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
       <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-espresso-600">Yönetim</p>
-          <h1 className="font-display text-3xl font-semibold text-espresso-900">Siparişler</h1>
+          <h1 className="font-display text-3xl font-semibold text-espresso-900">{view === "orders" ? "Siparişler" : "Fiyatlar"}</h1>
         </div>
-        <PushToggle token={token} />
+        <div className="flex flex-wrap items-center gap-2">
+          <div role="tablist" className="inline-flex rounded-full border border-espresso-900/15 p-1 text-xs font-bold">
+            {([["orders", "Siparişler"], ["prices", "Fiyatlar"]] as const).map(([k, label]) => (
+              <button key={k} type="button" role="tab" aria-selected={view === k} onClick={() => setView(k)} className={cn("rounded-full px-3.5 py-1.5 transition-colors", view === k ? "bg-espresso-900 text-cream-50" : "hover:bg-cream-200")}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <PushToggle token={token} />
+        </div>
       </div>
+
+      {view === "prices" && <PricesPanel token={token} onUnauthorized={() => session.write("")} />}
+
+      {view === "orders" && (<>
 
       {/* Özet kartları */}
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -273,6 +288,8 @@ function Dashboard({ token, initialNo }: { token: string; initialNo: string | nu
           </div>
         )}
       </div>
+
+      </>)}
 
       {selected && (
         <OrderDrawer

@@ -6,8 +6,10 @@ import { getProduct, getVariant } from "@/lib/products";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatPrice } from "@/lib/format";
 import type { CSSProperties } from "react";
+import { usePrices } from "@/lib/usePrices";
 
 export function CartToast() {
+  usePrices();
   const { toast, dismissToast, open, totals } = useCart();
   if (!toast) return null;
   const product = getProduct(toast.productSlug);

@@ -7,9 +7,11 @@ import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
 import { ProductVisual } from "./ProductVisual";
 import { formatPrice, cn } from "@/lib/format";
+import { usePrices } from "@/lib/usePrices";
 
 /** "Birlikte daha iyi": iki ürünü tek tıkla sepete ekler. */
 export function Bundle({ product, partner, reason }: { product: Product; partner: Product; reason: string }) {
+  usePrices();
   const { add, open } = useCart();
   const [done, setDone] = useState(false);
   const total = product.variants[0].price + partner.variants[0].price;

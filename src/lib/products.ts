@@ -1,4 +1,5 @@
 import type { Product, ProductTag, Spec, Variant } from "./types";
+import { priceOverride } from "./prices";
 
 /* -------------------------------------------------------------------------- */
 /*  Yardımcı kurucular — her kategori için standart varyant ve özellikler      */
@@ -22,16 +23,33 @@ type Base = {
   variants?: Variant[];
 };
 
+/** SKU gövdesi: ilk kelimenin 6, sonraki kelimelerin 3 harfi (ESPRESDAI, SICAKCIKKLA…); katalogda benzersizdir. */
+function skuCode(slug: string): string {
+  const w = slug.split("-");
+  return (w[0].slice(0, 6) + w.slice(1).map((p) => p.slice(0, 3)).join("")).toUpperCase();
+}
+
 const v = (
   id: string,
   label: string,
   price: number,
   sku: string,
   extra: Partial<Variant> = {},
-): Variant => ({ id, label, price, sku, inStock: true, ...extra });
+): Variant => ({
+  id,
+  label,
+  sku,
+  basePrice: price,
+  inStock: true,
+  ...extra,
+  /** Yönetim panelinden girilen fiyat varsa onu, yoksa katalog fiyatını verir. */
+  get price() {
+    return priceOverride(sku) ?? price;
+  },
+});
 
 function syrup(b: Base): Product {
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   return {
     category: "suruplar",
     art: "bottle",
@@ -60,7 +78,7 @@ function syrup(b: Base): Product {
 }
 
 function sauce(b: Base): Product {
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   return {
     category: "soslar",
     art: "sauce",
@@ -90,7 +108,7 @@ function sauce(b: Base): Product {
 }
 
 function puree(b: Base): Product {
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   return {
     category: "pureler",
     art: "bottle",
@@ -121,7 +139,7 @@ function puree(b: Base): Product {
 
 function coffee(b: Base & { notes: string; roast: string; origin: string }): Product {
   const { notes, roast, origin, ...rest } = b;
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   return {
     category: "kahve",
     art: "bag",
@@ -150,7 +168,7 @@ function coffee(b: Base & { notes: string; roast: string; origin: string }): Pro
 }
 
 function hotChocolate(b: Base): Product {
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   return {
     category: "sicak-cikolata",
     art: "tin",
@@ -180,7 +198,7 @@ function hotChocolate(b: Base): Product {
 
 function bar(b: Base & { kind?: "salep" | "milkshake" | "sos" }): Product {
   const { kind = "salep", ...rest } = b;
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   const byKind = {
     salep: {
       art: "tin" as const,
@@ -216,7 +234,7 @@ function bar(b: Base & { kind?: "salep" | "milkshake" | "sos" }): Product {
 
 function tea(b: Base & { brew: string }): Product {
   const { brew, ...rest } = b;
-  const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
+  const code = skuCode(b.slug);
   return {
     category: "bitki-cayi",
     art: "pouch",
@@ -1301,4 +1319,14 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
       break;
   }
   return partner ? { partner, reason } : null;
+}
+
+// SKU'lar fiyat ve sipariş kayıtlarının anahtarıdır; çakışma derlemede yakalansın.
+{
+  const seen = new Set<string>();
+  for (const p of products)
+    for (const vr of p.variants) {
+      if (seen.has(vr.sku)) throw new Error(`Çakışan SKU: ${vr.sku} (${p.slug})`);
+      seen.add(vr.sku);
+    }
 }

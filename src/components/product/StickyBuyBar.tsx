@@ -6,9 +6,11 @@ import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
 import { ProductVisual } from "./ProductVisual";
 import { formatPrice, cn } from "@/lib/format";
+import { usePrices } from "@/lib/usePrices";
 
 /** Satın alma paneli görünümden çıkınca altta beliren sabit çubuk. */
 export function StickyBuyBar({ product, targetId }: { product: Product; targetId: string }) {
+  usePrices();
   const { add } = useCart();
   const [visible, setVisible] = useState(false);
   const [variantId, setVariantId] = useState(product.variants[0].id);

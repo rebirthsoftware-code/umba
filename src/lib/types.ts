@@ -35,7 +35,10 @@ export interface Category {
 export interface Variant {
   id: string;
   label: string;
+  /** Güncel satış fiyatı (yönetim panelinde değiştirilmişse o değer). */
   price: number;
+  /** Katalogdaki temel fiyat. */
+  basePrice?: number;
   compareAtPrice?: number;
   sku: string;
   inStock: boolean;

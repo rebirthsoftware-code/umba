@@ -10,8 +10,10 @@ import { GridSkeleton } from "@/components/product/GridSkeleton";
 import Link from "next/link";
 import { cn } from "@/lib/format";
 import { site } from "@/lib/site";
+import { loadPriceOverrides } from "@/server/prices";
 
 export const dynamicParams = false;
+export const revalidate = 3600;
 
 /** Google için kategori başlık/açıklamaları (arama niyetine uygun anahtar kelimeler). */
 const categorySeo: Record<string, { title: string; description: string }> = {
@@ -29,6 +31,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps<"/kategori/[slug]">): Promise<Metadata> {
+  await loadPriceOverrides();
   const { slug } = await params;
   const category = getCategory(slug);
   if (!category) return {};
@@ -43,6 +46,7 @@ export async function generateMetadata({ params }: PageProps<"/kategori/[slug]">
 }
 
 export default async function CategoryPage({ params }: PageProps<"/kategori/[slug]">) {
+  await loadPriceOverrides();
   const { slug } = await params;
   const category = getCategory(slug);
   if (!category) notFound();

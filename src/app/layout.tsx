@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { StoreChrome } from "@/components/layout/Chrome";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
+import { PriceSync } from "@/components/PriceSync";
 import { InstallBanner } from "@/components/pwa/InstallBanner";
 
 const fraunces = Fraunces({
@@ -138,6 +139,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <InstallBanner />
           </StoreChrome>
           <PwaRegister />
+          <PriceSync />
         </CartProvider>
         <script
           type="application/ld+json"

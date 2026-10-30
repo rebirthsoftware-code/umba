@@ -131,7 +131,22 @@ export function trackOrder(orderNo: string, phone: string) {
 
 /* -------------------------------- Yönetim --------------------------------- */
 
+export interface PriceRow {
+  slug: string;
+  name: string;
+  category: string;
+  variantId: string;
+  label: string;
+  sku: string;
+  basePrice: number;
+  price: number;
+  overridden: boolean;
+}
+
 export const admin = {
+  prices: (token: string) => call<{ rows: PriceRow[] }>("/admin/prices", {}, token),
+  savePrices: (token: string, items: { sku: string; price: number | null }[]) =>
+    call<{ rows: PriceRow[]; saved: number; reset: number; invalid: string[] }>("/admin/prices", { method: "PUT", body: JSON.stringify({ items }) }, token),
   login: (password: string) => call<object>("/admin/login", { method: "POST", body: JSON.stringify({ password }) }),
   stats: (token: string) =>
     call<{ byStatus: { status: OrderStatus; n: number; sum: number }[]; today: { n: number; sum: number }; month: { n: number; sum: number } }>("/admin/stats", {}, token),

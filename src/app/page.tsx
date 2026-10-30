@@ -7,8 +7,12 @@ import { HerbalTeas } from "@/components/home/HerbalTeas";
 import { Values } from "@/components/home/Values";
 import { ProcessStory } from "@/components/home/ProcessStory";
 import { B2BBand } from "@/components/home/B2BBand";
+import { loadPriceOverrides } from "@/server/prices";
 
-export default function HomePage() {
+export const revalidate = 3600;
+
+export default async function HomePage() {
+  await loadPriceOverrides();
   return (
     <>
       <Hero />

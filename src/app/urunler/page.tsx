@@ -4,6 +4,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { products } from "@/lib/products";
 import { GridSkeleton } from "@/components/product/GridSkeleton";
+import { loadPriceOverrides } from "@/server/prices";
 
 export const metadata: Metadata = {
   title: "Tüm Ürünler | Kahve Şurubu, Püre, Sos, Espresso, Sıcak Çikolata",
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/urunler" },
 };
 
-export default function ProductsPage() {
+export const revalidate = 3600;
+
+export default async function ProductsPage() {
+  await loadPriceOverrides();
   return (
     <>
       <PageHero

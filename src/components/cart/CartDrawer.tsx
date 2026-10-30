@@ -10,8 +10,10 @@ import { site } from "@/lib/site";
 import { discountMessage } from "@/lib/discount";
 import { getFeaturedProducts } from "@/lib/products";
 import { ProductVisual } from "@/components/product/ProductVisual";
+import { usePrices } from "@/lib/usePrices";
 
 export function CartDrawer() {
+  usePrices();
   const { isOpen, close, lines, totals, setQuantity, remove, add } = useCart();
   const inCart = new Set(lines.map((l) => l.product.slug));
   const suggestions = getFeaturedProducts(12).filter((p) => !inCart.has(p.slug)).slice(0, 3);

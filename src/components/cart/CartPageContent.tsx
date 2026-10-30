@@ -9,8 +9,10 @@ import { site } from "@/lib/site";
 import { discountMessage } from "@/lib/discount";
 import { getFeaturedProducts } from "@/lib/products";
 import { ProductCard } from "@/components/product/ProductCard";
+import { usePrices } from "@/lib/usePrices";
 
 export function CartPageContent() {
+  usePrices();
   const { lines, totals, setQuantity, remove, clear, hydrated } = useCart();
 
   if (!hydrated) {
