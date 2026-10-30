@@ -149,81 +149,69 @@ function coffee(b: Base & { notes: string; roast: string; origin: string }): Pro
   };
 }
 
-function hotChocolate(b: Base, opts: { sachets?: boolean } = {}): Product {
+function hotChocolate(b: Base): Product {
   const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
-  const sachets = opts.sachets ?? false;
   return {
     category: "sicak-cikolata",
-    art: sachets ? "box" : "tin",
+    art: "tin",
+    imageFit: "cover",
     highlights: [
       "Yüksek kakao oranı, gerçek çikolata tadı",
       "Süt veya su ile hazırlanabilir",
       "Topaklanmayan, kolay çözünen toz",
       "Kafe standardında kıvam ve parlaklık",
     ],
-    usage: sachets
-      ? ["1 poşet (25 g) + 150 ml sıcak süt, karıştırın"]
-      : [
-          "Sıcak çikolata: 30 g toz + 180 ml sıcak süt",
-          "Soğuk çikolata: 30 g toz + 100 ml süt, buz ile blender",
-          "Mocha: 15 g toz + 1 shot espresso + süt",
-        ],
+    usage: [
+      "Sıcak çikolata: 30 g toz + 180 ml sıcak süt",
+      "Soğuk çikolata: 30 g toz + 100 ml süt, buz ile blender",
+      "Mocha: 15 g toz + 1 shot espresso + süt",
+    ],
     specs: [
-      { label: "Ambalaj", value: sachets ? "20 × 25 g tek kullanımlık poşet" : "1 kg teneke kutu" },
+      { label: "Ambalaj", value: "1 kg kutu" },
       { label: "Raf ömrü", value: "18 ay" },
       { label: "Alerjen", value: "Süt içerir; fındık ve soya izleri bulunabilir" },
       { label: "Menşei", value: "Türkiye" },
     ],
-    variants: sachets
-      ? [v("20x25g", "20 × 25 g kutu", 299.9, `SCK-${code}-BOX`)]
-      : [
-          v("1kg", "1 kg", 489.9, `SCK-${code}-1000`),
-          v("3kg", "3 kg (HoReCa)", 1299.9, `SCK-${code}-3000`),
-        ],
+    variants: [v("1kg", "1 kg", 489.9, `SCK-${code}-1000`)],
     tags: b.tags ?? [],
     ...b,
   };
 }
 
-function bar(b: Base, opts: { liquid?: boolean } = {}): Product {
+function bar(b: Base & { kind?: "salep" | "milkshake" | "sos" }): Product {
+  const { kind = "salep", ...rest } = b;
   const code = b.slug.replace(/-/g, "").slice(0, 8).toUpperCase();
-  const liquid = opts.liquid ?? false;
+  const byKind = {
+    salep: {
+      art: "tin" as const,
+      highlights: ["Gerçek salep ve süt tozuyla kıvamlı içim", "Sıcak sütle topaklanmadan çözünür", "Tutarlı lezzet, her bardakta aynı sonuç", "Ekonomik 1 kg kutu"],
+      usage: ["1 bardak: 35–40 g toz + 180 ml sıcak süt, kaynatmadan karıştırın", "Üzerine tarçın serpin"],
+      specs: [{ label: "Ambalaj", value: "1 kg kutu" }, { label: "Raf ömrü", value: "18 ay" }, { label: "Alerjen", value: "Süt içerir" }, { label: "Menşei", value: "Türkiye" }],
+      variants: [v("1kg", "1 kg", 429.9, `BAR-${code}-1000`)],
+    },
+    milkshake: {
+      art: "pouch" as const,
+      highlights: ["Soğuk sütle blender'da 30 saniyede milkshake", "Kremamsı doku, dengeli tatlılık", "Frappe ve smoothie bazı olarak da kullanılır", "1 kg valfli poşet"],
+      usage: ["Milkshake: 40 g toz + 150 ml soğuk süt + 100 g buz, blender", "Frappe: 35 g toz + 1 shot espresso + süt + buz"],
+      specs: [{ label: "Ambalaj", value: "1 kg (35.2 oz) poşet" }, { label: "Raf ömrü", value: "18 ay" }, { label: "Alerjen", value: "Süt içerir" }, { label: "Menşei", value: "Türkiye" }],
+      variants: [v("1kg", "1 kg", 429.9, `BAR-${code}-1000`)],
+    },
+    sos: {
+      art: "sauce" as const,
+      highlights: ["Yoğun kıvam, soğukta bile akışkan", "Topping, mocha ve tatlı sosu olarak çok amaçlı", "HoReCa için ekonomik 2,5 kg şişe", "Isıtmaya gerek olmadan kullanım"],
+      usage: ["Caramel macchiato / frappe: 25–30 g", "Waffle, pankek ve dondurma üzeri: istenilen miktarda", "Bardak içi dekorasyon: 5–10 g"],
+      specs: [{ label: "Ambalaj", value: "2,5 kg şişe" }, { label: "Raf ömrü", value: "18 ay" }, { label: "Saklama", value: "Oda sıcaklığında, açıldıktan sonra kapağı kapalı" }, { label: "Menşei", value: "Türkiye" }],
+      variants: [v("2-5kg", "2,5 kg", 699.9, `BAR-${code}-2500`)],
+    },
+  }[kind];
   return {
     category: "bar-urunleri",
-    art: liquid ? "bottle" : "tin",
-    highlights: liquid
-      ? [
-          "Konsantre formül, 1 litre ile 8–10 litre içecek",
-          "Buzlu servis için dengelenmiş tatlılık",
-          "Pompa ile hızlı ve ölçülü servis",
-          "Yapay renklendirici içermez",
-        ]
-      : [
-          "Soğuk sütle bile topaklanmadan çözünür",
-          "Hızlı servis için tek adımda hazırlık",
-          "Tutarlı lezzet, her bardakta aynı sonuç",
-          "Ekonomik 1 kg ambalaj",
-        ],
-    usage: liquid
-      ? ["1 ölçek (100 ml) konsantre + 800 ml su + buz", "Soda ile: 40 ml konsantre + 200 ml soda"]
-      : ["1 bardak: 35–40 g toz + 150 ml süt", "Frappe: 40 g toz + 150 ml süt + buz, blender"],
-    specs: [
-      { label: "Ambalaj", value: liquid ? "1 L PET şişe" : "1 kg teneke kutu" },
-      { label: "Raf ömrü", value: liquid ? "12 ay" : "18 ay" },
-      { label: "Saklama", value: "Serin ve kuru yerde" },
-      { label: "Menşei", value: "Türkiye" },
-    ],
-    variants: liquid
-      ? [v("1l", "1 L", 359.9, `BAR-${code}-1000`)]
-      : [
-          v("1kg", "1 kg", 429.9, `BAR-${code}-1000`),
-          v("3kg", "3 kg (HoReCa)", 1149.9, `BAR-${code}-3000`),
-        ],
-    tags: b.tags ?? [],
-    ...b,
+    imageFit: "cover",
+    ...byKind,
+    tags: rest.tags ?? [],
+    ...rest,
   };
 }
-
 
 function tea(b: Base & { brew: string }): Product {
   const { brew, ...rest } = b;
@@ -999,148 +987,146 @@ export const products: Product[] = [
 
   /* -------------------------------- Sıcak Çikolata ------------------------------ */
   hotChocolate({
-    slug: "klasik-sicak-cikolata",
-    name: "Klasik Sıcak Çikolata",
-    color: "#5b2f1f",
-    color2: "#2e150c",
-    short: "Kıvamlı, sütlü, kafe standardı sıcak çikolata.",
-    description:
-      "Umba'nın en çok satan sıcak çikolatası. Sütlü, kıvamlı ve dengeli tatlılıkta; süt veya suyla hazırlanabilir.",
+    slug: "sicak-cikolata-klasik",
+    name: "Hot Chocolate Classic",
+    color: "#4a2318",
+    color2: "#2a120a",
+    image: "/products/sicak-cikolata-klasik.webp",
+    short: "Klasik, kıvamlı, gerçek kakaolu sıcak çikolata.",
+    description: "Umba Hot Chocolate Classic: yüksek kakaolu, kıvamlı ve parlak klasik sıcak çikolata tozu. Kafe standardında, 1 kg kutu.",
     tags: ["cok-satan"],
   }),
   hotChocolate({
-    slug: "bitter-sicak-cikolata",
-    name: "Bitter %54 Sıcak Çikolata",
-    color: "#2d1710",
-    color2: "#140906",
-    short: "%54 kakaolu, daha az tatlı, yoğun.",
-    description:
-      "Yüksek kakao oranı ve düşük şekeriyle gerçek çikolata severler için. Bitter notalar, yoğun kıvam.",
-  }),
-  hotChocolate({
-    slug: "beyaz-sicak-cikolata",
-    name: "Beyaz Sıcak Çikolata",
-    color: "#f2e5cf",
-    color2: "#d2bd98",
-    short: "Kremamsı, vanilyalı beyaz çikolata.",
-    description:
-      "Vanilya notalı, kremamsı Beyaz Sıcak Çikolata. Üzerine karamel sosu ile kış menülerinin imza içeceği.",
-  }),
-  hotChocolate({
-    slug: "findikli-sicak-cikolata",
-    name: "Fındıklı Sıcak Çikolata",
-    color: "#7a4a2b",
-    color2: "#452713",
-    short: "Kavrulmuş fındık ile zengin sıcak çikolata.",
-    description:
-      "Klasik sıcak çikolataya kavrulmuş fındık aroması eşlik ediyor. Çocukların ve yetişkinlerin ortak favorisi.",
-  }),
-  hotChocolate({
-    slug: "karamelli-sicak-cikolata",
-    name: "Karamelli Sıcak Çikolata",
-    color: "#a0602a",
-    color2: "#633812",
-    short: "Karamel notalı, tatlı ve yumuşak.",
-    description:
-      "Karamelin sıcaklığı ile çikolatanın yoğunluğu bir arada. Krem şanti ve karamel sosu ile servis edin.",
+    slug: "sicak-cikolata-premium",
+    name: "Hot Chocolate Premium",
+    color: "#3a1a10",
+    color2: "#1c0c06",
+    image: "/products/sicak-cikolata-premium.webp",
+    short: "Daha yoğun kakao ve çikolata parçacıklı premium seçki.",
+    description: "Umba Hot Chocolate Premium: yüksek kakao oranı ve daha yoğun çikolata tadıyla premium sıcak çikolata tozu. Kalın kıvam, uzun bitiş. 1 kg kutu.",
     tags: ["yeni"],
   }),
-  hotChocolate(
-    {
-      slug: "tek-kullanimlik-sicak-cikolata",
-      name: "Tek Kullanımlık Sıcak Çikolata (20 × 25 g)",
-      color: "#5b2f1f",
-      color2: "#2e150c",
-      short: "Pratik porsiyon poşetler; ofis ve ev için.",
-      description:
-        "Klasik Sıcak Çikolata'nın 25 gramlık tek kullanımlık poşetleri. Ofis, otel odası ve ev kullanımı için pratik.",
-    },
-    { sachets: true },
-  ),
-
+  hotChocolate({
+    slug: "sicak-cikolata-beyaz",
+    name: "Hot Chocolate Beyaz",
+    color: "#e9dcc0",
+    color2: "#c2ad7d",
+    image: "/products/sicak-cikolata-beyaz.webp",
+    short: "Kremamsı beyaz çikolata; white mocha bazı.",
+    description: "Umba Hot Chocolate Beyaz: kremamsı, yumuşak beyaz çikolata tozu. Beyaz sıcak çikolata ve white mocha için. 1 kg kutu.",
+    tags: [],
+  }),
+  hotChocolate({
+    slug: "sicak-cikolata-safranbolu",
+    name: "Ümba Premium Sıcak Çikolata",
+    color: "#8b1a1a",
+    color2: "#4d0d0d",
+    image: "/products/sicak-cikolata-safranbolu.webp",
+    short: "Ümba Premium Safranbolu serisi; hediyelik kutu.",
+    description: "Ümba Premium'dan Sıcak Çikolata: Safranbolu serisinin şık kutusunda, gerçek kakaolu kıvamlı sıcak çikolata. Hediyelik ve kafe kullanımı için.",
+    tags: ["yeni"],
+  }),
   /* --------------------------------- Bar Ürünleri ------------------------------- */
   bar({
-    slug: "vanilya-frappe-tozu",
-    name: "Vanilya Frappe Tozu",
-    color: "#e8d5a8",
-    color2: "#c7a86a",
-    short: "Kremamsı, buzlu frappe bazı.",
-    description:
-      "Soğuk sütle bile kolay çözünen Vanilya Frappe Tozu. Espresso ekleyerek kahveli, şurup ekleyerek meyveli frappe'lere baz oluşturur.",
+    slug: "salep-klasik",
+    name: "Sahlep Classic",
+    color: "#d98a2a",
+    color2: "#9a5a10",
+    kind: "salep",
+    image: "/products/salep-klasik.webp",
+    short: "Klasik kıvamlı salep; tarçınla servis.",
+    description: "Umba Sahlep Classic: gerçek salep ve süt tozuyla hazırlanan kıvamlı, klasik salep tozu. Sıcak sütle karıştırın, tarçın serpin. 1 kg kutu.",
     tags: ["cok-satan"],
   }),
   bar({
-    slug: "cikolata-frappe-tozu",
-    name: "Çikolata Frappe Tozu",
-    color: "#5a3626",
-    color2: "#301a10",
-    short: "Kakaolu frappe ve milkshake bazı.",
-    description:
-      "Yoğun kakaolu Çikolata Frappe Tozu; milkshake, frappe ve soğuk çikolata için tek adımda hazırlık.",
-  }),
-  bar({
-    slug: "chai-latte-tozu",
-    name: "Chai Latte Tozu",
-    color: "#c48a4f",
-    color2: "#8a5a28",
-    short: "Tarçın, kakule ve zencefilli baharatlı çay.",
-    description:
-      "Siyah çay, tarçın, kakule, zencefil ve karanfil. Sütle hazırlanan Chai Latte Tozu, kış menülerinin aromatik yıldızı.",
-    tags: ["cok-satan"],
-  }),
-  bar({
-    slug: "salep",
-    name: "Salep",
-    color: "#f1e6d2",
-    color2: "#d4bf9c",
-    short: "Geleneksel, kıvamlı kış içeceği.",
-    description:
-      "Gerçek salep aromalı, kıvam verici içerikli Salep tozu. Sütle pişirilerek hazırlanır, tarçınla servis edilir.",
-  }),
-  bar({
-    slug: "matcha-latte-tozu",
-    name: "Matcha Latte Tozu",
-    color: "#86b04a",
-    color2: "#4f7a23",
-    short: "Japon yeşil çayı; iced matcha latte için.",
-    description:
-      "Tatlandırılmış matcha tozu; soğuk veya sıcak sütle canlı yeşil renkte matcha latte. Sade matcha için öğütülmüş çay oranı yüksek tutuldu.",
+    slug: "salep-premium",
+    name: "Sahlep Premium",
+    color: "#c0272d",
+    color2: "#7a1216",
+    kind: "salep",
+    image: "/products/salep-premium.webp",
+    short: "Daha yoğun salep oranı, daha kıvamlı içim.",
+    description: "Umba Sahlep Premium: yüksek salep oranıyla daha kıvamlı ve daha aromalı premium salep tozu. Kafe ve otel kış menüsü için. 1 kg kutu.",
     tags: ["yeni"],
   }),
   bar({
-    slug: "golden-latte-tozu",
-    name: "Zerdeçallı Golden Latte Tozu",
-    color: "#e6a722",
-    color2: "#b87a0c",
-    short: "Zerdeçal, zencefil ve karabiberli altın süt.",
-    description:
-      "Zerdeçal, zencefil, tarçın ve bir tutam karabiber. Kafeinsiz, ısıtan bir alternatif: Golden Latte.",
+    slug: "salep-damla-sakizli",
+    name: "Sahlep Damla Sakızlı",
+    color: "#3fb3c9",
+    color2: "#1f7a8c",
+    kind: "salep",
+    image: "/products/salep-damla-sakizli.webp",
+    short: "Damla sakızı aromalı salep.",
+    description: "Umba Sahlep Damla Sakızlı: Ege damla sakızının ferah aromasıyla salep tozu. Kış menüsünde fark yaratan tat. 1 kg kutu.",
+    tags: ["yeni"],
   }),
-  bar(
-    {
-      slug: "seftalili-soguk-cay-konsantresi",
-      name: "Şeftalili Soğuk Çay Konsantresi",
-      color: "#e89a4a",
-      color2: "#b5641e",
-      short: "1 litre ile 10 litre ice tea.",
-      description:
-        "Demlenmiş siyah çay ve şeftali aromasıyla hazırlanan konsantre. Su ve buzla karıştırın, dakikalar içinde kafe standardında soğuk çay.",
-      tags: ["cok-satan"],
-    },
-    { liquid: true },
-  ),
-  bar(
-    {
-      slug: "limonata-konsantresi",
-      name: "Limonata Konsantresi",
-      color: "#f3df4a",
-      color2: "#d8b91a",
-      short: "Gerçek limon suyu ile ev usulü limonata.",
-      description:
-        "Gerçek limon suyu ve limon kabuğu ile hazırlanan konsantre. Nane ve çilek püresiyle çeşitlendirilebilir.",
-    },
-    { liquid: true },
-  ),
+  bar({
+    slug: "salep-cikolatali",
+    name: "Sahlep Çikolatalı",
+    color: "#5a2d1a",
+    color2: "#331708",
+    kind: "salep",
+    image: "/products/salep-cikolatali.webp",
+    short: "Çikolata aromalı salep.",
+    description: "Umba Sahlep Çikolatalı: kakaolu, çikolata aromalı salep tozu. Sıcak çikolata ile salebin buluşması. 1 kg kutu.",
+    tags: [],
+  }),
+  bar({
+    slug: "salep-findikli",
+    name: "Sahlep Fındıklı",
+    color: "#a9652c",
+    color2: "#6e3f16",
+    kind: "salep",
+    image: "/products/salep-findikli.webp",
+    short: "Fındık aromalı salep.",
+    description: "Umba Sahlep Fındıklı: kavrulmuş fındık aromalı salep tozu. Kremamsı ve dolgun. 1 kg kutu.",
+    tags: [],
+  }),
+  bar({
+    slug: "milkshake-vanilya",
+    name: "Milkshake Tozu Vanilya",
+    color: "#efe0b8",
+    color2: "#c9b27a",
+    kind: "milkshake",
+    image: "/products/milkshake-vanilya.webp",
+    short: "Vanilya aromalı milkshake ve frappe tozu.",
+    description: "Umba Milkshake Vanilya Aromalı: soğuk sütle blender'da 30 saniyede kremamsı milkshake. Frappe ve smoothie bazı olarak da kullanılır. 1 kg poşet.",
+    tags: ["cok-satan"],
+  }),
+  bar({
+    slug: "milkshake-karamel",
+    name: "Milkshake Tozu Karamel",
+    color: "#d9892c",
+    color2: "#a85f12",
+    kind: "milkshake",
+    image: "/products/milkshake-karamel.webp",
+    short: "Karamel aromalı milkshake ve frappe tozu.",
+    description: "Umba Milkshake Karamel Aromalı: karamel tadında kremamsı milkshake tozu; frappe ve soğuk kahvelerde. 1 kg poşet.",
+    tags: [],
+  }),
+  bar({
+    slug: "milkshake-cikolata",
+    name: "Milkshake Tozu Çikolata",
+    color: "#4a2a1a",
+    color2: "#2a150a",
+    kind: "milkshake",
+    image: "/products/milkshake-cikolata.webp",
+    short: "Çikolata aromalı milkshake ve frappe tozu.",
+    description: "Umba Milkshake Çikolata Aromalı: kakaolu, kremamsı milkshake tozu; çikolatalı frappe ve soğuk mocha için. 1 kg poşet.",
+    tags: ["cok-satan"],
+  }),
+  bar({
+    slug: "karamel-sosu-2-5kg",
+    name: "Karamel Sos 2,5 kg (Chef's Collection)",
+    color: "#b8651f",
+    color2: "#7a3f0e",
+    kind: "sos",
+    image: "/products/karamel-sosu-2-5kg.webp",
+    short: "HoReCa için 2,5 kg karamel aromalı sos.",
+    description: "Umba Chef's Collection Caramel Flavored Sauce: yoğun kıvamlı karamel sos, 2,5 kg ekonomik şişe. Caramel macchiato, frappe, waffle ve dondurma için.",
+    tags: ["cok-satan"],
+  }),
+
   /* --------------------------------- Bitki Çayları ------------------------------ */
   tea({
     slug: "nane-limon-cayi",
@@ -1289,12 +1275,12 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
       reason = partner?.category === "soslar" ? "Şurup içeride, sos üstte: tam kafe sunumu." : "Latte için şurup ve dengeli bir espresso harmanı.";
       break;
     case "soslar":
-      partner = pick(product.slug.includes("cikolata") ? "klasik-sicak-cikolata" : "tuzlu-karamel-surubu");
+      partner = pick(product.slug.includes("cikolata") ? "sicak-cikolata-klasik" : "tuzlu-karamel-surubu");
       reason = "Topping sos ile yanına yakışan içecek bazı.";
       break;
     case "pureler":
-      partner = pick("limonata-konsantresi");
-      reason = "Meyveli limonata ve frozen için püre + limonata konsantresi.";
+      partner = pick("milkshake-vanilya");
+      reason = "Püre + milkshake tozu: kremamsı meyveli milkshake.";
       break;
     case "kahve":
       partner = pick("tuzlu-karamel-surubu");
@@ -1305,12 +1291,12 @@ export function getBundlePartner(product: Product): { partner: Product; reason: 
       reason = "Fındıklı sıcak çikolata için klasik ikili.";
       break;
     case "bitki-cayi":
-      partner = pick(product.slug === "limonata-konsantresi" ? "nane-limon-cayi" : "limonata-konsantresi");
-      reason = "Buzlu çay için demleyin, limonata konsantresiyle tamamlayın.";
+      partner = pick("limon-surubu");
+      reason = "Buzlu çay için demleyin, limon şurubuyla tatlandırın.";
       break;
     case "bar-urunleri":
-      partner = pick(product.slug.includes("frappe") ? "karamel-sosu" : product.slug.includes("konsantre") ? "cilek-puresi" : "vanilya-frappe-tozu");
-      reason = "Bar ürününüzü çeşitlendirecek tamamlayıcı.";
+      partner = pick(product.slug.startsWith("milkshake") ? "cilek-puresi" : product.slug.startsWith("salep") ? "sicak-cikolata-klasik" : "karamel-surubu");
+      reason = product.slug.startsWith("milkshake") ? "Milkshake tozu + meyve püresi: gerçek meyveli milkshake." : product.slug.startsWith("salep") ? "Kış menüsünün ikilisi: salep ve sıcak çikolata." : "Karamel sos ve karamel şurubu: tam caramel macchiato.";
       break;
   }
   return partner ? { partner, reason } : null;

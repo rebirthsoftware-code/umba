@@ -53,9 +53,9 @@ export const categories: Category[] = [
   {
     slug: "sicak-cikolata",
     name: "Sıcak Çikolata",
-    tagline: "Kıvamlı, gerçek kakaolu sıcak çikolatalar",
+    tagline: "Classic, Premium, Beyaz ve Ümba Premium sıcak çikolata",
     description:
-      "Yüksek kakao oranlı, süt veya suyla hazırlanabilen sıcak çikolata tozları. Kafe standardında kıvam ve parlaklık.",
+      "Dört sıcak çikolata: Classic, Premium, Beyaz ve Ümba Premium Safranbolu serisi. Yüksek kakao oranı, kafe standardında kıvam ve parlaklık; 1 kg kutu.",
     color: "#4a2318",
     colorSoft: "#efdfd8",
     art: "tin",
@@ -64,9 +64,9 @@ export const categories: Category[] = [
   {
     slug: "bar-urunleri",
     name: "Bar Ürünleri",
-    tagline: "Frappe, chai, salep, matcha ve konsantreler",
+    tagline: "Salep, milkshake tozu ve 2,5 kg karamel sos",
     description:
-      "Kafe barının vazgeçilmezleri: frappe tozları, chai latte, salep, matcha ve soğuk içecek konsantreleri. Hızlı servis, tutarlı lezzet.",
+      "Kafe barının vazgeçilmezleri: beş çeşit salep (Classic, Premium, damla sakızlı, çikolatalı, fındıklı), vanilya, karamel ve çikolata milkshake tozları ve HoReCa için 2,5 kg karamel sos.",
     color: "#2f6f5e",
     colorSoft: "#e1efea",
     art: "tin",
