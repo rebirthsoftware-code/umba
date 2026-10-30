@@ -18,7 +18,7 @@ export const categories: Category[] = [
     name: "Soslar",
     tagline: "Dekor soslar ve 2,5 kg karamel sos",
     description:
-      "10 aroma dekor sos ince uçlu sıkma şişede; mocha, frappe, milkshake ve tatlılarda bardak içi ve üstü süsleme. HoReCa için 2,5 kg Chef's Collection karamel sos.",
+      "Çilek, çikolata, karamel ve beyaz çikolata dekor sos ince uçlu sıkma şişede; mocha, frappe, milkshake ve tatlılarda bardak içi ve üstü süsleme. HoReCa için 2,5 kg Chef's Collection karamel sos.",
     color: "#6b3e26",
     colorSoft: "#f1e5dc",
     art: "sauce",
