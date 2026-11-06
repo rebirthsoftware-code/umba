@@ -7,8 +7,8 @@ import { getProduct, products } from "@/lib/products";
 import { categories } from "@/lib/categories";
 
 export const metadata: Metadata = {
-  title: "Hakkımızda",
-  description: "Umba Coffee'nin hikâyesi: kafeler için şurup, sos, püre, kahve ve sıcak çikolata üreten bir Türk markası.",
+  title: "Hakkımızda: Ümba Gıda, Safranbolu",
+  description: "Ümba Gıda (Ümba Coffee & More) Safranbolu/Karabük'te kurulu; kafeler için şurup, sos, püre, kahve, sıcak çikolata ve bitki çayı üreten bir Türk markası.",
   alternates: { canonical: "/hakkimizda" },
 };
 
@@ -29,7 +29,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="Hakkımızda"
         title="Bir kafenin barında ne eksikse, onu üretmek için kurulduk."
-        description="Umba Coffee; şurup, sos, püre, kahve, sıcak çikolata ve bar ürünlerini tek çatı altında üreten, Türkiye'nin dört bir yanındaki işletmelere ve evlere ulaşan bir lezzet markasıdır."
+        description="Ümba Gıda (Ümba Coffee & More); Safranbolu'da şurup, sos, püre, kahve, sıcak çikolata, bitki çayı ve bar ürünlerini tek çatı altında üreten, Türkiye'nin dört bir yanındaki işletmelere ve evlere ulaşan bir lezzet markasıdır."
         crumbs={[{ label: "Hakkımızda" }]}
       />
 
@@ -38,7 +38,7 @@ export default function AboutPage() {
           <SectionHeading eyebrow="Hikâyemiz" title="Önce bir kafe, sonra bir üretici." />
           <div className="mt-6 space-y-4 leading-relaxed text-espresso-700">
             <p>
-              Umba, kendi kafesinde beğendiği şurubu bulamayan bir barista ekibinin mutfağında doğdu. İlk reçeteler karamel ve
+              Ümba, kendi kafesinde beğendiği şurubu bulamayan bir barista ekibinin mutfağında doğdu. İlk reçeteler karamel ve
               vanilyaydı; müşterilerden gelen “bunu nereden aldınız?” sorusu, küçük mutfağı bir üretim tesisine dönüştürdü.
             </p>
             <p>

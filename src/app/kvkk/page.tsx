@@ -12,7 +12,7 @@ export default function Page() {
     >
       <h2>1. Veri sorumlusu</h2>
       <p>
-        <strong>{site.legal.companyName}</strong> (“Umba”) olarak, {site.url} alan adlı internet sitemiz üzerinden
+        <strong>{site.legal.companyName}</strong> (“Ümba”) olarak, {site.url} alan adlı internet sitemiz üzerinden
         topladığımız kişisel verilerinizi 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) ve ilgili mevzuata uygun
         şekilde işlemekteyiz.
       </p>

@@ -62,7 +62,7 @@ export function HerbalTeas() {
             <div aria-hidden="true" className="absolute inset-x-10 bottom-6 top-16 rounded-[2rem] bg-[#3f6b2a] shadow-lift transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-rotate-1" />
             <Image
               src={assetUrl("/hero/bitki-caylari.webp")}
-              alt="Umba bitki çayı koleksiyonu"
+              alt="Ümba bitki çayı koleksiyonu"
               width={1100}
               height={1144}
               sizes="(min-width: 1024px) 55vw, 100vw"

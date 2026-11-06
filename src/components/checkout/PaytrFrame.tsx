@@ -99,7 +99,7 @@ export function PaytrFrame() {
           </dl>
           <p className="mt-4 flex items-start gap-2 text-xs text-espresso-600">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-leaf-500" />
-            {demo ? "Demo modu: kart bilgisi gönderilmez, tahsilat yapılmaz." : "Kart bilgileriniz Umba sunucularına ulaşmaz; ödeme PayTR'nin güvenli sayfasında tamamlanır."}
+            {demo ? "Demo modu: kart bilgisi gönderilmez, tahsilat yapılmaz." : "Kart bilgileriniz Ümba sunucularına ulaşmaz; ödeme PayTR'nin güvenli sayfasında tamamlanır."}
           </p>
         </div>
       </aside>

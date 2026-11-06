@@ -16,13 +16,16 @@ const whatsappNumbers = pick(process.env.NEXT_PUBLIC_WHATSAPP, "905076844993,905
   .filter(Boolean);
 
 export const site = {
-  name: "Umba Coffee",
-  shortName: "Umba",
+  /** Görünen marka adı. Ticari unvan / arama adı: "Ümba Gıda" (bkz. brandNames). */
+  name: "Ümba Coffee & More",
+  shortName: "Ümba",
+  /** Google'da aranan yazımlar; başlık, JSON-LD alternateName ve anahtar kelimelerde kullanılır. */
+  brandNames: ["Ümba Gıda", "Umba Gıda", "Ümba Coffee", "Umba Coffee", "Ümba Coffee and More", "Umba Coffee and More", "ÜMBA"],
   tagline: "Barınızın lezzet ortağı",
   get description(): string {
     const t = getCommerceSettings().freeShippingThreshold;
     const free = t > 0 ? `, ${t.toLocaleString("tr-TR")} ₺ üzeri kargo bedava` : ", kargo bedava";
-    return `Umba Coffee: kafe ve barlar için 37 aroma kahve şurubu, dekor sos, meyve püresi, espresso çekirdek kahve, sıcak çikolata, milkshake tozu ve bitki çayı. Safranbolu'dan Türkiye'nin her yerine 1–3 iş günü teslimat${free}.`;
+    return `Ümba Gıda (Ümba Coffee & More): kafe ve barlar için 37 aroma kahve şurubu, dekor sos, meyve püresi, espresso çekirdek kahve, sıcak çikolata, milkshake tozu ve bitki çayı. Safranbolu'dan Türkiye'nin her yerine 1–3 iş günü teslimat${free}.`;
   },
   url: pick(process.env.NEXT_PUBLIC_SITE_URL, "https://umbagida.com").replace(/\/$/, ""),
   locale: "tr_TR",
@@ -40,11 +43,11 @@ export const site = {
     facebook: pick(process.env.NEXT_PUBLIC_FACEBOOK, "https://facebook.com/umbagida"),
   },
   legal: {
-    companyName: pick(process.env.NEXT_PUBLIC_COMPANY_NAME, "Umba Gıda Sanayi ve Ticaret Ltd. Şti."),
+    companyName: pick(process.env.NEXT_PUBLIC_COMPANY_NAME, "Ümba Gıda Sanayi ve Ticaret Ltd. Şti."),
     mersis: pick(process.env.NEXT_PUBLIC_MERSIS, "0000000000000000"),
   },
   bank: {
-    holder: pick(process.env.NEXT_PUBLIC_BANK_HOLDER, "Umba Gıda Sanayi ve Ticaret Ltd. Şti."),
+    holder: pick(process.env.NEXT_PUBLIC_BANK_HOLDER, "Ümba Gıda Sanayi ve Ticaret Ltd. Şti."),
     bankName: pick(process.env.NEXT_PUBLIC_BANK_NAME, "Banka Adı"),
     iban: pick(process.env.NEXT_PUBLIC_IBAN, "TR00 0000 0000 0000 0000 0000 00"),
   },

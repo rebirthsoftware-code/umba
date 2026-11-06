@@ -15,7 +15,7 @@ export function LogoImage({ tone = "dark", className, priority }: { tone?: "dark
   return (
     <Image
       src={assetUrl(LOGO[tone])}
-      alt="Umba Coffee and More"
+      alt="Ümba Coffee and More"
       width={LOGO.width}
       height={LOGO.height}
       priority={priority}
@@ -36,7 +36,7 @@ export function Logo({
   return (
     <Link
       href="/"
-      aria-label="Umba Coffee ana sayfa"
+      aria-label="Ümba Coffee ana sayfa"
       className={cn("group inline-flex shrink-0 items-center transition-opacity hover:opacity-80", className)}
     >
       <LogoImage tone={tone} priority className={compact ? "h-7 w-auto" : "h-9 w-auto sm:h-10"} />

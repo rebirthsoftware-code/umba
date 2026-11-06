@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Kurumsal Satış & Bayilik",
   description:
-    "Kafe, otel, restoran ve zincirler için Umba Coffee kurumsal fiyat listesi, HoReCa ambalajları, numune ve bayilik başvurusu.",
+    "Kafe, otel, restoran ve zincirler için Ümba Coffee kurumsal fiyat listesi, HoReCa ambalajları, numune ve bayilik başvurusu.",
   alternates: { canonical: "/kurumsal" },
 };
 
@@ -18,7 +18,7 @@ const perks = [
   { icon: Truck, title: "Düzenli teslimat", text: "Haftalık veya aylık planlı teslimat; İstanbul içi kendi araçlarımızla." },
   { icon: GraduationCap, title: "Barista eğitimi", text: "Yeni menü için personel eğitimi, dozaj tabloları ve tarif kartları." },
   { icon: FileText, title: "Vadeli ödeme", text: "Onaylı kurumsal müşterilere 30 güne kadar vade ve e-fatura." },
-  { icon: Handshake, title: "Bayilik", text: "Bölgenizde Umba bayisi olun; stok, pazarlama ve eğitim desteği bizden." },
+  { icon: Handshake, title: "Bayilik", text: "Bölgenizde Ümba bayisi olun; stok, pazarlama ve eğitim desteği bizden." },
 ];
 
 const steps = [

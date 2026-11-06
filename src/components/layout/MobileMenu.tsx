@@ -137,7 +137,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
           {/* Alt bilgi */}
           <div className="menu-item mt-auto pt-8" style={item()}>
             <WhatsAppLink
-              text="Merhaba Umba Coffee, sipariş ve ürünleriniz hakkında bilgi almak istiyorum."
+              text="Merhaba Ümba Coffee, sipariş ve ürünleriniz hakkında bilgi almak istiyorum."
               placement="top"
               className="flex h-13 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-bold text-white"
               menuClassName="left-0 right-auto w-full"

@@ -16,7 +16,7 @@ export function Values() {
       <div className="container-x grid grid-cols-[minmax(0,1fr)] gap-12 py-20 lg:grid-cols-12 lg:py-28">
         <div className="lg:col-span-5">
           <Reveal>
-            <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-caramel-700">Neden Umba?</p>
+            <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-caramel-700">Neden Ümba?</p>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.05] text-espresso-900 text-balance sm:text-5xl">
               Küçük bir kafeden büyük bir zincire kadar <span className="accent-italic">aynı standart.</span>
             </h2>

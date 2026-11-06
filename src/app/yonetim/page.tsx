@@ -3,10 +3,10 @@ import { Suspense } from "react";
 import { AdminPanel } from "@/components/admin/AdminPanel";
 
 export const metadata: Metadata = {
-  title: { absolute: "Umba Yönetim" },
+  title: { absolute: "Ümba Yönetim" },
   robots: { index: false, follow: false },
   manifest: "/yonetim.webmanifest",
-  appleWebApp: { capable: true, title: "Umba Yönetim", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Ümba Yönetim", statusBarStyle: "black-translucent" },
   icons: { apple: "/icons/admin-apple-180.png" },
 };
 

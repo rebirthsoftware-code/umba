@@ -7,7 +7,7 @@ import { formatWhatsApp } from "@/lib/forms";
 
 export const metadata: Metadata = {
   title: "İletişim",
-  description: "Umba Coffee ile iletişime geçin: telefon, e-posta, WhatsApp ve adres bilgileri.",
+  description: "Ümba Coffee ile iletişime geçin: telefon, e-posta, WhatsApp ve adres bilgileri.",
   alternates: { canonical: "/iletisim" },
 };
 

@@ -32,7 +32,7 @@ export async function DELETE(req: Request) {
 export async function PUT(req: Request) {
   if (!isAdmin(req)) return fail("Yetkisiz", 401);
   return guard(async () => {
-    const sent = await sendPushToAdmins({ title: "Umba Yönetim", body: "Test bildirimi: her şey hazır.", url: "/yonetim", tag: "test" });
+    const sent = await sendPushToAdmins({ title: "Ümba Yönetim", body: "Test bildirimi: her şey hazır.", url: "/yonetim", tag: "test" });
     return json({ status: "success", sent });
   });
 }

@@ -109,7 +109,7 @@ function Login() {
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-espresso-900 text-cream-50">
           <Lock className="h-5 w-5" />
         </span>
-        <h1 className="mt-5 font-display text-2xl font-semibold text-espresso-900">Umba Yönetim</h1>
+        <h1 className="mt-5 font-display text-2xl font-semibold text-espresso-900">Ümba Yönetim</h1>
         <p className="mt-1 text-sm text-espresso-600">{site.name} · siparişler</p>
         <label className="mt-6 block">
           <span className="text-xs font-bold uppercase tracking-[0.18em] text-espresso-600">Şifre</span>
@@ -457,7 +457,7 @@ function OrderDrawer({ token, orderNo, onClose, onChanged }: { token: string; or
                 <p className="mt-1 flex items-start gap-2"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" /><span>{c?.address}, {c?.district} / {c?.city} {c?.postalCode}</span></p>
                 {c?.invoiceType === "kurumsal" && <p className="mt-2 text-xs">Fatura: {c.companyName} · {c.taxOffice} · VKN {c.taxNo}</p>}
                 {c?.note && <p className="mt-2 rounded-lg bg-caramel-300/30 px-3 py-2 text-xs">Müşteri notu: {c.note}</p>}
-                <a href={`https://wa.me/${(c?.phone ?? "").replace(/\D/g, "").replace(/^0/, "90")}?text=${encodeURIComponent(`Merhaba ${c?.fullName}, ${orderNo} numaralı Umba siparişiniz hakkında: `)}`} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex h-9 items-center rounded-full bg-[#25D366] px-3 text-xs font-bold text-white">WhatsApp&rsquo;tan yaz</a>
+                <a href={`https://wa.me/${(c?.phone ?? "").replace(/\D/g, "").replace(/^0/, "90")}?text=${encodeURIComponent(`Merhaba ${c?.fullName}, ${orderNo} numaralı Ümba siparişiniz hakkında: `)}`} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex h-9 items-center rounded-full bg-[#25D366] px-3 text-xs font-bold text-white">WhatsApp&rsquo;tan yaz</a>
               </div>
               <div className="rounded-2xl border border-espresso-900/10 p-5 text-sm">
                 <p className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-espresso-600"><CreditCard className="h-3.5 w-3.5" /> Ödeme</p>

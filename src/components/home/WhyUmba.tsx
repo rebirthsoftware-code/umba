@@ -31,7 +31,7 @@ export function WhyUmba() {
       <Reveal>
       <SectionHeading
         align="center"
-        eyebrow="Neden Umba?"
+        eyebrow="Neden Ümba?"
         title="Küçük bir kafeden büyük bir zincire kadar aynı standart."
         description="Üretimden teslimata her adımı kendimiz yönetiyoruz; böylece her siparişte aynı tadı ve aynı kıvamı alıyorsunuz."
       />

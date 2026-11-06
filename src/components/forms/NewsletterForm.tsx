@@ -17,7 +17,7 @@ export function NewsletterForm() {
       setState(ok ? "done" : "error");
       return;
     }
-    window.location.href = mailtoUrl("Bülten aboneliği", `Merhaba, ${email} adresiyle Umba bültenine abone olmak istiyorum.`);
+    window.location.href = mailtoUrl("Bülten aboneliği", `Merhaba, ${email} adresiyle Ümba bültenine abone olmak istiyorum.`);
     setState("done");
   };
 

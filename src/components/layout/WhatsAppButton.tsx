@@ -4,7 +4,7 @@ export function WhatsAppButton() {
   return (
     <div className="wa-btn fixed bottom-5 right-5 z-30">
     <WhatsAppLink
-      text="Merhaba Umba Coffee, ürünleriniz hakkında bilgi almak istiyorum."
+      text="Merhaba Ümba Coffee, ürünleriniz hakkında bilgi almak istiyorum."
       placement="top"
       aria-label="WhatsApp ile yazın"
       className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lift transition-all hover:scale-105"

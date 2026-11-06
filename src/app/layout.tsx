@@ -33,8 +33,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(site.url),
     title: {
-      default: `${site.name} | Kahve Şurubu, Meyve Püresi, Dekor Sos, Espresso ve Bitki Çayı`,
-      template: `%s | ${site.name}`,
+      default: `Ümba Gıda | ${site.name} – Kahve Şurubu, Meyve Püresi, Dekor Sos, Espresso ve Bitki Çayı`,
+      template: `%s | Ümba Gıda`,
     },
     description: site.description,
     keywords: [
@@ -62,9 +62,16 @@ export async function generateMetadata(): Promise<Metadata> {
       "barista ürünleri",
       "horeca tedarik",
       "toptan kahve şurubu",
-      "umba coffee",
+      "ümba gıda",
       "umba gıda",
+      "ümba coffee",
+      "umba coffee",
+      "ümba coffee and more",
+      "ümba",
+      "umbagida",
+      "ümba premium çay",
       "safranbolu",
+      "karabük kahve şurubu",
     ],
     openGraph: {
       type: "website",
@@ -97,10 +104,21 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const webSiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Ümba Gıda",
+  alternateName: ["Umba Gıda", "Ümba Coffee & More", "Umba Coffee and More", "umbagida.com"],
+  url: site.url,
+  inLanguage: "tr-TR",
+};
+
 const organizationJsonLd = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: site.name,
+  name: "Ümba Gıda",
+  alternateName: site.brandNames.filter((n) => n !== "Ümba Gıda"),
+  legalName: site.legal.companyName,
   url: site.url,
   logo: `${site.url}/icons/icon-512.png`,
   address: {
@@ -166,6 +184,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify(organizationJsonLd()),
           }}
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
       </body>
     </html>
   );

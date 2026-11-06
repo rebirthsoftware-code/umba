@@ -952,7 +952,7 @@ export const products: Product[] = [
     color2: "#2a120a",
     image: "/products/sicak-cikolata-klasik.webp",
     short: "Klasik, kıvamlı, gerçek kakaolu sıcak çikolata.",
-    description: "Umba Hot Chocolate Classic: yüksek kakaolu, kıvamlı ve parlak klasik sıcak çikolata tozu. Kafe standardında, 1 kg kutu.",
+    description: "Ümba Hot Chocolate Classic: yüksek kakaolu, kıvamlı ve parlak klasik sıcak çikolata tozu. Kafe standardında, 1 kg kutu.",
     tags: ["cok-satan"],
   }),
   hotChocolate({
@@ -962,7 +962,7 @@ export const products: Product[] = [
     color2: "#1c0c06",
     image: "/products/sicak-cikolata-premium.webp",
     short: "Daha yoğun kakao ve çikolata parçacıklı premium seçki.",
-    description: "Umba Hot Chocolate Premium: yüksek kakao oranı ve daha yoğun çikolata tadıyla premium sıcak çikolata tozu. Kalın kıvam, uzun bitiş. 1 kg kutu.",
+    description: "Ümba Hot Chocolate Premium: yüksek kakao oranı ve daha yoğun çikolata tadıyla premium sıcak çikolata tozu. Kalın kıvam, uzun bitiş. 1 kg kutu.",
     tags: ["yeni"],
   }),
   hotChocolate({
@@ -972,7 +972,7 @@ export const products: Product[] = [
     color2: "#c2ad7d",
     image: "/products/sicak-cikolata-beyaz.webp",
     short: "Kremamsı beyaz çikolata; white mocha bazı.",
-    description: "Umba Hot Chocolate Beyaz: kremamsı, yumuşak beyaz çikolata tozu. Beyaz sıcak çikolata ve white mocha için. 1 kg kutu.",
+    description: "Ümba Hot Chocolate Beyaz: kremamsı, yumuşak beyaz çikolata tozu. Beyaz sıcak çikolata ve white mocha için. 1 kg kutu.",
     tags: [],
   }),
   hotChocolate({
@@ -994,7 +994,7 @@ export const products: Product[] = [
     kind: "salep",
     image: "/products/salep-klasik.webp",
     short: "Klasik kıvamlı salep; tarçınla servis.",
-    description: "Umba Sahlep Classic: gerçek salep ve süt tozuyla hazırlanan kıvamlı, klasik salep tozu. Sıcak sütle karıştırın, tarçın serpin. 1 kg kutu.",
+    description: "Ümba Sahlep Classic: gerçek salep ve süt tozuyla hazırlanan kıvamlı, klasik salep tozu. Sıcak sütle karıştırın, tarçın serpin. 1 kg kutu.",
     tags: ["cok-satan"],
   }),
   bar({
@@ -1005,7 +1005,7 @@ export const products: Product[] = [
     kind: "salep",
     image: "/products/salep-premium.webp",
     short: "Daha yoğun salep oranı, daha kıvamlı içim.",
-    description: "Umba Sahlep Premium: yüksek salep oranıyla daha kıvamlı ve daha aromalı premium salep tozu. Kafe ve otel kış menüsü için. 1 kg kutu.",
+    description: "Ümba Sahlep Premium: yüksek salep oranıyla daha kıvamlı ve daha aromalı premium salep tozu. Kafe ve otel kış menüsü için. 1 kg kutu.",
     tags: ["yeni"],
   }),
   bar({
@@ -1016,7 +1016,7 @@ export const products: Product[] = [
     kind: "salep",
     image: "/products/salep-damla-sakizli.webp",
     short: "Damla sakızı aromalı salep.",
-    description: "Umba Sahlep Damla Sakızlı: Ege damla sakızının ferah aromasıyla salep tozu. Kış menüsünde fark yaratan tat. 1 kg kutu.",
+    description: "Ümba Sahlep Damla Sakızlı: Ege damla sakızının ferah aromasıyla salep tozu. Kış menüsünde fark yaratan tat. 1 kg kutu.",
     tags: ["yeni"],
   }),
   bar({
@@ -1027,7 +1027,7 @@ export const products: Product[] = [
     kind: "salep",
     image: "/products/salep-cikolatali.webp",
     short: "Çikolata aromalı salep.",
-    description: "Umba Sahlep Çikolatalı: kakaolu, çikolata aromalı salep tozu. Sıcak çikolata ile salebin buluşması. 1 kg kutu.",
+    description: "Ümba Sahlep Çikolatalı: kakaolu, çikolata aromalı salep tozu. Sıcak çikolata ile salebin buluşması. 1 kg kutu.",
     tags: [],
   }),
   bar({
@@ -1038,7 +1038,7 @@ export const products: Product[] = [
     kind: "salep",
     image: "/products/salep-findikli.webp",
     short: "Fındık aromalı salep.",
-    description: "Umba Sahlep Fındıklı: kavrulmuş fındık aromalı salep tozu. Kremamsı ve dolgun. 1 kg kutu.",
+    description: "Ümba Sahlep Fındıklı: kavrulmuş fındık aromalı salep tozu. Kremamsı ve dolgun. 1 kg kutu.",
     tags: [],
   }),
   bar({
@@ -1049,7 +1049,7 @@ export const products: Product[] = [
     kind: "milkshake",
     image: "/products/milkshake-vanilya.webp",
     short: "Vanilya aromalı milkshake ve frappe tozu.",
-    description: "Umba Milkshake Vanilya Aromalı: soğuk sütle blender'da 30 saniyede kremamsı milkshake. Frappe ve smoothie bazı olarak da kullanılır. 1 kg poşet.",
+    description: "Ümba Milkshake Vanilya Aromalı: soğuk sütle blender'da 30 saniyede kremamsı milkshake. Frappe ve smoothie bazı olarak da kullanılır. 1 kg poşet.",
     tags: ["cok-satan"],
   }),
   bar({
@@ -1060,7 +1060,7 @@ export const products: Product[] = [
     kind: "milkshake",
     image: "/products/milkshake-karamel.webp",
     short: "Karamel aromalı milkshake ve frappe tozu.",
-    description: "Umba Milkshake Karamel Aromalı: karamel tadında kremamsı milkshake tozu; frappe ve soğuk kahvelerde. 1 kg poşet.",
+    description: "Ümba Milkshake Karamel Aromalı: karamel tadında kremamsı milkshake tozu; frappe ve soğuk kahvelerde. 1 kg poşet.",
     tags: [],
   }),
   bar({
@@ -1071,7 +1071,7 @@ export const products: Product[] = [
     kind: "milkshake",
     image: "/products/milkshake-cikolata.webp",
     short: "Çikolata aromalı milkshake ve frappe tozu.",
-    description: "Umba Milkshake Çikolata Aromalı: kakaolu, kremamsı milkshake tozu; çikolatalı frappe ve soğuk mocha için. 1 kg poşet.",
+    description: "Ümba Milkshake Çikolata Aromalı: kakaolu, kremamsı milkshake tozu; çikolatalı frappe ve soğuk mocha için. 1 kg poşet.",
     tags: ["cok-satan"],
   }),
   bar({
@@ -1082,7 +1082,7 @@ export const products: Product[] = [
     kind: "sos",
     image: "/products/karamel-sosu-2-5kg.webp",
     short: "HoReCa için 2,5 kg karamel aromalı sos.",
-    description: "Umba Chef's Collection Caramel Flavored Sauce: yoğun kıvamlı karamel sos, 2,5 kg ekonomik şişe. Caramel macchiato, frappe, waffle ve dondurma için.",
+    description: "Ümba Chef's Collection Caramel Flavored Sauce: yoğun kıvamlı karamel sos, 2,5 kg ekonomik şişe. Caramel macchiato, frappe, waffle ve dondurma için.",
     tags: ["cok-satan"],
   }),
 

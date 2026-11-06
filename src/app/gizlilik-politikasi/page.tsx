@@ -38,7 +38,7 @@ export default function Page() {
       <h2>Üçüncü taraf bağlantılar</h2>
       <p>
         Sitemizde yer alan sosyal medya ve WhatsApp bağlantıları üçüncü taraf platformlara yönlendirir. Bu platformların
-        gizlilik uygulamalarından Umba sorumlu değildir.
+        gizlilik uygulamalarından Ümba sorumlu değildir.
       </p>
       <h2>İletişim</h2>
       <p>

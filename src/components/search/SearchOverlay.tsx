@@ -318,7 +318,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                 <kbd className="rounded border border-espresso-900/15 bg-cream-50 px-1.5 py-0.5 font-sans">esc</kbd> kapat
               </span>
             </span>
-            <span className="font-semibold">Umba Arama</span>
+            <span className="font-semibold">Ümba Arama</span>
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ export function Footer() {
       <div className="border-b border-cream-50/10">
         <div className="container-x flex flex-col gap-6 py-12 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel-400">Umba Bülten</p>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel-400">Ümba Bülten</p>
             <h2 className="mt-2 font-display text-2xl font-semibold text-cream-50 sm:text-3xl">
               Yeni aromalar, tarifler ve kampanyalar e-postanızda.
             </h2>
